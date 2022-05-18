@@ -6,7 +6,7 @@
 
 ```bash
 $ git clone http://192.168.10.81/awesome/front_web.git
-$ cd front
+$ cd front_web
 $ yarn
 $ yarn start  # visit http://localhost:8000
 
