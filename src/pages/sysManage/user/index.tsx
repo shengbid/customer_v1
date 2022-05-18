@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
 import type { userProps } from '@/services/types'
-import { Button } from 'antd'
 import AddModal from './components/addModal'
+
+const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
 const UserManage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
@@ -56,7 +57,7 @@ const UserManage: React.FC = () => {
       width: 150,
       key: 'option',
       valueType: 'option',
-      render: () => [<a key="link">修改</a>, <a key="link2">删除</a>],
+      render: () => [<MenuEditButton key="edit" />, <MenuDelteButton key="delete" />],
     },
   ]
   const defaultdata = [
@@ -104,21 +105,13 @@ const UserManage: React.FC = () => {
         rowKey="id"
         columns={columns}
         headerTitle={
-          <Button
-            key="primary"
-            type="primary"
+          <MenuAddButton
             onClick={() => {
               setModalVisible(true)
             }}
-          >
-            添加
-          </Button>
+          />
         }
-        toolBarRender={() => [
-          <Button key="delete" onClick={multipleDelete}>
-            批量删除
-          </Button>,
-        ]}
+        toolBarRender={() => [<MenuMultiDelButton key="delete" onClick={multipleDelete} />]}
         tableAlertRender={false}
         rowSelection={{
           selectedRowKeys,

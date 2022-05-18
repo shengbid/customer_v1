@@ -7,14 +7,17 @@ import ProTable, {
 import { Button } from 'antd'
 import { SearchOutlined, ReloadOutlined } from '@ant-design/icons'
 import { handleSortParams } from '@/utils/base'
-import MenuButton from './menuButton'
+import { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } from './menuButton'
 
 export interface FunctionProps {
   selectAll?: () => void // 查询触发
   request: (param?: any) => void
 }
 
-MenuProTable.Btn = MenuButton
+MenuProTable.MenuAddButton = MenuAddButton
+MenuProTable.MenuMultiDelButton = MenuMultiDelButton
+MenuProTable.MenuEditButton = MenuEditButton
+MenuProTable.MenuDelteButton = MenuDelteButton
 
 export default function MenuProTable<T>(props: ProTableProps<T, any> & FunctionProps) {
   const [current, setCurrent] = useState<number>(1) // 当前页

@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
 import { getMenuList } from '@/services'
 import type { menuProps } from '@/services/types'
-import { Button } from 'antd'
 import AddModal from './components/addModal'
+
+const { MenuAddButton } = MenuProTable
 
 const Meun: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
@@ -85,15 +86,13 @@ const Meun: React.FC = () => {
         rowKey="id"
         columns={columns}
         headerTitle={
-          <Button
-            key="primary"
-            type="primary"
+          <MenuAddButton
             onClick={() => {
               setModalVisible(true)
             }}
           >
             添加
-          </Button>
+          </MenuAddButton>
         }
         pagination={false}
       />
