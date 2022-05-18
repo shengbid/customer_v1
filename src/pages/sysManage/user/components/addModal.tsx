@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal, Button, Form, Input, Radio, Row, Col } from 'antd'
 import type { addModalProps } from '@/services/types'
 import DictSelect from '@/components/ComSelect'
+import TreeDataSelect from '@/components/ComSelect/treeSelect'
 
 const { TextArea } = Input
 
@@ -28,7 +29,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
         name="basic"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ menuType: 1, isFrame: 1 }}
+        initialValues={{ status: 1 }}
         onFinish={handleOk}
         autoComplete="off"
       >
@@ -48,7 +49,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
               name="dept"
               rules={[{ required: true, message: '请选择所属部门!' }]}
             >
-              <Input />
+              <TreeDataSelect />
             </Form.Item>
           </Col>
         </Row>
