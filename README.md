@@ -5,7 +5,7 @@
 ### Use bash
 
 ```bash
-$ git clone ssh://laism@192.168.10.59/volume1/git/front.git
+$ git clone http://192.168.10.81/awesome/front_web.git
 $ cd front
 $ yarn
 $ yarn start  # visit http://localhost:8000
