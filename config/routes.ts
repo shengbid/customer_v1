@@ -20,6 +20,18 @@
     component: './Welcome',
   },
   {
+    path: '/leaderPage',
+    name: '领导驾驶舱',
+    icon: 'DesktopOutlined',
+    routes: [
+      {
+        path: '/leaderPage/onlineManage',
+        name: '在线经营贷',
+        component: './leaderPage/onlineManage',
+      },
+    ],
+  },
+  {
     path: '/sys',
     name: '系统管理',
     icon: 'SettingOutlined',
