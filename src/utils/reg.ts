@@ -13,6 +13,8 @@ export const REGS = {
   NAME_REG: /[\u4e00-\u9fa5]/,
   // 邮箱正则表达式
   EMAIL_REG: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+  // 密码验证 (数字大小写, 8-16位)
+  PASS_WORD: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/,
   // 身份证校验
   ID_CARD_REG:
     /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/,
@@ -35,4 +37,22 @@ export const integerReg = {
   message: '最多输入11位整数',
   // pattern: /^[0-9]\d{0,14}$/
   pattern: /^(\d{0,11})$/,
+}
+
+// 电话号码验证
+export const phoneReg = {
+  message: '手机号码格式不正确',
+  pattern: REGS.TELEPHONE_REG,
+}
+
+// 邮箱验证
+export const emailReg = {
+  message: '邮箱格式不正确',
+  pattern: REGS.EMAIL_REG,
+}
+
+// 密码验证
+export const passwordReg = {
+  message: '密码必须包含数字,字母;长度8-16位',
+  pattern: REGS.PASS_WORD,
 }
