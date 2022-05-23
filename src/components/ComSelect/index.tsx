@@ -9,27 +9,29 @@ export interface iconSelectProps {
 }
 
 const DictSelect: React.FC<iconSelectProps> = ({ placeholder = '请选择' }) => {
-  const dictList: {dictValue: string; dictLabel: string}[] = [
+  const dictList: { dictValue: string; dictLabel: string }[] = [
     {
       dictLabel: '男',
-      dictValue: '0'
+      dictValue: '0',
     },
     {
       dictLabel: '女',
-      dictValue: '1'
-    }
+      dictValue: '1',
+    },
   ]
   return (
-    <Select 
-      placeholder={placeholder} 
-      showSearch 
-      allowClear 
+    <Select
+      placeholder={placeholder}
+      // showSearch
+      allowClear
       style={{ width: '100%' }}
     >
-      {dictList.map(item => {
-        return <Option value={item.dictValue} key={item.dictValue}>
-          {item.dictLabel}
-        </Option>
+      {dictList.map((item) => {
+        return (
+          <Option value={item.dictValue} key={item.dictValue}>
+            {item.dictLabel}
+          </Option>
+        )
       })}
     </Select>
   )
