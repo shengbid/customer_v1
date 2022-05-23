@@ -3,6 +3,7 @@ import { Modal, Button, Form, Input, Radio, Row, Col } from 'antd'
 import type { addModalProps } from '@/services/types'
 import DictSelect from '@/components/ComSelect'
 import TreeDataSelect from '@/components/ComSelect/treeSelect'
+import { emailReg, passwordReg, phoneReg } from '@/utils/reg'
 
 const { TextArea } = Input
 
@@ -59,7 +60,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             <Form.Item
               label="手机号码"
               name="phone"
-              rules={[{ required: true, message: '请输入手机号码!' }]}
+              rules={[{ required: true, message: '请输入手机号码!' }, phoneReg]}
             >
               <Input />
             </Form.Item>
@@ -68,7 +69,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             <Form.Item
               label="邮箱"
               name="email"
-              rules={[{ required: true, message: '请输入邮箱!' }]}
+              rules={[{ required: true, message: '请输入邮箱!' }, emailReg]}
             >
               <Input />
             </Form.Item>
@@ -80,7 +81,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             <Form.Item
               label="用户密码"
               name="password"
-              rules={[{ required: true, message: '请输入用户密码!' }]}
+              rules={[{ required: true, message: '请输入用户密码!' }, passwordReg]}
             >
               <Input />
             </Form.Item>
