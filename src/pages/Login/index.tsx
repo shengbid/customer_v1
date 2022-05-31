@@ -95,7 +95,7 @@ const Login: React.FC = () => {
       <div className={styles.content}>
         <LoginForm
           logo={<img alt="logo" src={logo} />}
-          title={intl.formatMessage({ id: 'menu.sys.user' })}
+          title={intl.formatMessage({ id: 'menu.title' })}
           subTitle={'供应链金融 '}
           initialValues={{
             autoLogin: true,
@@ -212,7 +212,7 @@ const Login: React.FC = () => {
                     message: '请输入验证码！',
                   },
                 ]}
-                onGetCaptcha={async (phone) => {
+                onGetCaptcha={async () => {
                   // const result = await getFakeCaptcha({
                   //   phone,
                   // })
