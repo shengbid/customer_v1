@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Upload, message } from 'antd';
+import React, { useState, useEffect } from 'react'
+import { Button, Upload, message } from 'antd'
 import {
   UploadOutlined,
   FileTextOutlined,
@@ -9,15 +9,15 @@ import {
   FileUnknownOutlined,
   FileGifOutlined,
   FileWordOutlined,
-} from '@ant-design/icons';
+} from '@ant-design/icons'
 
 export type comuploadProps = {
-  value?: any;
-  onChange?: (arr?: any) => void;
-  limit?: number;
-  isDetail?: boolean;
-  multiple?: boolean;
-};
+  value?: any
+  onChange?: (arr?: any) => void
+  limit?: number
+  isDetail?: boolean
+  multiple?: boolean
+}
 
 const ComUpload: React.FC<comuploadProps> = ({
   value = [],
@@ -26,68 +26,68 @@ const ComUpload: React.FC<comuploadProps> = ({
   isDetail = false,
   multiple = true,
 }) => {
-  const [files, setFiles] = useState<any[]>([]);
+  const [files, setFiles] = useState<any[]>([])
   // console.log(3, value)
 
   useEffect(() => {
     // 展示传入的文件数据
     if (value && (value.length || value.fileName)) {
       // 文件数值
-      const newValues: any[] = [];
+      const newValues: any[] = []
       if (value && value.length) {
         value.forEach((item: any) => {
-          const newItem = item;
+          const newItem = item
           if (!item.url) {
-            newItem.name = item.fileName;
-            newItem.url = item.fileUrl;
-            newItem.uid = item.id ? item.id : Math.floor(Math.random() * 1000);
+            newItem.name = item.fileName
+            newItem.url = item.fileUrl
+            newItem.uid = item.id ? item.id : Math.floor(Math.random() * 1000)
           }
-          newValues.push(newItem);
-        });
+          newValues.push(newItem)
+        })
       } else if (value?.fileName) {
         // 文件对象
         newValues.push({
           name: value.fileName,
           url: value.fileUrl,
           uid: value.id ? value.id : Math.floor(Math.random() * 1000),
-        });
+        })
       }
-      setFiles(newValues);
+      setFiles(newValues)
     }
-  }, [value]);
+  }, [value])
 
-  const action = `/api/upload/file`;
+  const action = `${URL_PREFIX}/upload/file`
 
   // 文件上传
   const changeFile = ({ file, fileList }: any) => {
-    console.log(6, file, fileList);
+    console.log(6, file, fileList)
     if (file.status !== 'uploading') {
       // 多文件上传,所有文件上传完成后改变值
-      let isFinish = true;
+      let isFinish = true
       fileList.some((item: any) => {
         if (item.status && item.status !== 'done') {
-          isFinish = false;
+          isFinish = false
         }
-      });
+      })
       if (isFinish) {
         if (fileList.length >= files.length) {
           // 需要改变fileList的值,否则status的状态不会改变
           fileList = fileList.map((item: any) => {
-            let newItem = { ...item };
+            let newItem = { ...item }
             if (item.response) {
               newItem = {
                 fileName: item.name,
                 fileUrl: item.response.data.fileUrl,
-              };
+              }
             }
-            return newItem;
-          });
+            return newItem
+          })
         }
-        onChange?.(fileList);
+        onChange?.(fileList)
       }
     }
-    setFiles(fileList);
-  };
+    setFiles(fileList)
+  }
 
   // 文件名icon
   const fileIcon = new Map([
@@ -102,21 +102,21 @@ const ComUpload: React.FC<comuploadProps> = ({
     ['jpg', <FileImageOutlined key="jpg" />],
     ['gif', <FileGifOutlined key="gif" />],
     ['unkown', <FileUnknownOutlined key="unkown" />],
-  ]);
+  ])
 
   const iconRender = (file: any) => {
-    const { name } = file;
-    return fileIcon.get(name ? name.split('.')[1] : 'deflaut') || <FileUnknownOutlined />;
-  };
+    const { name } = file
+    return fileIcon.get(name ? name.split('.')[1] : 'deflaut') || <FileUnknownOutlined />
+  }
 
   const checkFileSize = (file: any) => {
-    const size = file.size / 1024 / 1024;
+    const size = file.size / 1024 / 1024
     if (size > 10) {
-      message.warn('上传文件大小不能超过10M。');
-      return Upload.LIST_IGNORE;
+      message.warn('上传文件大小不能超过10M。')
+      return Upload.LIST_IGNORE
     }
-    return true;
-  };
+    return true
+  }
 
   return (
     <Upload
@@ -133,7 +133,7 @@ const ComUpload: React.FC<comuploadProps> = ({
         <Button icon={<UploadOutlined />} type="text" />
       ) : null}
     </Upload>
-  );
-};
+  )
+}
 
-export default ComUpload;
+export default ComUpload

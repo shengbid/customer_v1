@@ -12,13 +12,13 @@ export async function login(data: loginProps) {
 /** 退出登录 */
 export async function outLogin() {
   return request('/auth/logout', {
-    method: 'POST',
+    method: 'delete',
   })
 }
 
 /** 获取验证码 */
 export async function getCaptcha() {
-  return request('/auth/captchaImage')
+  return request('/code')
 }
 
 /** 获取登录信息 */

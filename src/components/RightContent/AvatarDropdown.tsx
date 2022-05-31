@@ -20,9 +20,9 @@ const loginOut = async () => {
   const { query = {}, search, pathname } = history.location
   const { redirect } = query
   // Note: There may be security issues, please note
-  if (window.location.pathname !== '/user/login' && !redirect) {
+  if (window.location.pathname !== '/login' && !redirect) {
     history.replace({
-      pathname: '/user/login',
+      pathname: '/login',
       search: stringify({
         redirect: pathname + search,
       }),
@@ -30,7 +30,7 @@ const loginOut = async () => {
   }
 }
 
-const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
+const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
   const { initialState, setInitialState } = useModel('@@initialState')
 
   const onMenuClick = useCallback(
@@ -41,7 +41,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
         loginOut()
         return
       }
-      history.push(`/account/${key}`)
+      history.push(`/personal/center`)
     },
     [setInitialState],
   )
@@ -70,13 +70,12 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
 
   const menuHeaderDropdown = (
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-      {menu && (
-        <Menu.Item key="center">
-          <UserOutlined />
-          个人中心
-        </Menu.Item>
-      )}
-      {menu && <Menu.Divider />}
+      <Menu.Item key="center">
+        <UserOutlined />
+        个人中心
+      </Menu.Item>
+
+      <Menu.Divider />
 
       <Menu.Item key="logout">
         <LogoutOutlined />
@@ -88,9 +87,9 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
         <Avatar size="small" className={styles.avatar}>
-          {currentUser.nickName ? currentUser.nickName.substring(0, 1) : '测'}
+          {currentUser && currentUser.nickName ? currentUser.nickName.substring(0, 1) : '测'}
         </Avatar>
-        <span className={`${styles.name} anticon`}>{currentUser.nickName}</span>
+        <span className={`${styles.name} anticon`}>{currentUser?.nickName}</span>
       </span>
     </HeaderDropdown>
   )

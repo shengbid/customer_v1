@@ -56,3 +56,9 @@ export const passwordReg = {
   message: '密码必须包含数字,字母;长度8-16位',
   pattern: REGS.PASS_WORD,
 }
+
+// 银行卡号验证
+export const bankCardReg = {
+  message: '银行卡号格式不正确',
+  pattern: REGS.BANK_CARD_REG,
+}

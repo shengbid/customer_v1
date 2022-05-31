@@ -1,36 +1,57 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
-import { getMenuList } from '@/services'
-import type { menuProps } from '@/services/types'
+import { getMenuTreeList, deleteMenu } from '@/services'
+import type { menuParamProps, menuListProps } from '@/services/types'
+import DictSelect from '@/components/ComSelect'
+import type { ProColumns, ActionType } from '@ant-design/pro-table'
+import * as Icon from '@ant-design/icons'
+import { PlusOutlined } from '@ant-design/icons'
 import AddModal from './components/addModal'
+import { message, Tag } from 'antd'
+import PermissionButton from '@/components/Permission'
 
-const { MenuAddButton } = MenuProTable
+const { MenuAddButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
 const Meun: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
+  const [info, setInfo] = useState<any>()
+  const [addType, setAddType] = useState<string>()
 
-  const columns: any[] = [
+  const actionRef = useRef<ActionType>()
+
+  // 删除
+  const delteItem = async (id: number) => {
+    await deleteMenu(id)
+    message.success('删除成功')
+    actionRef.current?.reload()
+  }
+
+  const columns: ProColumns<menuListProps>[] = [
     {
       title: '菜单名称',
-      key: 'name',
-      dataIndex: 'name',
+      key: 'menuName',
+      dataIndex: 'menuName',
     },
     {
       title: '图标',
       key: 'icon',
       dataIndex: 'icon',
+      width: 80,
       hideInSearch: true,
+      render: (_, recored) =>
+        recored.icon && Icon[recored.icon] ? React.createElement(Icon[recored.icon]) : '-',
     },
     {
       title: '排序',
-      key: 'sort',
-      dataIndex: 'sort',
+      key: 'orderNum',
+      dataIndex: 'orderNum',
+      width: 60,
       hideInSearch: true,
     },
     {
       title: '权限标识',
-      key: 'access',
-      dataIndex: 'access',
+      key: 'perms',
+      dataIndex: 'perms',
       hideInSearch: true,
     },
     {
@@ -43,12 +64,21 @@ const Meun: React.FC = () => {
       title: '状态',
       key: 'status',
       dataIndex: 'status',
-      initialValue: 'all',
-      valueEnum: {
-        all: { text: '全部', status: 'Default' },
-        success: { text: '正常', status: 'Processing' },
-        error: { text: '停用', status: 'Error' },
+      hideInTable: true,
+      renderFormItem: (_, { type }) => {
+        if (type === 'form') {
+          return null
+        }
+        return <DictSelect authorWord="sys_normal_disable" />
       },
+    },
+    {
+      title: '状态',
+      key: 'status',
+      dataIndex: 'status',
+      hideInSearch: true,
+      render: (val) =>
+        val === '0' ? <Tag color="processing">正常</Tag> : <Tag color="error">停用</Tag>,
     },
     {
       title: '创建时间',
@@ -59,35 +89,66 @@ const Meun: React.FC = () => {
     },
     {
       title: '操作',
-      width: 150,
+      width: 210,
       key: 'option',
       valueType: 'option',
-      render: () => [<a key="link">修改</a>, <a key="link2">删除</a>],
+      render: (_, recored) => [
+        <PermissionButton
+          key="add"
+          authorWord="system:menu:add"
+          type="link"
+          onClick={() => {
+            setInfo(recored.menuId)
+            setAddType('add')
+            setModalVisible(true)
+          }}
+        >
+          <PlusOutlined />
+          新增
+        </PermissionButton>,
+        <MenuEditButton
+          key="edit"
+          authorWord="system:menu:edit"
+          onClick={() => {
+            setInfo(recored.menuId)
+            setAddType('')
+            setModalVisible(true)
+          }}
+        />,
+        <MenuDelteButton
+          authorWord="system:menu:remove"
+          onClick={() => delteItem(recored.menuId)}
+          key="delete"
+        />,
+      ],
     },
   ]
 
-  const getList = async (param: menuProps) => {
-    const { data } = await getMenuList(param)
+  const getList = async (param: menuParamProps) => {
+    const { data } = await getMenuTreeList(param)
     return {
       data,
     }
   }
 
   // 新增
-  const submit = (data: any) => {
-    console.log(data)
+  const submit = () => {
     setModalVisible(false)
+    actionRef?.current?.reload()
   }
 
   return (
     <>
-      <MenuProTable
+      <MenuProTable<menuListProps>
         request={getList}
-        rowKey="id"
+        rowKey="menuId"
         columns={columns}
+        actionRef={actionRef}
         headerTitle={
           <MenuAddButton
+            authorWord="system:menu:add"
             onClick={() => {
+              setInfo(null)
               setModalVisible(true)
             }}
           >
@@ -99,7 +160,11 @@ const Meun: React.FC = () => {
       <AddModal
         modalVisible={modalVisible}
         handleSubmit={submit}
-        handleCancel={() => setModalVisible(false)}
+        info={info}
+        type={addType}
+        handleCancel={() => {
+          setModalVisible(false)
+        }}
       />
     </>
   )

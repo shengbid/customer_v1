@@ -3,6 +3,7 @@ import { Row, Col } from 'antd'
 import Middle1 from './components/middle1'
 import Middle2 from './components/middle2'
 import Middle3 from './components/middle3'
+import Middle4 from './components/middle4'
 import Right1 from './components/right1'
 import style from './index.less'
 import LeftStatic from './components/leftStatic'
@@ -23,12 +24,12 @@ const onlineManage: React.FC = () => {
             <Middle2 />
           </Col>
         </Row>
-        <Row gutter={16} style={{ margin: '16px 0' }}>
+        <Row gutter={16} style={{ marginTop: 16 }}>
           <Col span={9}>
             <Middle3 />
           </Col>
           <Col span={15}>
-            <Middle1 />
+            <Middle4 />
           </Col>
         </Row>
       </Col>

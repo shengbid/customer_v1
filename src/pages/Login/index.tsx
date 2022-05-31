@@ -1,13 +1,14 @@
-import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons'
-import { Alert, message, Tabs } from 'antd'
-import React, { useState } from 'react'
+import { LockOutlined, MobileOutlined, UserOutlined, SecurityScanOutlined } from '@ant-design/icons'
+import { Alert, message, Tabs, Row, Col } from 'antd'
+import React, { useState, useEffect } from 'react'
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form'
-import { history, useModel } from 'umi'
+import { history, useModel, SelectLang, useIntl } from 'umi'
 import Footer from '@/components/Footer'
-import { login } from '@/services'
+import { login, getAuthorRoutes, queryCurrentUser, getCaptcha } from '@/services'
 import type { loginProps, LoginResult } from '@/services/types'
-// import { getFakeCaptcha } from '@/services/ant-design-pro/login'
 import Cookies from 'js-cookie'
+import logo from '@/assets/home/logo.jpg'
+import { handleMenuData } from '@/utils/base'
 
 import styles from './index.less'
 
@@ -27,14 +28,34 @@ const LoginMessage: React.FC<{
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<LoginResult>({})
   const [type, setType] = useState<string>('account')
-  const { initialState, setInitialState } = useModel('@@initialState')
+  const [captcha, setCaptcha] = useState<string>('')
+  const [captchaUid, setCaptchaUid] = useState<string>('')
+  const { setInitialState } = useModel('@@initialState')
+
+  const intl = useIntl()
+
+  // 获取图形验证码
+  const getCaptchas = async () => {
+    const { img, uuid } = await getCaptcha()
+    if (img) {
+      setCaptcha(`data:image/gif;base64,${img}`)
+      setCaptchaUid(uuid)
+    }
+  }
+
+  useEffect(() => {
+    getCaptchas()
+  }, [])
 
   const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.()
-    if (userInfo) {
+    // console.log(initialState)
+    const { user, roles, permissions } = await queryCurrentUser()
+    const { data } = await getAuthorRoutes()
+    if (user) {
       await setInitialState((s) => ({
         ...s,
-        currentUser: userInfo,
+        menus: handleMenuData(data),
+        currentUser: { ...user, permissionRoles: roles, permissions },
       }))
     }
   }
@@ -42,8 +63,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: loginProps) => {
     try {
       // 登录
-      const { data } = await login({ ...values })
-      console.log(data)
+      const { data } = await login({ ...values, uuid: captchaUid })
       if (data.access_token) {
         Cookies.set('token', data.access_token)
       }
@@ -54,13 +74,14 @@ const Login: React.FC = () => {
         if (!history) return
         const { query } = history.location
         const { redirect } = query as { redirect: string }
-        history.push(redirect || '/')
+        history.push(redirect || '/welcome')
         return
       }
 
       // 如果失败去设置用户错误信息
       setUserLoginState({ status: 'error', type })
     } catch (error) {
+      getCaptchas()
       message.error('登录失败，请重试！')
     }
   }
@@ -68,11 +89,14 @@ const Login: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.lang} data-lang>
+        {SelectLang && <SelectLang />}
+      </div>
       <div className={styles.content}>
         <LoginForm
-          logo={<img alt="logo" src="/logo.svg" />}
-          title="Ant Design"
-          subTitle={'Ant Design '}
+          logo={<img alt="logo" src={logo} />}
+          title={intl.formatMessage({ id: 'menu.sys.user' })}
+          subTitle={'供应链金融 '}
           initialValues={{
             autoLogin: true,
           }}
@@ -92,7 +116,7 @@ const Login: React.FC = () => {
           </Tabs>
 
           {status === 'error' && loginType === 'account' && (
-            <LoginMessage content="账户或密码错误(admin/ant.design)" />
+            <LoginMessage content="账户或密码错误" />
           )}
           {type === 'account' && (
             <>
@@ -102,7 +126,7 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <UserOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder="用户名: admin or user"
+                placeholder="用户名"
                 rules={[
                   {
                     required: true,
@@ -116,7 +140,7 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder="密码: ant.design"
+                placeholder="密码"
                 rules={[
                   {
                     required: true,
@@ -124,6 +148,24 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
+              <Row gutter={16}>
+                <Col span={15}>
+                  <ProFormText
+                    fieldProps={{
+                      size: 'large',
+                      prefix: <SecurityScanOutlined className={styles.prefixIcon} />,
+                    }}
+                    style={{ width: '65%' }}
+                    name="code"
+                    placeholder="验证码"
+                  />
+                </Col>
+                <Col span={8}>
+                  <a onClick={getCaptchas}>
+                    <img src={captcha} alt="" style={{ height: 39 }} />
+                  </a>
+                </Col>
+              </Row>
             </>
           )}
 

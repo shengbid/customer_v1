@@ -1,5 +1,9 @@
+import React from 'react'
 import { isEmpty } from 'lodash'
 import { parse } from 'querystring'
+import * as Icon from '@ant-design/icons'
+import { history } from 'umi'
+import { stringify } from 'querystring'
 
 // 处理分页参数
 export const paramsToPageParams = (params: any) => {
@@ -121,6 +125,18 @@ export const getPageQuery = () => {
 
   return {}
 }
+// 退出到登录页
+export const loginOut = () => {
+  const { redirect } = getPageQuery()
+  if (window.location.pathname !== '/login' && !redirect) {
+    history.replace({
+      pathname: '/login',
+      search: stringify({
+        redirect: window.location.pathname,
+      }),
+    })
+  }
+}
 
 // 统一处理排序参数
 export const handleSortParams = (param: any, sort: any) => {
@@ -143,4 +159,51 @@ export const handleSortParams = (param: any, sort: any) => {
   return {
     ...param,
   }
+}
+
+/**
+ * 处理树形数据
+ * @param data 数组
+ * @param id id对应的key
+ * @param title title对应的key
+ * @param label 要返回的title key
+ * @returns
+ */
+export const handleTreeData = (data: any[], id: string, title: string, label = 'title') => {
+  const render = (datas: any[]) => {
+    const arr: any[] = []
+    datas.map((item) => {
+      const obj = {
+        value: item[id],
+      }
+      obj[label] = item[title]
+      if (item.children) {
+        obj.children = render(item.children)
+      }
+      arr.push(obj)
+    })
+    return arr
+  }
+
+  return render(data)
+}
+
+// 处理菜单数据
+export const handleMenuData = (data: any[]) => {
+  const render = (datas: any[]) => {
+    const arr: any[] = []
+    datas.map((item) => {
+      const obj = {
+        path: item.path,
+        name: item.title,
+        icon: item.icon && Icon[item.icon] ? React.createElement(Icon[item.icon]) : item.icon,
+      }
+      if (item.children) {
+        obj.routes = render(item.children)
+      }
+      arr.push(obj)
+    })
+    return arr
+  }
+  return render(data)
 }

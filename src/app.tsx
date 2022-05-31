@@ -1,22 +1,29 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout'
 import { SettingDrawer } from '@ant-design/pro-layout'
-import { PageLoading } from '@ant-design/pro-layout'
-import { /* message, */ notification } from 'antd'
+import { PageLoading, ProBreadcrumb } from '@ant-design/pro-layout'
+import { message, notification } from 'antd'
 import type { RunTimeLayoutConfig, RequestConfig } from 'umi'
 import type { userProps } from '@/services/types'
-import { history, Link } from 'umi'
+import { history } from 'umi'
 import { stringify } from 'querystring'
 import RightContent from '@/components/RightContent'
 import Footer from '@/components/Footer'
 import { ResponseError, OnionMiddleware } from 'umi-request'
-import { queryCurrentUser } from './services'
-import { LinkOutlined } from '@ant-design/icons'
-import { getPageQuery } from '@/utils/base'
+import { queryCurrentUser, getAuthorRoutes } from './services'
+import { getPageQuery, handleMenuData } from '@/utils/base'
 import Cookies from 'js-cookie'
 import defaultSettings from '../config/defaultSettings'
+import logo from './assets/home/logo.jpg'
 
-const isDev = process.env.NODE_ENV === 'development'
-const loginPath = '/user/login'
+// const isDev = process.env.NODE_ENV === 'development'
+const loginPath = '/login'
+
+// 全局配置message
+message.config({
+  top: 200,
+  duration: 2,
+  maxCount: 3,
+})
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -29,14 +36,14 @@ export const initialStateConfig = {
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>
   currentUser?: userProps
+  menus?: any[]
   loading?: boolean
   fetchUserInfo?: () => Promise<userProps | undefined>
 }> {
   const fetchUserInfo = async () => {
     try {
-      // const msg = await queryCurrentUser()
-      const msg = { user: {} }
-      return msg.user
+      const { user, roles, permissions } = await queryCurrentUser()
+      return { ...user, permissionRoles: roles, permissions }
     } catch (error) {
       history.push(loginPath)
     }
@@ -45,9 +52,11 @@ export async function getInitialState(): Promise<{
   // 如果不是登录页面，执行
   if (history.location.pathname !== loginPath) {
     const user = await fetchUserInfo()
+    const { data } = await getAuthorRoutes()
     return {
       fetchUserInfo,
       currentUser: user,
+      menus: handleMenuData(data),
       settings: defaultSettings,
     }
   }
@@ -59,8 +68,9 @@ export async function getInitialState(): Promise<{
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
-  console.log(initialState?.currentUser?.nickName)
+  // console.log(initialState?.currentUser)
   return {
+    logo: <img src={logo} alt="" />,
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
@@ -72,24 +82,27 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     onPageChange: () => {
       const { location } = history
       // 如果没有登录，重定向到 login
-      // if (!initialState?.currentUser && location.pathname !== loginPath) {
-      //   history.push(loginPath)
-      // }
+      if (!initialState?.currentUser && location.pathname !== loginPath) {
+        history.push(loginPath)
+      }
     },
-    links: isDev
-      ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-        ]
-      : [],
+    menuDataRender: (menu) => {
+      const staticRoutes = menu.filter((item) => ['/welcome'].includes(item.path as string))
+      return [...staticRoutes, ...(initialState?.menus || [])]
+    },
+    // links: isDev
+    //   ? [
+    //       <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
+    //         <LinkOutlined />
+    //         <span>OpenAPI 文档</span>
+    //       </Link>,
+    //     ]
+    //   : [],
     menuHeaderRender: undefined,
-    // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
+    headerContentRender: () => <ProBreadcrumb />,
     // 增加一个 loading 的状态
     childrenRender: (children, props) => {
-      // if (initialState?.loading) return <PageLoading />
+      if (initialState?.loading) return <PageLoading />
       return (
         <>
           {children}
@@ -142,7 +155,7 @@ const loginOut = () => {
     history.replace({
       pathname: '/login',
       search: stringify({
-        redirect: window.location.href,
+        redirect: window.location.pathname,
       }),
     })
   }
@@ -151,24 +164,22 @@ const loginOut = () => {
 /**
  * 异常处理程序
  */
-const errorHandler = (
-  error: ResponseError & { responseCode?: string; responseMsg?: string; url?: string },
-) => {
-  const { responseMsg, responseCode, url, response } = error
+const errorHandler = (error: ResponseError & { code?: number; msg?: string; url?: string }) => {
+  const { msg, code, url, response } = error
   // console.log(error)
 
-  if (responseMsg && responseCode && url) {
-    if (responseCode === 'B00001') {
+  if (msg && code && url) {
+    if (code === 401) {
       loginOut()
       notification.warning({
         key: 'error',
-        message: `${process.env.NODE_ENV === 'development' ? url : ''}${responseMsg}`,
+        message: `${process.env.NODE_ENV === 'development' ? url : ''}${msg}`,
       })
       return
     }
     notification.error({
       key: 'error',
-      message: `${process.env.NODE_ENV === 'development' ? url : ''}${responseMsg}`,
+      message: `${process.env.NODE_ENV === 'development' ? url : ''}${msg}`,
     })
   } else if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText
@@ -206,7 +217,7 @@ const middleware: OnionMiddleware = async (ctx, next) => {
   }
 
   await next()
-  if (ctx.res.responseCode && ctx.res.responseCode !== '000000') {
+  if (ctx.res.code && ctx.res.code !== 200) {
     // if (!(ctx.res && ctx.res.size))
     throw { ...ctx.res, url }
   }

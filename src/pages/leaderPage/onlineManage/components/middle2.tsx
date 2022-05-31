@@ -12,10 +12,11 @@ const Middle2: React.FC = () => {
       {
         name: 'Nightingale Chart',
         type: 'pie',
-        radius: [0, 90],
-        center: ['50%', '50%'],
+        radius: [0, 120],
+        center: ['50%', '40%'],
         roseType: 'radius',
         label: {
+          show: false,
           formatter: '{b}:  {d}%',
         },
         labelLine: {

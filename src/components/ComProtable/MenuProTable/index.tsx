@@ -31,6 +31,7 @@ export default function MenuProTable<T>(props: ProTableProps<T, any> & FunctionP
         newItem = {
           width: 60,
           ...item,
+          hideInSearch: true,
           render: (_: any, row: any, index: number) => {
             return <span>{(current - 1) * pageSize + index + 1}</span>
           },

@@ -1,22 +1,14 @@
 ﻿export default [
   {
-    path: '/user',
     layout: false,
-    routes: [
-      {
-        name: 'login',
-        path: '/user/login',
-        component: './Login',
-      },
-      {
-        component: './404',
-      },
-    ],
+    name: 'login',
+    path: '/login',
+    component: './Login',
   },
   {
     path: '/welcome',
-    name: '首页',
-    icon: 'home',
+    name: 'home',
+    icon: 'HomeOutlined',
     component: './Welcome',
   },
   {
@@ -24,6 +16,10 @@
     name: '领导驾驶舱',
     icon: 'DesktopOutlined',
     routes: [
+      {
+        path: '/leaderPage',
+        redirect: '/leaderPage/onlineManage',
+      },
       {
         path: '/leaderPage/onlineManage',
         name: '在线经营贷',
@@ -37,15 +33,9 @@
     icon: 'SettingOutlined',
     // access: 'canAdmin',
     routes: [
-      // {
-      //   path: '/sys',
-      //   redirect: '/sys/menu',
-      // },
       {
-        path: '/sys/menu',
-        name: '菜单管理',
-        icon: 'SettingOutlined',
-        component: './sysManage/menu',
+        path: '/sys',
+        redirect: '/sys/menu',
       },
       {
         path: '/sys/user',
@@ -53,58 +43,141 @@
         icon: 'SettingOutlined',
         component: './sysManage/user',
       },
+      {
+        path: '/sys/role',
+        name: '角色管理',
+        icon: 'SettingOutlined',
+        component: './sysManage/role',
+      },
+      {
+        path: '/sys/menu',
+        name: '菜单管理',
+        icon: 'SettingOutlined',
+        component: './sysManage/menu',
+      },
+      {
+        path: '/sys/dept',
+        name: '部门管理',
+        icon: 'SettingOutlined',
+        component: './sysManage/dept',
+      },
+      {
+        path: '/sys/post',
+        name: '岗位管理',
+        icon: 'SettingOutlined',
+        component: './sysManage/post',
+      },
+      {
+        path: '/sys/dict',
+        name: '字典管理',
+        icon: 'SettingOutlined',
+        component: './sysManage/dict',
+      },
+      {
+        path: '/sys/dict/type',
+        name: '字典类型管理',
+        icon: 'SettingOutlined',
+        component: './sysManage/dict/dictKey',
+      },
+      {
+        path: '/sys/config',
+        name: '参数设置',
+        icon: 'SettingOutlined',
+        component: './sysManage/parameter',
+      },
+      {
+        path: '/sys/notice',
+        name: '通知公告',
+        icon: 'SettingOutlined',
+        component: './sysManage/notice',
+      },
+      {
+        path: '/sys/log',
+        name: '日志管理',
+        icon: 'SettingOutlined',
+        routes: [
+          {
+            path: '/sys/log',
+            redirect: '/sys/log/operate',
+          },
+          {
+            path: '/sys/log/operate',
+            name: '操作日志',
+            icon: 'SettingOutlined',
+            component: './sysManage/logManage/operateInfo',
+          },
+          {
+            path: '/sys/log/login',
+            name: '登录日志',
+            icon: 'SettingOutlined',
+            component: './sysManage/logManage/loginInfo',
+          },
+        ],
+      },
     ],
   },
   {
-    path: '/list',
-    name: '列表',
-    icon: 'TableOutlined',
+    path: '/systemMonitor',
+    name: '系统监控',
+    icon: 'DesktopOutlined',
     routes: [
       {
-        path: '/list/add',
-        name: '添加',
-        // access: 'canAdmin',
-        icon: 'PlusCircleOutlined',
-        component: './list/add',
+        path: '/systemMonitor',
+        redirect: '/systemMonitor/onlineUser',
       },
       {
-        path: '/list/form',
-        name: '表单',
-        icon: 'PlusCircleOutlined',
-        component: './list/form',
+        path: '/systemMonitor/onlineUser',
+        name: '在线用户',
+        component: './sysManage/systemMonitor/onlineUser',
       },
       {
-        path: '/list/list',
-        name: '列表',
-        icon: 'PlusCircleOutlined',
-        component: './list/list',
+        path: '/systemMonitor/timedTask',
+        name: '定时任务',
+        component: './sysManage/systemMonitor/timedTask',
+      },
+      {
+        path: '/systemMonitor/sentinel',
+        name: 'Sentinel控制台',
+        target: '_blank',
+      },
+      {
+        path: '/systemMonitor/nacos',
+        name: 'Nacos控制台',
+        target: '_blank',
+      },
+      {
+        path: '/systemMonitor/admin',
+        name: 'Admin控制台',
+        target: '_blank',
       },
     ],
   },
-  // {
-  //   path: '/admin',
-  //   name: 'admin',
-  //   icon: 'crown',
-  //   access: 'canAdmin',
-  //   component: './Admin',
-  //   routes: [
-  //     {
-  //       path: '/admin/sub-page',
-  //       name: 'sub-page',
-  //       icon: 'smile',
-  //       component: './Welcome',
-  //     },
-  //     {
-  //       component: './404',
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: 'list.table-list',
-  //   icon: 'table',
-  //   path: '/list',
-  //   component: './TableList',
-  // },
+  {
+    path: '/systemTool',
+    name: '系统工具',
+    icon: 'DesktopOutlined',
+    routes: [
+      {
+        path: '/systemTool',
+        redirect: '/systemTool/code',
+      },
+      {
+        path: '/systemTool/code',
+        name: '代码生成',
+        component: './sysManage/systemTool/code',
+      },
+      {
+        path: '/systemTool/sysApi',
+        name: '系统接口',
+      },
+    ],
+  },
+  {
+    path: '/personal/center',
+    name: '个人中心',
+    icon: 'UserOutlined',
+    component: './sysManage/personalCenter',
+  },
   {
     path: '/',
     redirect: '/welcome',

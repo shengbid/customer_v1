@@ -12,7 +12,12 @@ export interface iconSelectProps {
 }
 
 const IconSelect: React.FC<iconSelectProps> = ({ value, onChange, placeholder = '请选择图标' }) => {
-  const iconList = Object.keys(icons)
+  const iconList = Object.keys(icons).filter((item) => typeof icons[item] === 'object')
+
+  // console.log(typeof icons['AccountBookFilled'], typeof icons['setTwoToneColor']) // object function
+  const filterOption = (input: string, option: any) => {
+    return option.value.toLowerCase().includes(input.toLowerCase())
+  }
   return (
     <Select
       placeholder={placeholder}
@@ -20,6 +25,7 @@ const IconSelect: React.FC<iconSelectProps> = ({ value, onChange, placeholder = 
       allowClear
       style={{ width: '100%' }}
       value={value}
+      filterOption={filterOption}
       onChange={onChange}
     >
       {iconList.map((item) => {

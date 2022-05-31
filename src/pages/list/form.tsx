@@ -70,7 +70,7 @@ const Demo = () => (
           label="支持搜索查询的 Select"
           showSearch
           debounceTime={300}
-          request={async ({ keyWords }) => {
+          request={async ({ authorWords }) => {
             await waitTime(1000)
             return Mock.mock({
               'data|1-10': [
@@ -80,7 +80,7 @@ const Demo = () => (
                 },
               ],
             }).data.concat({
-              value: keyWords,
+              value: authorWords,
               label: '目标_target',
             })
           }}
