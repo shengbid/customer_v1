@@ -155,7 +155,7 @@ const loginOut = () => {
     history.replace({
       pathname: '/login',
       search: stringify({
-        redirect: window.location.pathname,
+        redirect: `${window.location.pathname}${window.location.search}`,
       }),
     })
   }
