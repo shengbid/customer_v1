@@ -18,7 +18,6 @@ const RoleManage: React.FC = (props: any) => {
   const [dictOptions, setDictOptions] = useState<any[]>([])
   const [info, setInfo] = useState<any>()
   const [dictType, setDictType] = useState<string>(props.location.query.type)
-  console.log(props)
 
   const getDicOption = async () => {
     const { data } = await getDictSelect()
@@ -52,6 +51,7 @@ const RoleManage: React.FC = (props: any) => {
       valueType: 'select',
       fieldProps: {
         options: dictOptions,
+        allowClear: false,
       },
     },
     {
@@ -99,6 +99,7 @@ const RoleManage: React.FC = (props: any) => {
     },
     {
       title: '创建时间',
+      width: 160,
       key: 'createTime',
       dataIndex: 'createTime',
       hideInSearch: true,
@@ -168,6 +169,7 @@ const RoleManage: React.FC = (props: any) => {
           <Button
             type="primary"
             key="back"
+            style={{ marginRight: 8 }}
             icon={<ArrowLeftOutlined />}
             onClick={() => {
               history.push('/sys/dict')

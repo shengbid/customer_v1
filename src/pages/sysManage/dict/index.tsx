@@ -120,7 +120,6 @@ const RoleManage: React.FC = () => {
 
   // 批量删除
   const multipleDelete = async () => {
-    console.log(selectedRowKeys)
     if (selectedRowKeys.length) {
       await deleteDict(selectedRowKeys.join(','))
       message.success('删除成功')
