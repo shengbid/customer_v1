@@ -23,7 +23,7 @@ const AddModal: React.FC<modalProps> = ({
 
   const [form] = Form.useForm()
 
-  const text = info && info.menuId ? '编辑' : '添加'
+  const text = info ? '编辑' : '添加'
 
   const changeMenuType = (e: RadioChangeEvent) => {
     setMenuType(e.target.value)
@@ -31,7 +31,7 @@ const AddModal: React.FC<modalProps> = ({
 
   // 获取详情
   const getMenuDetail = async () => {
-    const { data } = await menuDetail(info.menuId)
+    const { data } = await menuDetail(info)
     form.setFieldsValue({ ...data })
     setMenuType(data.menuType)
   }

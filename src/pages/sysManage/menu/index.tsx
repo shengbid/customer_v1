@@ -82,6 +82,7 @@ const Meun: React.FC = () => {
     },
     {
       title: '创建时间',
+      width: 160,
       key: 'createTime',
       dataIndex: 'createTime',
       hideInSearch: true,
