@@ -10,6 +10,7 @@ import {
   FileGifOutlined,
   FileWordOutlined,
 } from '@ant-design/icons'
+import { useIntl } from 'umi'
 
 export type comuploadProps = {
   value?: any
@@ -28,6 +29,7 @@ const ComUpload: React.FC<comuploadProps> = ({
 }) => {
   const [files, setFiles] = useState<any[]>([])
   // console.log(3, value)
+  const intl = useIntl()
 
   useEffect(() => {
     // 展示传入的文件数据
@@ -111,8 +113,8 @@ const ComUpload: React.FC<comuploadProps> = ({
 
   const checkFileSize = (file: any) => {
     const size = file.size / 1024 / 1024
-    if (size > 10) {
-      message.warn('上传文件大小不能超过10M。')
+    if (size > 20) {
+      message.warn(intl.formatMessage({ id: 'pages.modal.updateRule' }))
       return Upload.LIST_IGNORE
     }
     return true
