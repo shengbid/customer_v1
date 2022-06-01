@@ -30,6 +30,7 @@ body {
 ul,
 ol {
   list-style: none;
+  padding-inline-start: 0;
 }
 
 @media (max-width: @screen-xs) {
@@ -58,6 +59,12 @@ ol {
 
 .modal-btns {
   text-align: right;
+  .cancel-btn {
+    margin-left: 10px;
+  }
+}
+.middle-btns {
+  text-align: center;
   .cancel-btn {
     margin-left: 10px;
   }
