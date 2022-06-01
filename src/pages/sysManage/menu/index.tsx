@@ -9,6 +9,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import AddModal from './components/addModal'
 import { message, Tag } from 'antd'
 import PermissionButton from '@/components/Permission'
+import { useIntl } from 'umi'
 
 const { MenuAddButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
@@ -16,24 +17,32 @@ const Meun: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
   const [info, setInfo] = useState<any>()
   const [addType, setAddType] = useState<string>()
-
+  const intl = useIntl()
   const actionRef = useRef<ActionType>()
 
   // 删除
   const delteItem = async (id: number) => {
     await deleteMenu(id)
-    message.success('删除成功')
+    message.success(
+      intl.formatMessage({
+        id: 'pages.form.delete',
+      }),
+    )
     actionRef.current?.reload()
   }
 
   const columns: ProColumns<menuListProps>[] = [
     {
-      title: '菜单名称',
+      title: intl.formatMessage({
+        id: 'sys.menu.menuName',
+      }),
       key: 'menuName',
       dataIndex: 'menuName',
     },
     {
-      title: '图标',
+      title: intl.formatMessage({
+        id: 'sys.menu.icon',
+      }),
       key: 'icon',
       dataIndex: 'icon',
       width: 80,
@@ -42,26 +51,34 @@ const Meun: React.FC = () => {
         recored.icon && Icon[recored.icon] ? React.createElement(Icon[recored.icon]) : '-',
     },
     {
-      title: '排序',
+      title: intl.formatMessage({
+        id: 'sys.menu.orderNum',
+      }),
       key: 'orderNum',
       dataIndex: 'orderNum',
       width: 60,
       hideInSearch: true,
     },
     {
-      title: '权限标识',
+      title: intl.formatMessage({
+        id: 'sys.menu.perms',
+      }),
       key: 'perms',
       dataIndex: 'perms',
       hideInSearch: true,
     },
     {
-      title: '组件路径',
+      title: intl.formatMessage({
+        id: 'sys.menu.path',
+      }),
       key: 'path',
       dataIndex: 'path',
       hideInSearch: true,
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInTable: true,
@@ -69,19 +86,35 @@ const Meun: React.FC = () => {
         if (type === 'form') {
           return null
         }
-        return <DictSelect authorWord="sys_normal_disable" />
+        return <DictSelect authorword="sys_normal_disable" />
       },
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInSearch: true,
       render: (val) =>
-        val === '0' ? <Tag color="processing">正常</Tag> : <Tag color="error">停用</Tag>,
+        val === '0' ? (
+          <Tag color="processing">
+            {intl.formatMessage({
+              id: 'sys.base.normal',
+            })}
+          </Tag>
+        ) : (
+          <Tag color="error">
+            {intl.formatMessage({
+              id: 'sys.base.out',
+            })}
+          </Tag>
+        ),
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({
+        id: 'sys.base.createTime',
+      }),
       width: 160,
       key: 'createTime',
       dataIndex: 'createTime',
@@ -89,14 +122,16 @@ const Meun: React.FC = () => {
       valueType: 'dateTime',
     },
     {
-      title: '操作',
+      title: intl.formatMessage({
+        id: 'pages.table.option',
+      }),
       width: 210,
       key: 'option',
       valueType: 'option',
       render: (_, recored) => [
         <PermissionButton
           key="add"
-          authorWord="system:menu:add"
+          authorword="system:menu:add"
           type="link"
           onClick={() => {
             setInfo(recored.menuId)
@@ -105,11 +140,13 @@ const Meun: React.FC = () => {
           }}
         >
           <PlusOutlined />
-          新增
+          {intl.formatMessage({
+            id: 'pages.btn.add',
+          })}
         </PermissionButton>,
         <MenuEditButton
           key="edit"
-          authorWord="system:menu:edit"
+          authorword="system:menu:edit"
           onClick={() => {
             setInfo(recored.menuId)
             setAddType('')
@@ -117,7 +154,7 @@ const Meun: React.FC = () => {
           }}
         />,
         <MenuDelteButton
-          authorWord="system:menu:remove"
+          authorword="system:menu:remove"
           onClick={() => delteItem(recored.menuId)}
           key="delete"
         />,
@@ -147,14 +184,12 @@ const Meun: React.FC = () => {
         actionRef={actionRef}
         headerTitle={
           <MenuAddButton
-            authorWord="system:menu:add"
+            authorword="system:menu:add"
             onClick={() => {
               setInfo(null)
               setModalVisible(true)
             }}
-          >
-            添加
-          </MenuAddButton>
+          />
         }
         pagination={false}
       />

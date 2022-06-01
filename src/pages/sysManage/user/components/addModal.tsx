@@ -73,7 +73,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
   return (
     <Modal
-      title={`${text}${text}${intl.formatMessage({
+      title={`${text}${intl.formatMessage({
         id: 'sys.user.user',
       })}`}
       maskClosable={false}
