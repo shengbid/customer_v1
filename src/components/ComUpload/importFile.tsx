@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 import { loginOut } from '@/utils/base'
 import ExportFile from './exportFile'
 import PermissionButton from '@/components/Permission'
-
+import { useIntl } from 'umi'
 export interface importFileProps {
   url: string // 请求地址
   title: string // 下载模板名称
@@ -19,6 +19,8 @@ const ImportFile: React.FC<importFileProps> = ({ url, title, authorWord, handleS
   const [action, setAction] = useState<string>(
     `${URL_PREFIX}/system/${url}/importData?updateSupport=false`,
   )
+
+  const intl = useIntl()
 
   const changeFile = ({ file }: any) => {
     // console.log(6, file, fileList)
@@ -40,7 +42,7 @@ const ImportFile: React.FC<importFileProps> = ({ url, title, authorWord, handleS
       }
       handleSuccess()
       setFileVisible(false)
-      message.success('导入成功')
+      message.success(intl.formatMessage({ id: 'pages.modal.importInfo' }))
     }
   }
 
@@ -55,7 +57,7 @@ const ImportFile: React.FC<importFileProps> = ({ url, title, authorWord, handleS
   const checkFileSize = (file: any) => {
     const size = file.size / 1024 / 1024
     if (size > 20) {
-      message.warn('上传文件大小不能超过20M。')
+      message.warn(intl.formatMessage({ id: 'pages.modal.updateRule' }))
       return Upload.LIST_IGNORE
     }
     return true
@@ -72,10 +74,10 @@ const ImportFile: React.FC<importFileProps> = ({ url, title, authorWord, handleS
           setFileVisible(true)
         }}
       >
-        导入
+        {intl.formatMessage({ id: 'pages.btn.import' })}
       </PermissionButton>
       <Modal
-        title={`导入模板`}
+        title={intl.formatMessage({ id: 'pages.modal.importTitle' })}
         maskClosable={false}
         destroyOnClose
         width={500}
@@ -84,14 +86,16 @@ const ImportFile: React.FC<importFileProps> = ({ url, title, authorWord, handleS
         onCancel={cancel}
       >
         <div>
-          仅允许导入xls、xlsx格式文件。
+          {intl.formatMessage({ id: 'pages.modal.importTit' })}
           <ExportFile authorWord="" title={title} url={url} icon={false} />
         </div>
         <div style={{ margin: '16px 0' }}>
-          <span style={{ marginRight: 10 }}>是否更新已经存在的用户数据:</span>
+          <span style={{ marginRight: 10 }}>
+            {intl.formatMessage({ id: 'pages.modal.isUpdateData' })}
+          </span>
           <Radio.Group onChange={changeSelect} defaultValue={2}>
-            <Radio value={1}>是</Radio>
-            <Radio value={2}>否</Radio>
+            <Radio value={1}>{intl.formatMessage({ id: 'pages.form.yes' })}</Radio>
+            <Radio value={2}>{intl.formatMessage({ id: 'pages.form.no' })}</Radio>
           </Radio.Group>
         </div>
         <div style={{ marginBottom: 20 }}>
@@ -106,7 +110,7 @@ const ImportFile: React.FC<importFileProps> = ({ url, title, authorWord, handleS
             beforeUpload={checkFileSize}
           >
             <Button type="primary" icon={<UploadOutlined />}>
-              点击上传
+              {intl.formatMessage({ id: 'pages.btn.upload' })}
             </Button>
           </Upload>
         </div>

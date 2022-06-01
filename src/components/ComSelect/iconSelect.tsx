@@ -2,6 +2,7 @@ import React from 'react'
 import { Select } from 'antd'
 import Icon from '@ant-design/icons'
 import * as icons from '@ant-design/icons'
+import { useIntl } from 'umi'
 
 const { Option } = Select
 
@@ -11,8 +12,16 @@ export interface iconSelectProps {
   onChange?: (value: string) => void
 }
 
-const IconSelect: React.FC<iconSelectProps> = ({ value, onChange, placeholder = '请选择图标' }) => {
+const IconSelect: React.FC<iconSelectProps> = (props) => {
   const iconList = Object.keys(icons).filter((item) => typeof icons[item] === 'object')
+  const intl = useIntl()
+  const {
+    value,
+    onChange,
+    placeholder = `${intl.formatMessage({
+      id: 'pages.form.select',
+    })}${intl.formatMessage({ id: 'sys.menu.icon' })}`,
+  } = props
 
   // console.log(typeof icons['AccountBookFilled'], typeof icons['setTwoToneColor']) // object function
   const filterOption = (input: string, option: any) => {

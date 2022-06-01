@@ -7,6 +7,7 @@ import ProTable, {
 import { Button } from 'antd'
 import { SearchOutlined, ReloadOutlined } from '@ant-design/icons'
 import { handleSortParams } from '@/utils/base'
+import { useIntl } from 'umi'
 import { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } from './menuButton'
 
 export interface FunctionProps {
@@ -22,12 +23,18 @@ MenuProTable.MenuDelteButton = MenuDelteButton
 export default function MenuProTable<T>(props: ProTableProps<T, any> & FunctionProps) {
   const [current, setCurrent] = useState<number>(1) // 当前页
   const [pageSize, setPageSize] = useState<number>(10) // 每页条数
+
+  const intl = useIntl()
+
   // 统一处理分页序号
   const columns: any = []
   if (props.columns) {
     props.columns.forEach((item) => {
       let newItem = {}
-      if (item.title === '序号' || item.valueType === 'index') {
+      if (
+        item.title === intl.formatMessage({ id: 'pages.table.index' }) ||
+        item.valueType === 'index'
+      ) {
         newItem = {
           width: 60,
           ...item,

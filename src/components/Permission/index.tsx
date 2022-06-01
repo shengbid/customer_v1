@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 
 interface permissionProps extends ButtonProps {
   authorWord: string
-  type?: string
 }
 
 const PermissionButton: React.FC<permissionProps> = (props) => {

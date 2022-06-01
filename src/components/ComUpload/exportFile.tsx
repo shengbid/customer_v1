@@ -5,7 +5,7 @@ import { downloadFile, exportFile } from '@/services'
 import { loginOut } from '@/utils/base'
 import FileSaver from 'file-saver'
 import PermissionButton from '@/components/Permission'
-
+import { useIntl } from 'umi'
 export interface exportProps {
   title: string
   url: string
@@ -16,6 +16,8 @@ export interface exportProps {
 
 // 导出模板
 const ExportFile: React.FC<exportProps> = ({ title, url, authorWord, icon = true, params }) => {
+  const intl = useIntl()
+
   // 下载模板
   const download = async () => {
     const res = icon ? await exportFile(url, params) : await downloadFile(url)
@@ -43,7 +45,14 @@ const ExportFile: React.FC<exportProps> = ({ title, url, authorWord, icon = true
           }
         }
       } else {
-        FileSaver.saveAs(res, `${title}${icon ? '列表' : '模板'}`)
+        FileSaver.saveAs(
+          res,
+          `${title}${
+            icon
+              ? intl.formatMessage({ id: 'pages.table.list' })
+              : intl.formatMessage({ id: 'pages.table.model' })
+          }`,
+        )
       }
       // FileSaver.saveAs(res, title)
     }
@@ -56,13 +65,13 @@ const ExportFile: React.FC<exportProps> = ({ title, url, authorWord, icon = true
         icon={<VerticalAlignBottomOutlined />}
         onClick={download}
       >
-        导出
+        {intl.formatMessage({ id: 'pages.btn.export' })}
       </PermissionButton>
     )
   }
   return (
     <Button type="link" onClick={download}>
-      下载模板
+      {intl.formatMessage({ id: 'pages.btn.down' })}
     </Button>
   )
 }

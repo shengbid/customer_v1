@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { TreeSelect } from 'antd'
 import { getMenuTreeData } from '@/services'
 import { handleTreeData } from '@/utils/base'
-
+import { useIntl } from 'umi'
 export interface treeSelectProps {
   placeholder?: string
   value?: string
@@ -20,14 +20,18 @@ export interface treeProps {
   key: number | string
   children: treeItemProps[]
 }
-const MultiTreeDataSelect: React.FC<treeSelectProps> = ({
-  value,
-  onChange,
-  type = '0',
-  treeCheckStrictly = true,
-  placeholder = '请选择',
-}) => {
+const MultiTreeDataSelect: React.FC<treeSelectProps> = (props) => {
   const [treeData, setTreeData] = useState<treeProps[]>([])
+  const intl = useIntl()
+  const {
+    value,
+    onChange,
+    type = '0',
+    treeCheckStrictly = true,
+    placeholder = `${intl.formatMessage({
+      id: 'pages.form.select',
+    })}`,
+  } = props
 
   const getList = async () => {
     let data: any = {}

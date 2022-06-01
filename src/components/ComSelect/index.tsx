@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Select, Radio } from 'antd'
 import type { dictListProps } from '@/services/types'
 import { getDictSelectList } from '@/services'
+import { useIntl } from 'umi'
 
 const { Option } = Select
 
@@ -13,14 +14,18 @@ export interface iconSelectProps {
   onChange?: (value: any) => void
 }
 // 数据字典
-const DictSelect: React.FC<iconSelectProps> = ({
-  value,
-  onChange,
-  placeholder = '请选择',
-  authorWord,
-  type,
-}) => {
+const DictSelect: React.FC<iconSelectProps> = (props) => {
   const [dictList, setDictList] = useState<dictListProps[]>([])
+  const intl = useIntl()
+  const {
+    value,
+    onChange,
+    placeholder = `${intl.formatMessage({
+      id: 'pages.form.input',
+    })}`,
+    authorWord,
+    type,
+  } = props
 
   const getList = async () => {
     const { data } = await getDictSelectList(authorWord)
@@ -47,8 +52,15 @@ const DictSelect: React.FC<iconSelectProps> = ({
 
   // 表格默认传入请输入
   let place = placeholder
-  if (placeholder === '请输入') {
-    place = '请选择'
+  if (
+    placeholder ===
+    `${intl.formatMessage({
+      id: 'pages.form.input',
+    })}`
+  ) {
+    place = `${intl.formatMessage({
+      id: 'pages.form.select',
+    })}`
   }
   return (
     <Select

@@ -4,6 +4,7 @@ import { message } from 'antd'
 // import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import type { EditableFormInstance } from '@ant-design/pro-table'
 import { useRef } from 'react'
+import { useIntl } from 'umi'
 
 interface comEditTableProps {
   columns: any[]
@@ -18,6 +19,7 @@ interface comEditTableProps {
 function ComEditTable<T>(props: comEditTableProps) {
   const { columns, value, rowKey, onDelChange, isRequired = true } = props
   const editorFormRef = useRef<EditableFormInstance>()
+  const intl = useIntl()
 
   const columns2 = [
     ...columns,
@@ -36,7 +38,9 @@ function ComEditTable<T>(props: comEditTableProps) {
       //     }}
       //   />
       // ),
-      title: '操作',
+      title: intl.formatMessage({
+        id: 'pages.table.option',
+      }),
       valueType: 'option',
       align: 'center',
       width: 70,
@@ -65,14 +69,22 @@ function ComEditTable<T>(props: comEditTableProps) {
         }}
         columns={columns2}
         editableFormRef={editorFormRef}
-        locale={{ emptyText: '暂无数据' }}
+        locale={{
+          emptyText: intl.formatMessage({
+            id: 'component.noticeIcon.empty',
+          }),
+        }}
         editable={{
           ...props.editable,
           // deleteText: <MinusCircleOutlined style={{ fontSize: '18px', color: '#DC204E' }} />,
           onDelete: (row) => {
             return new Promise((resolve, reject) => {
               if (value.length < 2 && isRequired) {
-                message.warning('至少保留一条数据')
+                message.warning(
+                  intl.formatMessage({
+                    id: 'pages.table.oneData',
+                  }),
+                )
                 reject()
               }
               if (onDelChange) {

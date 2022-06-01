@@ -7,6 +7,7 @@ import HeaderDropdown from '../HeaderDropdown'
 import styles from './index.less'
 import { outLogin } from '@/services'
 import type { MenuInfo } from 'rc-menu/lib/interface'
+import { useIntl } from 'umi'
 
 export type GlobalHeaderRightProps = {
   menu?: boolean
@@ -32,7 +33,7 @@ const loginOut = async () => {
 
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
   const { initialState, setInitialState } = useModel('@@initialState')
-
+  const intl = useIntl()
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
       const { key } = event
@@ -72,14 +73,18 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
       <Menu.Item key="center">
         <UserOutlined />
-        个人中心
+        {intl.formatMessage({
+          id: 'component.globalHeader.center',
+        })}
       </Menu.Item>
 
       <Menu.Divider />
 
       <Menu.Item key="logout">
         <LogoutOutlined />
-        退出登录
+        {intl.formatMessage({
+          id: 'component.globalHeader.loginout',
+        })}
       </Menu.Item>
     </Menu>
   )

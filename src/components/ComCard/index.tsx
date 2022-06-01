@@ -5,10 +5,15 @@ import style from './index.less'
 export interface proCardProps {
   title: string
   extra?: React.ReactNode
+  bodyStyle?: any
 }
 
-const bodyStyle = { padding: 12 }
-const ComCard: React.FC<proCardProps> = ({ title, children, extra }) => {
+const ComCard: React.FC<proCardProps> = ({
+  title,
+  children,
+  extra,
+  bodyStyle = { padding: 12 },
+}) => {
   return (
     <ProCard
       className={style.comcard}
