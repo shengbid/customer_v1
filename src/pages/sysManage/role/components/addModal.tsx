@@ -4,6 +4,7 @@ import type { addModalProps } from '@/services/types'
 import MultiTreeDataSelect from '@/components/ComSelect/multiTreeSelect'
 import { addRole, roleDetail, getRoleMenu } from '@/services'
 import DictSelect from '@/components/ComSelect'
+import { useIntl } from 'umi'
 
 const { TextArea } = Input
 
@@ -11,7 +12,14 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [spinning, setSpinning] = useState<boolean>(false)
   const [form] = Form.useForm()
-  const text = info ? '编辑' : '添加'
+  const intl = useIntl()
+  const text = info
+    ? intl.formatMessage({
+        id: 'pages.btn.edit',
+      })
+    : intl.formatMessage({
+        id: 'pages.btn.add',
+      })
 
   const getDetail = async () => {
     setSpinning(true)
@@ -39,7 +47,11 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
       setConfirmLoading(false)
       return
     }
-    message.success(`${text}成功`)
+    message.success(
+      `${text}${intl.formatMessage({
+        id: 'pages.form.success',
+      })}`,
+    )
     handleSubmit()
     form.resetFields()
   }
@@ -51,7 +63,9 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
   return (
     <Modal
-      title={`${text}角色`}
+      title={`${text}${intl.formatMessage({
+        id: 'sys.role.role',
+      })}`}
       maskClosable={false}
       destroyOnClose
       width={600}
@@ -73,63 +87,131 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             <Input />
           </Form.Item>
           <Form.Item
-            label="角色名称"
+            label={intl.formatMessage({
+              id: 'sys.role.roleName',
+            })}
             name="roleName"
-            rules={[{ required: true, message: '请输入角色名称!' }]}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'sys.role.roleName',
+                })}`,
+              },
+            ]}
           >
             <Input maxLength={50} />
           </Form.Item>
 
           <Form.Item
-            label="权限字符"
+            label={intl.formatMessage({
+              id: 'sys.role.roleKey',
+            })}
             name="roleKey"
-            rules={[{ required: true, message: '请输入权限字符!' }]}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'sys.role.roleKey',
+                })}`,
+              },
+            ]}
           >
             <Input maxLength={50} />
           </Form.Item>
 
           <Form.Item
-            label="角色顺序"
+            label={intl.formatMessage({
+              id: 'sys.menu.orderNum',
+            })}
             name="roleSort"
-            rules={[{ required: true, message: '请输入角色顺序!' }]}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'sys.menu.orderNum',
+                })}`,
+              },
+            ]}
           >
             <InputNumber style={{ width: '100%' }} min={1} max={30} />
           </Form.Item>
 
           <Form.Item
-            label="状态"
+            label={intl.formatMessage({
+              id: 'sys.base.status',
+            })}
             name="status"
-            rules={[{ required: true, message: '请选择状态!' }]}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.select',
+                })}${intl.formatMessage({
+                  id: 'sys.base.status',
+                })}`,
+              },
+            ]}
           >
             <DictSelect authorword="sys_normal_disable" type="radio" />
           </Form.Item>
 
           <Form.Item
-            label="菜单权限"
-            name="menuIds"
-            rules={[{ required: false, message: '请选择菜单权限!' }]}
+            label={intl.formatMessage({
+              id: 'sys.menu.menuIds',
+            })}
+            name="roleSort"
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.select',
+                })}${intl.formatMessage({
+                  id: 'sys.menu.menuIds',
+                })}`,
+              },
+            ]}
           >
             <MultiTreeDataSelect />
           </Form.Item>
 
           <Form.Item
-            label="备注"
+            label={intl.formatMessage({
+              id: 'pages.form.remark',
+            })}
             name="remark"
-            rules={[{ required: true, message: '请输入备注!' }]}
+            labelCol={{ span: 3 }}
+            wrapperCol={{ span: 20 }}
+            rules={[
+              {
+                required: false,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'pages.form.remark',
+                })}`,
+              },
+            ]}
           >
-            <TextArea
-              placeholder="请输入备注"
-              autoSize={{ minRows: 3, maxRows: 5 }}
-              maxLength={500}
-            />
+            <TextArea autoSize={{ minRows: 3, maxRows: 5 }} maxLength={500} />
           </Form.Item>
 
           <div className="modal-btns">
             <Button type="primary" htmlType="submit" loading={confirmLoading}>
-              确定
+              {intl.formatMessage({
+                id: 'pages.btn.confirm',
+              })}
             </Button>
             <Button onClick={cancel} className="cancel-btn">
-              取消
+              {intl.formatMessage({
+                id: 'pages.btn.cancel',
+              })}
             </Button>
           </div>
         </Form>

@@ -39,5 +39,8 @@ export default {
   'sys.menu.btn': '按钮',
   'sys.menu.icon1': '菜单图标',
   'sys.role.role': '角色',
+  'sys.role.roleName': '角色名称',
+  'sys.role.roleKey': '权限字符',
+  'sys.role.menuIds': '菜单权限',
   'sys.post.name': '岗位',
 }
