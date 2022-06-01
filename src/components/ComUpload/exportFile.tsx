@@ -9,13 +9,13 @@ import { useIntl } from 'umi'
 export interface exportProps {
   title: string
   url: string
-  authorWord: string // 权限字符
+  authorword: string // 权限字符
   icon?: boolean
   params?: any
 }
 
 // 导出模板
-const ExportFile: React.FC<exportProps> = ({ title, url, authorWord, icon = true, params }) => {
+const ExportFile: React.FC<exportProps> = ({ title, url, authorword, icon = true, params }) => {
   const intl = useIntl()
 
   // 下载模板
@@ -61,7 +61,7 @@ const ExportFile: React.FC<exportProps> = ({ title, url, authorWord, icon = true
     return (
       <PermissionButton
         type="primary"
-        authorWord={authorWord}
+        authorword={authorword}
         icon={<VerticalAlignBottomOutlined />}
         onClick={download}
       >

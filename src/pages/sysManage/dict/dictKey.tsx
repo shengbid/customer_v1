@@ -80,7 +80,7 @@ const RoleManage: React.FC = (props: any) => {
         if (type === 'form') {
           return null
         }
-        return <DictSelect authorWord="sys_normal_disable" />
+        return <DictSelect authorword="sys_normal_disable" />
       },
     },
     {
@@ -113,14 +113,14 @@ const RoleManage: React.FC = (props: any) => {
       render: (_, recored) => [
         <MenuEditButton
           key="edit"
-          authorWord="system:dict:edit"
+          authorword="system:dict:edit"
           onClick={() => {
             setInfo(recored)
             setModalVisible(true)
           }}
         />,
         <MenuDelteButton
-          authorWord="system:dict:remove"
+          authorword="system:dict:remove"
           onClick={() => delteRecored(recored.dictCode)}
           key="delete"
         />,
@@ -179,7 +179,7 @@ const RoleManage: React.FC = (props: any) => {
           </Button>,
           <MenuAddButton
             key="add"
-            authorWord="system:dict:add"
+            authorword="system:dict:add"
             onClick={() => {
               setInfo({
                 dictType,
@@ -190,7 +190,7 @@ const RoleManage: React.FC = (props: any) => {
         ]}
         toolBarRender={() => [
           <MenuMultiDelButton
-            authorWord="system:dict:remove"
+            authorword="system:dict:remove"
             key="delete"
             onClick={multipleDelete}
           />,

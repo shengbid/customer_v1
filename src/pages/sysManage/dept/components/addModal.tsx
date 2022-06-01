@@ -153,7 +153,7 @@ const AddModal: React.FC<modalProps> = ({
                 name="status"
                 rules={[{ required: true, message: '请选择部门状态!' }]}
               >
-                <DictSelect authorWord="sys_normal_disable" type="radio" />
+                <DictSelect authorword="sys_normal_disable" type="radio" />
               </Form.Item>
             </Col>
           </Row>

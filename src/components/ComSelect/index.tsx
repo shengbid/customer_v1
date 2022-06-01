@@ -9,7 +9,7 @@ const { Option } = Select
 export interface iconSelectProps {
   placeholder?: string
   type?: string // 类型 deflaut下拉 radio  checkbox
-  authorWord: string
+  authorword: string
   value?: string
   onChange?: (value: any) => void
 }
@@ -23,12 +23,12 @@ const DictSelect: React.FC<iconSelectProps> = (props) => {
     placeholder = `${intl.formatMessage({
       id: 'pages.form.input',
     })}`,
-    authorWord,
+    authorword,
     type,
   } = props
 
   const getList = async () => {
-    const { data } = await getDictSelectList(authorWord)
+    const { data } = await getDictSelectList(authorword)
     if (data) setDictList(data)
   }
 

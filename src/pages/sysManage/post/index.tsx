@@ -55,7 +55,7 @@ const RoleManage: React.FC = () => {
         if (type === 'form') {
           return null
         }
-        return <DictSelect authorWord="sys_normal_disable" />
+        return <DictSelect authorword="sys_normal_disable" />
       },
     },
     {
@@ -90,14 +90,14 @@ const RoleManage: React.FC = () => {
       render: (_, recored) => [
         <MenuEditButton
           key="edit"
-          authorWord="system:post:edit"
+          authorword="system:post:edit"
           onClick={() => {
             setId(recored.postId)
             setModalVisible(true)
           }}
         />,
         <MenuDelteButton
-          authorWord="system:post:remove"
+          authorword="system:post:remove"
           onClick={() => delteRecored(recored.postId)}
           key="delete"
         />,
@@ -143,7 +143,7 @@ const RoleManage: React.FC = () => {
         actionRef={actionRef}
         headerTitle={
           <MenuAddButton
-            authorWord="system:post:add"
+            authorword="system:post:add"
             onClick={() => {
               setId(null)
               setModalVisible(true)
@@ -152,14 +152,14 @@ const RoleManage: React.FC = () => {
         }
         toolBarRender={() => [
           <ExportFile
-            authorWord="system:post:export"
+            authorword="system:post:export"
             key="export"
             params={params}
             title="岗位"
             url="post"
           />,
           <MenuMultiDelButton
-            authorWord="system:post:remove"
+            authorword="system:post:remove"
             key="delete"
             onClick={multipleDelete}
           />,

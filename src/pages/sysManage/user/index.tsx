@@ -85,7 +85,7 @@ const UserManage: React.FC = () => {
         if (type === 'form') {
           return null
         }
-        return <DictSelect authorWord="sys_normal_disable" />
+        return <DictSelect authorword="sys_normal_disable" />
       },
     },
     {
@@ -148,7 +148,7 @@ const UserManage: React.FC = () => {
       valueType: 'option',
       render: (_, recored) => [
         <MenuEditButton
-          authorWord="system:user:edit"
+          authorword="system:user:edit"
           key="edit"
           onClick={() => {
             setId(recored.userId)
@@ -156,12 +156,12 @@ const UserManage: React.FC = () => {
           }}
         />,
         <MenuDelteButton
-          authorWord="system:user:remove"
+          authorword="system:user:remove"
           onClick={() => delteUser(recored.userId)}
           key="delete"
         />,
         <PermissionButton
-          authorWord="system:user:resetPwd"
+          authorword="system:user:resetPwd"
           onClick={() => {
             setId(recored.userId)
             setPassVisible(true)
@@ -226,7 +226,7 @@ const UserManage: React.FC = () => {
         columns={columns}
         headerTitle={
           <MenuAddButton
-            authorWord="system:user:add"
+            authorword="system:user:add"
             onClick={() => {
               setId(null)
               setModalVisible(true)
@@ -235,7 +235,7 @@ const UserManage: React.FC = () => {
         }
         toolBarRender={() => [
           <ImportFile
-            authorWord="system:user:import"
+            authorword="system:user:import"
             key="import"
             url="user"
             title={intl.formatMessage({
@@ -244,7 +244,7 @@ const UserManage: React.FC = () => {
             handleSuccess={handleSuccess}
           />,
           <ExportFile
-            authorWord="system:user:export"
+            authorword="system:user:export"
             key="export"
             title={intl.formatMessage({
               id: 'sys.user.user',
@@ -252,7 +252,7 @@ const UserManage: React.FC = () => {
             url="user"
           />,
           <MenuMultiDelButton
-            authorWord="system:user:remove"
+            authorword="system:user:remove"
             key="delete"
             onClick={multipleDelete}
           />,

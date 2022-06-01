@@ -47,7 +47,7 @@ const RoleManage: React.FC = () => {
         if (type === 'form') {
           return null
         }
-        return <DictSelect authorWord="sys_normal_disable" />
+        return <DictSelect authorword="sys_normal_disable" />
       },
     },
     {
@@ -73,7 +73,7 @@ const RoleManage: React.FC = () => {
       render: (_, recored) => [
         <PermissionButton
           key="add"
-          authorWord="system:dept:add"
+          authorword="system:dept:add"
           type="link"
           onClick={() => {
             setId(recored.deptId)
@@ -86,7 +86,7 @@ const RoleManage: React.FC = () => {
         </PermissionButton>,
         <MenuEditButton
           key="edit"
-          authorWord="system:dept:edit"
+          authorword="system:dept:edit"
           onClick={() => {
             setId(recored.deptId)
             setAddType('')
@@ -95,7 +95,7 @@ const RoleManage: React.FC = () => {
         />,
         recored.deptId !== 100 ? (
           <MenuDelteButton
-            authorWord="system:dept:remove"
+            authorword="system:dept:remove"
             onClick={() => delteRecored(recored.deptId)}
             key="delete"
           />
@@ -145,7 +145,7 @@ const RoleManage: React.FC = () => {
         actionRef={actionRef}
         headerTitle={
           <MenuAddButton
-            authorWord="system:dept:add"
+            authorword="system:dept:add"
             onClick={() => {
               setId(null)
               setModalVisible(true)

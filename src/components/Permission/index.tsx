@@ -5,7 +5,7 @@ import type { ButtonProps } from 'antd'
 import { useEffect } from 'react'
 
 interface permissionProps extends ButtonProps {
-  authorWord: string
+  authorword: string
 }
 
 const PermissionButton: React.FC<permissionProps> = (props) => {
@@ -19,7 +19,7 @@ const PermissionButton: React.FC<permissionProps> = (props) => {
       if (currentUser.permissionRoles.includes('admin')) {
         setIsAdmin(true)
       } else {
-        setIsPermisson(currentUser.permissions.includes(props.authorWord))
+        setIsPermisson(currentUser.permissions.includes(props.authorword))
       }
     }
   }, [])

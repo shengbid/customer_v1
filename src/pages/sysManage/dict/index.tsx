@@ -51,7 +51,7 @@ const RoleManage: React.FC = () => {
         if (type === 'form') {
           return null
         }
-        return <DictSelect authorWord="sys_normal_disable" />
+        return <DictSelect authorword="sys_normal_disable" />
       },
     },
     {
@@ -93,14 +93,14 @@ const RoleManage: React.FC = () => {
       render: (_, recored) => [
         <MenuEditButton
           key="edit"
-          authorWord="system:dict:edit"
+          authorword="system:dict:edit"
           onClick={() => {
             setId(recored.dictId)
             setModalVisible(true)
           }}
         />,
         <MenuDelteButton
-          authorWord="system:dict:remove"
+          authorword="system:dict:remove"
           onClick={() => delteRecored(recored.dictId)}
           key="delete"
         />,
@@ -145,7 +145,7 @@ const RoleManage: React.FC = () => {
         actionRef={actionRef}
         headerTitle={
           <MenuAddButton
-            authorWord="system:dict:add"
+            authorword="system:dict:add"
             onClick={() => {
               setId(null)
               setModalVisible(true)
@@ -154,14 +154,14 @@ const RoleManage: React.FC = () => {
         }
         toolBarRender={() => [
           <ExportFile
-            authorWord="system:dict:export"
+            authorword="system:dict:export"
             key="export"
             params={params}
             title="数据字典"
             url="dict/type"
           />,
           <MenuMultiDelButton
-            authorWord="system:dict:remove"
+            authorword="system:dict:remove"
             key="delete"
             onClick={multipleDelete}
           />,

@@ -10,11 +10,11 @@ import { useIntl } from 'umi'
 export interface importFileProps {
   url: string // 请求地址
   title: string // 下载模板名称
-  authorWord: string // 权限字符
+  authorword: string // 权限字符
   handleSuccess: () => void
 }
 // 导入文件
-const ImportFile: React.FC<importFileProps> = ({ url, title, authorWord, handleSuccess }) => {
+const ImportFile: React.FC<importFileProps> = ({ url, title, authorword, handleSuccess }) => {
   const [fileVisible, setFileVisible] = useState<boolean>(false)
   const [action, setAction] = useState<string>(
     `${URL_PREFIX}/system/${url}/importData?updateSupport=false`,
@@ -66,7 +66,7 @@ const ImportFile: React.FC<importFileProps> = ({ url, title, authorWord, handleS
   return (
     <>
       <PermissionButton
-        authorWord={authorWord}
+        authorword={authorword}
         key="import"
         type="primary"
         icon={<VerticalAlignTopOutlined />}
@@ -87,7 +87,7 @@ const ImportFile: React.FC<importFileProps> = ({ url, title, authorWord, handleS
       >
         <div>
           {intl.formatMessage({ id: 'pages.modal.importTit' })}
-          <ExportFile authorWord="" title={title} url={url} icon={false} />
+          <ExportFile authorword="" title={title} url={url} icon={false} />
         </div>
         <div style={{ margin: '16px 0' }}>
           <span style={{ marginRight: 10 }}>

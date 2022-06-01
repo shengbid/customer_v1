@@ -228,7 +228,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                   },
                 ]}
               >
-                <DictSelect authorWord="sys_user_sex" />
+                <DictSelect authorword="sys_user_sex" />
               </Form.Item>
             </Col>
           </Row>
@@ -271,7 +271,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                   },
                 ]}
               >
-                <DictSelect authorWord="sys_normal_disable" type="radio" />
+                <DictSelect authorword="sys_normal_disable" type="radio" />
               </Form.Item>
             </Col>
           </Row>

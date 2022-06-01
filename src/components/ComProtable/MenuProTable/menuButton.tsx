@@ -8,10 +8,10 @@ import styles from './index.less'
 
 const style = { marginLeft: '3px' }
 // 新增
-const MenuAddButton: React.FC<any> = ({ children, onClick, authorWord }) => {
+const MenuAddButton: React.FC<any> = ({ children, onClick, authorword }) => {
   const intl = useIntl()
   return (
-    <PermissionButton authorWord={authorWord} type="primary" onClick={onClick}>
+    <PermissionButton authorword={authorword} type="primary" onClick={onClick}>
       <PlusOutlined />
       <span className={`${styles['yue-pro-table-btn']}`}>
         {children ? children : intl.formatMessage({ id: 'pages.btn.add' })}
@@ -20,10 +20,10 @@ const MenuAddButton: React.FC<any> = ({ children, onClick, authorWord }) => {
   )
 }
 // 批量删除
-const MenuMultiDelButton: React.FC<any> = ({ children, onClick, authorWord }) => {
+const MenuMultiDelButton: React.FC<any> = ({ children, onClick, authorword }) => {
   const intl = useIntl()
   return (
-    <PermissionButton authorWord={authorWord} type="primary" onClick={onClick}>
+    <PermissionButton authorword={authorword} type="primary" onClick={onClick}>
       <DeleteOutlined />
       <span className={`${styles['yue-pro-table-btn']}`}>
         {children ? children : intl.formatMessage({ id: 'pages.btn.batchDelete' })}
@@ -32,10 +32,10 @@ const MenuMultiDelButton: React.FC<any> = ({ children, onClick, authorWord }) =>
   )
 }
 // 修改
-const MenuEditButton: React.FC<any> = ({ children, onClick, authorWord }) => {
+const MenuEditButton: React.FC<any> = ({ children, onClick, authorword }) => {
   const intl = useIntl()
   return (
-    <PermissionButton authorWord={authorWord} type="link" onClick={onClick}>
+    <PermissionButton authorword={authorword} type="link" onClick={onClick}>
       <EditOutlined />
       <span style={style}>
         {children ? children : intl.formatMessage({ id: 'pages.btn.edit' })}
@@ -44,11 +44,11 @@ const MenuEditButton: React.FC<any> = ({ children, onClick, authorWord }) => {
   )
 }
 // 删除
-const MenuDelteButton: React.FC<any> = ({ children, onClick, authorWord }) => {
+const MenuDelteButton: React.FC<any> = ({ children, onClick, authorword }) => {
   const intl = useIntl()
   return (
     <Popconfirm title={intl.formatMessage({ id: 'pages.btn.deleteInfo' })} onConfirm={onClick}>
-      <PermissionButton authorWord={authorWord} type="link">
+      <PermissionButton authorword={authorword} type="link">
         <DeleteOutlined />
         <span style={style}>
           {children ? children : intl.formatMessage({ id: 'pages.btn.delete' })}

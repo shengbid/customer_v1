@@ -184,7 +184,7 @@ const PersonalCenter: React.FC = () => {
                         },
                       ]}
                     >
-                      <DictSelect authorWord="sys_user_sex" type="radio" />
+                      <DictSelect authorword="sys_user_sex" type="radio" />
                     </Form.Item>
 
                     <div className="middle-btns">
