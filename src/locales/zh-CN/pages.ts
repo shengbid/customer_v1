@@ -33,6 +33,8 @@ export default {
   'pages.form.delete': '删除成功',
   'pages.form.yes': '是',
   'pages.form.no': '否',
+  'pages.form.show': '显示',
+  'pages.form.hidden': '隐藏',
   'pages.form.success': '成功',
   'pages.form.remark': '备注',
   'pages.login.title': '吉祥科创',
