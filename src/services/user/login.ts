@@ -1,5 +1,5 @@
 import { request } from 'umi'
-import type { loginProps, userRoleProps } from '@/services/types'
+import type { loginProps, userRoleProps, userProps } from '@/services/types'
 
 /** 登录 */
 export async function login(data: loginProps) {
@@ -24,4 +24,20 @@ export async function getCaptcha() {
 /** 获取登录信息 */
 export async function queryCurrentUser() {
   return request<userRoleProps>('/system/user/getInfo')
+}
+
+/** 获取个人信息 */
+export async function queryUserCenter(data?: userProps) {
+  return request<{ data: userProps; roleGroup: string }>('/system/user/profile', {
+    method: data ? 'put' : 'get',
+    data,
+  })
+}
+
+/** 修改密码 */
+export async function updatePassWord(params: { oldPassword: string; newPassword: string }) {
+  return request('/system/user/profile/updatePwd', {
+    method: 'put',
+    params,
+  })
 }

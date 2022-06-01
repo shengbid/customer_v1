@@ -15,7 +15,9 @@ export interface LoginResult {
 export interface userProps {
   userName: string
   nickName?: string
-  phone?: string
+  phonenumber?: string
+  email?: string
+  roleGroup?: string
   status?: string
   createTime?: string
   dept: deptListProps
