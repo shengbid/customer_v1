@@ -1,3 +1,15 @@
+import zhRule from '@/locales/zh-CN/rules'
+import enRule from '@/locales/zh-CN/rules'
+import twRule from '@/locales/zh-CN/rules'
+import { getLocale } from 'umi'
+
+const RegObj = {
+  'zh-CN': zhRule,
+  'en-US': enRule,
+  'zh-TW': twRule,
+}
+const RegText = RegObj[getLocale()]
+
 export const REGS = {
   // 手机号正则表达式
   TELEPHONE_REG: /^1[3-9]\d{9}$/,
@@ -19,46 +31,46 @@ export const REGS = {
   ID_CARD_REG:
     /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/,
 }
-
+console.log(RegText, getLocale())
 // 身份证正则的验证
 export const idCardReg = {
-  message: '身份证格式不正确',
+  message: RegText.idCard,
   pattern: REGS.ID_CARD_REG,
 }
 
 // 数字正则的验证
 export const numReg = {
-  message: '最多输入11位数,小数最多保留4位',
+  message: RegText.number,
   pattern: /^\d{0,11}(\.\d{0,4})?$/,
 }
 
 // 整数验证
 export const integerReg = {
-  message: '最多输入11位整数',
+  message: RegText.integer,
   // pattern: /^[0-9]\d{0,14}$/
   pattern: /^(\d{0,11})$/,
 }
 
 // 电话号码验证
 export const phoneReg = {
-  message: '手机号码格式不正确',
+  message: RegText.phone,
   pattern: REGS.TELEPHONE_REG,
 }
 
 // 邮箱验证
 export const emailReg = {
-  message: '邮箱格式不正确',
+  message: RegText.email,
   pattern: REGS.EMAIL_REG,
 }
 
 // 密码验证
 export const passwordReg = {
-  message: '密码必须包含数字,字母;长度8-16位',
+  message: RegText.password,
   pattern: REGS.PASS_WORD,
 }
 
 // 银行卡号验证
 export const bankCardReg = {
-  message: '银行卡号格式不正确',
+  message: RegText.bankCard,
   pattern: REGS.BANK_CARD_REG,
 }
