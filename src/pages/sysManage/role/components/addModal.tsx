@@ -164,7 +164,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
           <Form.Item
             label={intl.formatMessage({
-              id: 'sys.menu.menuIds',
+              id: 'sys.role.menuIds',
             })}
             name="roleSort"
             rules={[
@@ -173,7 +173,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                 message: `${intl.formatMessage({
                   id: 'pages.form.select',
                 })}${intl.formatMessage({
-                  id: 'sys.menu.menuIds',
+                  id: 'sys.role.menuIds',
                 })}`,
               },
             ]}
@@ -186,8 +186,6 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
               id: 'pages.form.remark',
             })}
             name="remark"
-            labelCol={{ span: 3 }}
-            wrapperCol={{ span: 20 }}
             rules={[
               {
                 required: false,

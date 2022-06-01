@@ -43,4 +43,12 @@ export default {
   'sys.role.roleKey': '权限字符',
   'sys.role.menuIds': '菜单权限',
   'sys.post.name': '岗位',
+  'sys.post.postName': '岗位名称',
+  'sys.post.postCode': '岗位编码',
+  'sys.post.postSort': '岗位顺序',
+  'sys.dept.name': '部门',
+  'sys.dept.deptName': '部门名称',
+  'sys.dept.parentId': '上级部门',
+  'sys.dept.leader': '负责人',
+  'sys.dept.status': '部门状态',
 }

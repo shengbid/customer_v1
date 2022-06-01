@@ -280,7 +280,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             <Col span={12}>
               <Form.Item
                 label={intl.formatMessage({
-                  id: 'sys.user.roles',
+                  id: 'sys.role.role',
                 })}
                 name="roleIds"
                 rules={[
@@ -289,7 +289,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                     message: `${intl.formatMessage({
                       id: 'pages.form.select',
                     })}${intl.formatMessage({
-                      id: 'sys.user.roles',
+                      id: 'sys.role.role',
                     })}`,
                   },
                 ]}

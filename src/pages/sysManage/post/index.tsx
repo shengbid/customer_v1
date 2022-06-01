@@ -7,6 +7,7 @@ import { getPostList, deletePost } from '@/services'
 import ExportFile from '@/components/ComUpload/exportFile'
 import DictSelect from '@/components/ComSelect'
 import AddModal from './components/addModal'
+import { useIntl } from 'umi'
 
 const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
@@ -15,39 +16,53 @@ const RoleManage: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
   const [params, setParams] = useState<postParamProps>()
-
+  const intl = useIntl()
   const actionRef = useRef<ActionType>()
 
   // 删除用户
   const delteRecored = async (ids: number | string) => {
     await deletePost(ids)
-    message.success('删除成功')
+    message.success(
+      intl.formatMessage({
+        id: 'pages.form.delete',
+      }),
+    )
     actionRef.current?.reload()
   }
 
   const columns: ProColumns<postListProps>[] = [
     {
-      title: '序号',
+      title: intl.formatMessage({
+        id: 'pages.table.index',
+      }),
       valueType: 'index',
     },
     {
-      title: '岗位名称',
+      title: intl.formatMessage({
+        id: 'sys.post.postName',
+      }),
       key: 'postName',
       dataIndex: 'postName',
     },
     {
-      title: '岗位编码',
+      title: intl.formatMessage({
+        id: 'sys.post.postCode',
+      }),
       key: 'postCode',
       dataIndex: 'postCode',
     },
     {
-      title: '岗位排序',
+      title: intl.formatMessage({
+        id: 'sys.menu.orderNum1',
+      }),
       key: 'postSort',
       hideInSearch: true,
       dataIndex: 'postSort',
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInTable: true,
@@ -59,22 +74,40 @@ const RoleManage: React.FC = () => {
       },
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInSearch: true,
       render: (val) =>
-        val === '0' ? <Tag color="processing">正常</Tag> : <Tag color="error">停用</Tag>,
+        val === '0' ? (
+          <Tag color="processing">
+            {intl.formatMessage({
+              id: 'sys.base.normal',
+            })}
+          </Tag>
+        ) : (
+          <Tag color="error">
+            {intl.formatMessage({
+              id: 'sys.base.out',
+            })}
+          </Tag>
+        ),
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({
+        id: 'sys.base.createTime',
+      }),
       key: 'createTime',
       dataIndex: 'createTime',
       hideInSearch: true,
       valueType: 'dateTime',
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({
+        id: 'sys.base.createTime',
+      }),
       hideInTable: true,
       dataIndex: 'createTime',
       valueType: 'dateRange',
@@ -83,7 +116,9 @@ const RoleManage: React.FC = () => {
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({
+        id: 'pages.table.option',
+      }),
       width: 150,
       key: 'option',
       valueType: 'option',
@@ -120,11 +155,19 @@ const RoleManage: React.FC = () => {
     console.log(selectedRowKeys)
     if (selectedRowKeys.length) {
       await deletePost(selectedRowKeys.join(','))
-      message.success('删除成功')
+      message.success(
+        intl.formatMessage({
+          id: 'pages.form.delete',
+        }),
+      )
       actionRef.current?.reload()
       setSelectedRowKeys([])
     } else {
-      message.warning('请先选择要删除的数据!')
+      message.warning(
+        intl.formatMessage({
+          id: 'pages.table.oneDataDelete',
+        }),
+      )
     }
   }
 
@@ -155,7 +198,9 @@ const RoleManage: React.FC = () => {
             authorword="system:post:export"
             key="export"
             params={params}
-            title="岗位"
+            title={intl.formatMessage({
+              id: 'sys.post.name',
+            })}
             url="post"
           />,
           <MenuMultiDelButton
