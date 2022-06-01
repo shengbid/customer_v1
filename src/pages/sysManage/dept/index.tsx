@@ -8,6 +8,7 @@ import { getDeptList, deleteDept } from '@/services'
 import DictSelect from '@/components/ComSelect'
 import AddModal from './components/addModal'
 import PermissionButton from '@/components/Permission'
+import { useIntl } from 'umi'
 
 const { MenuAddButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
@@ -16,30 +17,40 @@ const RoleManage: React.FC = () => {
   const [expandRows, setExpandRows] = useState<number[]>([])
   const [addType, setAddType] = useState<string>()
   const [id, setId] = useState<any>()
-
+  const intl = useIntl()
   const actionRef = useRef<ActionType>()
 
   // 删除用户
   const delteRecored = async (ids: number) => {
     await deleteDept(ids)
-    message.success('删除成功')
+    message.success(
+      intl.formatMessage({
+        id: 'pages.form.delete',
+      }),
+    )
     actionRef.current?.reload()
   }
 
   const columns: ProColumns<deptListProps>[] = [
     {
-      title: '部门名称',
+      title: intl.formatMessage({
+        id: 'sys.base.createTime',
+      }),
       key: 'deptName',
       dataIndex: 'deptName',
     },
     {
-      title: '排序',
+      title: intl.formatMessage({
+        id: 'sys.dept.deptName',
+      }),
       key: 'orderNum',
       dataIndex: 'orderNum',
       hideInSearch: true,
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInTable: true,
@@ -51,22 +62,40 @@ const RoleManage: React.FC = () => {
       },
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInSearch: true,
       render: (val) =>
-        val === '0' ? <Tag color="processing">正常</Tag> : <Tag color="error">停用</Tag>,
+        val === '0' ? (
+          <Tag color="processing">
+            {intl.formatMessage({
+              id: 'sys.base.normal',
+            })}
+          </Tag>
+        ) : (
+          <Tag color="error">
+            {intl.formatMessage({
+              id: 'sys.base.out',
+            })}
+          </Tag>
+        ),
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({
+        id: 'sys.base.createTime',
+      }),
       key: 'createTime',
       dataIndex: 'createTime',
       hideInSearch: true,
       valueType: 'dateTime',
     },
     {
-      title: '操作',
+      title: intl.formatMessage({
+        id: 'pages.table.option',
+      }),
       width: 210,
       key: 'option',
       valueType: 'option',
@@ -82,7 +111,9 @@ const RoleManage: React.FC = () => {
           }}
         >
           <PlusOutlined />
-          新增
+          {intl.formatMessage({
+            id: 'pages.btn.add',
+          })}
         </PermissionButton>,
         <MenuEditButton
           key="edit"
