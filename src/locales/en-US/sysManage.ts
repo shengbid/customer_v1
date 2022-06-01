@@ -1,0 +1,18 @@
+export default {
+  'sys.user.title': '个人信息',
+  'sys.user.base': '基本资料',
+  'sys.user.userName': '用户名称',
+  'sys.user.dept': '部门',
+  'sys.user.dept1': '所属部门',
+  'sys.user.phonenumber': '手机号码',
+  'sys.base.status': '状态',
+  'sys.base.createTime': '创建时间',
+  'sys.user.role': '所属角色',
+  'sys.user.nickName': '用户昵称',
+  'sys.user.email': '邮箱',
+  'sys.user.email1': '用户邮箱',
+  'sys.user.sex': '性别',
+  'sys.user.oldPass': '旧密码',
+  'sys.user.newPass': '新密码',
+  'sys.user.confirmPass': '确认密码',
+}
