@@ -6,6 +6,7 @@ import TreeDataSelect from '@/components/ComSelect/treeSelect'
 import { emailReg, passwordReg, phoneReg } from '@/utils/reg'
 import { handleTreeData } from '@/utils/base'
 import { getUser, addUser, userDetail } from '@/services'
+import { useIntl } from 'umi'
 
 const { TextArea } = Input
 
@@ -15,7 +16,14 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [spinning, setSpinning] = useState<boolean>(false)
   const [form] = Form.useForm()
-  const text = info ? '编辑' : '添加'
+  const intl = useIntl()
+  const text = info
+    ? intl.formatMessage({
+        id: 'pages.btn.edit',
+      })
+    : intl.formatMessage({
+        id: 'pages.btn.add',
+      })
 
   const getInfo = async () => {
     setSpinning(true)
@@ -49,7 +57,11 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
       setConfirmLoading(false)
       return
     }
-    message.success(`${text}成功`)
+    message.success(
+      `${text}${intl.formatMessage({
+        id: 'pages.form.success',
+      })}`,
+    )
     handleSubmit()
     form.resetFields()
   }
@@ -61,7 +73,9 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
   return (
     <Modal
-      title={`${text}用户`}
+      title={`${text}${text}${intl.formatMessage({
+        id: 'sys.user.user',
+      })}`}
       maskClosable={false}
       destroyOnClose
       width={'60%'}
@@ -89,20 +103,43 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             <Row>
               <Col span={12}>
                 <Form.Item
-                  label="用户名称"
+                  label={intl.formatMessage({
+                    id: 'sys.user.userName',
+                  })}
                   name="userName"
-                  rules={[{ required: true, message: '请输入用户名称!' }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: `${intl.formatMessage({
+                        id: 'pages.form.input',
+                      })}${intl.formatMessage({
+                        id: 'sys.user.userName',
+                      })}`,
+                    },
+                  ]}
                 >
                   <Input maxLength={50} />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item
-                  label="用户密码"
+                  label={intl.formatMessage({
+                    id: 'sys.user.password',
+                  })}
                   name="password"
-                  rules={[{ required: true, message: '请输入用户密码!' }, passwordReg]}
+                  rules={[
+                    {
+                      required: true,
+                      message: `${intl.formatMessage({
+                        id: 'pages.form.input',
+                      })}${intl.formatMessage({
+                        id: 'sys.user.password',
+                      })}`,
+                    },
+                    passwordReg,
+                  ]}
                 >
-                  <Input />
+                  <Input maxLength={20} />
                 </Form.Item>
               </Col>
             </Row>
@@ -111,18 +148,42 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
           <Row>
             <Col span={12}>
               <Form.Item
-                label="手机号码"
+                label={intl.formatMessage({
+                  id: 'sys.user.phonenumber',
+                })}
                 name="phonenumber"
-                rules={[{ required: true, message: '请输入手机号码!' }, phoneReg]}
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.input',
+                    })}${intl.formatMessage({
+                      id: 'sys.user.phonenumber',
+                    })}`,
+                  },
+                  phoneReg,
+                ]}
               >
                 <Input maxLength={11} />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
-                label="邮箱"
+                label={intl.formatMessage({
+                  id: 'sys.user.email',
+                })}
                 name="email"
-                rules={[{ required: true, message: '请输入邮箱!' }, emailReg]}
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.input',
+                    })}${intl.formatMessage({
+                      id: 'sys.user.email',
+                    })}`,
+                  },
+                  emailReg,
+                ]}
               >
                 <Input maxLength={50} />
               </Form.Item>
@@ -132,18 +193,40 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
           <Row>
             <Col span={12}>
               <Form.Item
-                label="所属部门"
+                label={intl.formatMessage({
+                  id: 'sys.user.dept',
+                })}
                 name="deptId"
-                rules={[{ required: true, message: '请选择所属部门!' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.select',
+                    })}${intl.formatMessage({
+                      id: 'sys.user.dept',
+                    })}`,
+                  },
+                ]}
               >
                 <TreeDataSelect />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
-                label="用户性别"
+                label={intl.formatMessage({
+                  id: 'sys.user.sex',
+                })}
                 name="sex"
-                rules={[{ required: true, message: '请选择用户性别!' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.select',
+                    })}${intl.formatMessage({
+                      id: 'sys.user.sex',
+                    })}`,
+                  },
+                ]}
               >
                 <DictSelect authorWord="sys_user_sex" />
               </Form.Item>
@@ -153,18 +236,40 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
           <Row>
             <Col span={12}>
               <Form.Item
-                label="用户昵称"
+                label={intl.formatMessage({
+                  id: 'sys.user.nickName',
+                })}
                 name="nickName"
-                rules={[{ required: true, message: '请输入用户昵称!' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.input',
+                    })}${intl.formatMessage({
+                      id: 'sys.user.nickName',
+                    })}`,
+                  },
+                ]}
               >
                 <Input maxLength={50} />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
-                label="状态"
+                label={intl.formatMessage({
+                  id: 'sys.base.status',
+                })}
                 name="status"
-                rules={[{ required: true, message: '请选择状态!' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.select',
+                    })}${intl.formatMessage({
+                      id: 'sys.base.status',
+                    })}`,
+                  },
+                ]}
               >
                 <DictSelect authorWord="sys_normal_disable" type="radio" />
               </Form.Item>
@@ -174,56 +279,77 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
           <Row>
             <Col span={12}>
               <Form.Item
-                label="角色"
+                label={intl.formatMessage({
+                  id: 'sys.user.roles',
+                })}
                 name="roleIds"
-                rules={[{ required: true, message: '请选择角色!' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.select',
+                    })}${intl.formatMessage({
+                      id: 'sys.user.roles',
+                    })}`,
+                  },
+                ]}
               >
-                <Select
-                  mode="multiple"
-                  allowClear
-                  style={{ width: '100%' }}
-                  placeholder="请选择"
-                  options={roleList}
-                />
+                <Select mode="multiple" allowClear style={{ width: '100%' }} options={roleList} />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
-                label="岗位"
+                label={intl.formatMessage({
+                  id: 'sys.post.name',
+                })}
                 name="postIds"
-                rules={[{ required: true, message: '请选择岗位!' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.select',
+                    })}${intl.formatMessage({
+                      id: 'sys.post.name',
+                    })}`,
+                  },
+                ]}
               >
-                <Select
-                  mode="multiple"
-                  allowClear
-                  style={{ width: '100%' }}
-                  placeholder="请选择"
-                  options={postsList}
-                />
+                <Select mode="multiple" allowClear style={{ width: '100%' }} options={postsList} />
               </Form.Item>
             </Col>
           </Row>
 
           <Form.Item
-            label="备注"
+            label={intl.formatMessage({
+              id: 'pages.form.remark',
+            })}
             name="remark"
             labelCol={{ span: 3 }}
             wrapperCol={{ span: 20 }}
-            rules={[{ required: false, message: '请输入备注!' }]}
+            rules={[
+              {
+                required: false,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'pages.form.remark',
+                })}`,
+              },
+            ]}
           >
-            <TextArea
-              placeholder="请输入备注"
-              maxLength={500}
-              autoSize={{ minRows: 3, maxRows: 5 }}
-            />
+            <TextArea maxLength={500} autoSize={{ minRows: 3, maxRows: 5 }} />
           </Form.Item>
 
           <div className="modal-btns">
             <Button type="primary" htmlType="submit" loading={confirmLoading}>
-              确定
+              {intl.formatMessage({
+                id: 'pages.btn.confirm',
+              })}
             </Button>
             <Button onClick={cancel} className="cancel-btn">
-              取消
+              {intl.formatMessage({
+                id: 'pages.btn.cancel',
+              })}
             </Button>
           </div>
         </Form>

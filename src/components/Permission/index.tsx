@@ -13,7 +13,7 @@ const PermissionButton: React.FC<permissionProps> = (props) => {
   const [isPermisson, setIsPermisson] = useState<boolean>(false) // 是否有按钮权限
   const { initialState } = useModel('@@initialState')
 
-  const { currentUser } = initialState
+  const { currentUser }: any = initialState
   useEffect(() => {
     if (currentUser && currentUser.permissionRoles) {
       if (currentUser.permissionRoles.includes('admin')) {

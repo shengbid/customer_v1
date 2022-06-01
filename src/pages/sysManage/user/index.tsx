@@ -11,6 +11,7 @@ import AddModal from './components/addModal'
 import ResetPass from './components/resetPass'
 import PermissionButton from '@/components/Permission'
 import { KeyOutlined } from '@ant-design/icons'
+import { useIntl } from 'umi'
 
 const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
@@ -19,46 +20,64 @@ const UserManage: React.FC = () => {
   const [passVisible, setPassVisible] = useState<boolean>(false)
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
-
+  const intl = useIntl()
   const actionRef = useRef<ActionType>()
   // 改变状态
   const changeStatus = async (data: { status: string; userId: number }) => {
     await changeUserStatus(data)
-    message.success('修改成功')
+    message.success(
+      intl.formatMessage({
+        id: 'pages.form.edit',
+      }),
+    )
     actionRef.current?.reload()
   }
 
   // 删除用户
   const delteUser = async (ids: number | string) => {
     await deleteUser(ids)
-    message.success('删除成功')
+    message.success(
+      intl.formatMessage({
+        id: 'pages.form.delete',
+      }),
+    )
     actionRef.current?.reload()
   }
 
   const columns: ProColumns<userProps>[] = [
     {
-      title: '序号',
+      title: intl.formatMessage({
+        id: 'pages.table.index',
+      }),
       valueType: 'index',
     },
     {
-      title: '用户名称',
+      title: intl.formatMessage({
+        id: 'sys.user.userName',
+      }),
       key: 'userName',
       dataIndex: 'userName',
     },
     {
-      title: '部门',
+      title: intl.formatMessage({
+        id: 'sys.user.dept',
+      }),
       key: 'dept',
       hideInSearch: true,
       dataIndex: 'dept',
       render: (val, recored) => <>{recored.dept ? recored.dept.deptName : '-'}</>,
     },
     {
-      title: '手机号码',
+      title: intl.formatMessage({
+        id: 'sys.user.phonenumber',
+      }),
       key: 'phonenumber',
       dataIndex: 'phonenumber',
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInTable: true,
@@ -70,13 +89,27 @@ const UserManage: React.FC = () => {
       },
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInSearch: true,
       render: (val, recored) => (
         <Popconfirm
-          title={`确定要${val === '0' ? '停用' : '启用'}${recored.userName}用户?`}
+          title={`${intl.formatMessage({
+            id: 'pages.table.confirm',
+          })}${
+            val === '0'
+              ? intl.formatMessage({
+                  id: 'pages.table.off',
+                })
+              : intl.formatMessage({
+                  id: 'pages.table.on',
+                })
+          }${recored.userName}${intl.formatMessage({
+            id: 'sys.user.user',
+          })}?`}
           onConfirm={() =>
             changeStatus({ status: val === '0' ? '1' : '0', userId: recored.userId })
           }
@@ -86,14 +119,19 @@ const UserManage: React.FC = () => {
       ),
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({
+        id: 'sys.base.createTime',
+      }),
       key: 'createTime',
       dataIndex: 'createTime',
       hideInSearch: true,
+      width: 170,
       valueType: 'dateTime',
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({
+        id: 'sys.base.createTime',
+      }),
       hideInTable: true,
       dataIndex: 'createTime',
       valueType: 'dateRange',
@@ -102,7 +140,9 @@ const UserManage: React.FC = () => {
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({
+        id: 'pages.table.option',
+      }),
       width: 210,
       key: 'option',
       valueType: 'option',
@@ -130,7 +170,9 @@ const UserManage: React.FC = () => {
           type="link"
         >
           <KeyOutlined />
-          重置密码
+          {intl.formatMessage({
+            id: 'sys.user.resetPass',
+          })}
         </PermissionButton>,
       ],
     },
@@ -148,11 +190,19 @@ const UserManage: React.FC = () => {
   const multipleDelete = async () => {
     if (selectedRowKeys.length) {
       await deleteUser(selectedRowKeys.join(','))
-      message.success('删除成功')
+      message.success(
+        intl.formatMessage({
+          id: 'pages.form.delete',
+        }),
+      )
       actionRef.current?.reload()
       setSelectedRowKeys([])
     } else {
-      message.warning('请先选择要删除的数据!')
+      message.warning(
+        intl.formatMessage({
+          id: 'pages.table.oneDataDelete',
+        }),
+      )
     }
   }
 
@@ -188,10 +238,19 @@ const UserManage: React.FC = () => {
             authorWord="system:user:import"
             key="import"
             url="user"
-            title="用户"
+            title={intl.formatMessage({
+              id: 'sys.user.user',
+            })}
             handleSuccess={handleSuccess}
           />,
-          <ExportFile authorWord="system:user:export" key="export" title="用户" url="user" />,
+          <ExportFile
+            authorWord="system:user:export"
+            key="export"
+            title={intl.formatMessage({
+              id: 'sys.user.user',
+            })}
+            url="user"
+          />,
           <MenuMultiDelButton
             authorWord="system:user:remove"
             key="delete"

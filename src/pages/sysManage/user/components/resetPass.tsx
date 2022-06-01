@@ -3,10 +3,12 @@ import type { addModalProps } from '@/services/types'
 import { Modal, Button, Form, Input, message } from 'antd'
 import { resetPass } from '@/services'
 import { passwordReg } from '@/utils/reg'
+import { useIntl } from 'umi'
 
 const ResetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel, info }) => {
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [form] = Form.useForm()
+  const intl = useIntl()
 
   const handleOk = async (values: any) => {
     // console.log(values)
@@ -18,7 +20,11 @@ const ResetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handle
       setConfirmLoading(false)
       return
     }
-    message.success(`重置成功`)
+    message.success(
+      intl.formatMessage({
+        id: 'sys.user.resetPassInfo',
+      }),
+    )
     handleSubmit()
     form.resetFields()
   }
@@ -30,7 +36,9 @@ const ResetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handle
 
   return (
     <Modal
-      title={`重置密码`}
+      title={intl.formatMessage({
+        id: 'sys.user.resetPass',
+      })}
       maskClosable={false}
       destroyOnClose
       width={600}
@@ -47,19 +55,35 @@ const ResetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handle
         autoComplete="off"
       >
         <Form.Item
-          label="新密码"
+          label={intl.formatMessage({
+            id: 'sys.user.newPass',
+          })}
           name="password"
-          rules={[{ required: true, message: '请输入新密码!' }, passwordReg]}
+          rules={[
+            {
+              required: true,
+              message: `${intl.formatMessage({
+                id: 'pages.form.input',
+              })}${intl.formatMessage({
+                id: 'sys.user.newPass',
+              })}`,
+            },
+            passwordReg,
+          ]}
         >
           <Input />
         </Form.Item>
 
         <div className="modal-btns">
           <Button type="primary" htmlType="submit" loading={confirmLoading}>
-            确定
+            {intl.formatMessage({
+              id: 'pages.btn.confirm',
+            })}
           </Button>
           <Button onClick={cancel} className="cancel-btn">
-            取消
+            {intl.formatMessage({
+              id: 'pages.btn.cancel',
+            })}
           </Button>
         </div>
       </Form>
