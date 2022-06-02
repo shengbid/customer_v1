@@ -133,14 +133,14 @@ const RoleManage: React.FC = () => {
       render: (_, recored) => [
         <MenuEditButton
           key="edit"
-          authorword="system:post:edit"
+          authorword="system:config:edit"
           onClick={() => {
             setId(recored.configId)
             setModalVisible(true)
           }}
         />,
         <MenuDelteButton
-          authorword="system:post:remove"
+          authorword="system:config:remove"
           onClick={() => delteRecored(recored.configId)}
           key="delete"
         />,
@@ -194,7 +194,7 @@ const RoleManage: React.FC = () => {
         actionRef={actionRef}
         headerTitle={
           <MenuAddButton
-            authorword="system:post:add"
+            authorword="system:config:add"
             onClick={() => {
               setId(null)
               setModalVisible(true)
@@ -203,16 +203,16 @@ const RoleManage: React.FC = () => {
         }
         toolBarRender={() => [
           <ExportFile
-            authorword="system:post:export"
+            authorword="system:config:export"
             key="export"
             params={params}
             title={intl.formatMessage({
               id: 'sys.params.name',
             })}
-            url="post"
+            url="config"
           />,
           <MenuMultiDelButton
-            authorword="system:post:remove"
+            authorword="system:config:remove"
             key="delete"
             onClick={multipleDelete}
           />,
