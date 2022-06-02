@@ -38,6 +38,7 @@ export default {
   'pages.form.show': '显示',
   'pages.form.hidden': '隐藏',
   'pages.form.success': '成功',
+  'pages.form.fail': '失败',
   'pages.form.remark': '备注',
   'pages.login.title': '吉祥科创',
   'pages.login.subtitle': '供应链金融',

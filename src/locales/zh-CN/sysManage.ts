@@ -78,4 +78,12 @@ export default {
   'sys.operate.method': '操作方法',
   'sys.operate.operParam': '请求参数',
   'sys.operate.jsonResult': '返回参数',
+  'sys.loginInfo.infoId': '访问编号',
+  'sys.loginInfo.ipaddr': '登录地址',
+  'sys.loginInfo.loginLocation': '登陆地点',
+  'sys.loginInfo.browser': '浏览器',
+  'sys.loginInfo.os': '操作系统',
+  'sys.loginInfo.status': '登录状态',
+  'sys.loginInfo.msg': '操作信息',
+  'sys.loginInfo.loginTime': '登陆日期',
 }

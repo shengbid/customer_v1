@@ -61,3 +61,10 @@ export interface operateInfoParamProps extends pageLimitProps {
   operatorType?: number
   operTime?: string
 }
+// 登录信息查询参数
+export interface loginInfoParamProps extends pageLimitProps {
+  userName?: string
+  ipaddr: string
+  status?: string
+  loginTime?: string
+}

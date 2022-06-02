@@ -102,3 +102,15 @@ export interface operateInfoProps {
   jsonResult?: string
   operUrl?: string
 }
+// 登录信息
+export interface loginInfoProps {
+  infoId: number
+  userName?: string
+  ipaddr: string
+  loginLocation?: string
+  browser?: string
+  os?: string
+  status?: string
+  msg: number
+  loginTime?: string
+}

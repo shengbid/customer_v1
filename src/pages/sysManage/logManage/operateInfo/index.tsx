@@ -17,7 +17,6 @@ const RoleManage: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
   const [operType, setOperType] = useState<any>()
-  const [operStatus, setOperStatus] = useState<any>()
   const [extraInfo, setExtraInfo] = useState<any>()
   const [params, setParams] = useState<operateInfoParamProps>()
   const intl = useIntl()
@@ -57,7 +56,7 @@ const RoleManage: React.FC = () => {
       hideInSearch: true,
       key: 'businessType',
       dataIndex: 'businessType',
-      renderText: (val) => <Tag>{operType[val]}</Tag>,
+      renderText: (val) => operType[val],
     },
     {
       title: intl.formatMessage({
@@ -116,9 +115,7 @@ const RoleManage: React.FC = () => {
         if (type === 'form') {
           return null
         }
-        return (
-          <DictSelect authorword="sys_common_status" getDictData={(data) => setOperStatus(data)} />
-        )
+        return <DictSelect authorword="sys_common_status" />
       },
     },
     {
@@ -128,7 +125,20 @@ const RoleManage: React.FC = () => {
       key: 'operatorType',
       dataIndex: 'operatorType',
       hideInSearch: true,
-      renderText: (val) => <Tag>{operStatus[val]}</Tag>,
+      render: (val) =>
+        val === '0' ? (
+          <Tag color="processing">
+            {intl.formatMessage({
+              id: 'pages.form.success',
+            })}
+          </Tag>
+        ) : (
+          <Tag color="error">
+            {intl.formatMessage({
+              id: 'pages.form.fail',
+            })}
+          </Tag>
+        ),
     },
     {
       title: intl.formatMessage({
