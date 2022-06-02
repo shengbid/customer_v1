@@ -13,6 +13,7 @@ export default {
   'pages.btn.save': '保存',
   'pages.btn.edit': '修改',
   'pages.btn.delete': '删除',
+  'pages.btn.detail': '详情',
   'pages.btn.deleteInfo': '是否确认删除?',
   'pages.btn.close': '关闭',
   'pages.btn.confirm': '确定',

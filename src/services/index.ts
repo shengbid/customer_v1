@@ -7,3 +7,4 @@ export * from './sys/role' // 角色管理
 export * from './sys/post' // 岗位管理
 export * from './sys/dict' // 字典管理
 export * from './sys/params' // 参数管理
+export * from './sys/operateInfo' // 操作日志
