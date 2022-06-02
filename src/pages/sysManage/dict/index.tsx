@@ -20,7 +20,7 @@ const RoleManage: React.FC = () => {
   const intl = useIntl()
   const actionRef = useRef<ActionType>()
 
-  // 删除用户
+  // 删除
   const delteRecored = async (ids: number | string) => {
     await deleteDict(ids)
     message.success(
