@@ -12,6 +12,7 @@ export interface iconSelectProps {
   authorword: string
   value?: string
   onChange?: (value: any) => void
+  getDictData?: (value: any) => void
 }
 // 数据字典
 const DictSelect: React.FC<iconSelectProps> = (props) => {
@@ -25,11 +26,19 @@ const DictSelect: React.FC<iconSelectProps> = (props) => {
     })}`,
     authorword,
     type,
+    getDictData,
   } = props
 
   const getList = async () => {
     const { data } = await getDictSelectList(authorword)
     if (data) setDictList(data)
+    if (getDictData) {
+      const obj = {}
+      data.forEach((item) => {
+        obj[item.dictValue] = item.dictLabel
+      })
+      getDictData(obj)
+    }
   }
 
   useEffect(() => {
