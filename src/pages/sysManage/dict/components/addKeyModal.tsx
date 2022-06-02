@@ -3,6 +3,7 @@ import { Modal, Button, Form, Input, message, Spin, InputNumber } from 'antd'
 import type { addModalProps } from '@/services/types'
 import { addDictKey, dictKeyDetail } from '@/services'
 import DictSelect from '@/components/ComSelect'
+import { useIntl } from 'umi'
 
 const { TextArea } = Input
 
@@ -10,7 +11,14 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [spinning, setSpinning] = useState<boolean>(false)
   const [form] = Form.useForm()
-  const text = info && info.dictCode ? '编辑' : '添加'
+  const intl = useIntl()
+  const text = info
+    ? intl.formatMessage({
+        id: 'pages.btn.edit',
+      })
+    : intl.formatMessage({
+        id: 'pages.btn.add',
+      })
 
   const getDetail = async () => {
     setSpinning(true)
@@ -41,7 +49,11 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
       setConfirmLoading(false)
       return
     }
-    message.success(`${text}成功`)
+    message.success(
+      `${text}${intl.formatMessage({
+        id: 'pages.form.success',
+      })}`,
+    )
     handleSubmit()
     form.resetFields()
   }
@@ -53,7 +65,9 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
   return (
     <Modal
-      title={`${text}字典类型`}
+      title={`${text}${intl.formatMessage({
+        id: 'sys.dict.dictType',
+      })}`}
       maskClosable={false}
       destroyOnClose
       width={600}
@@ -76,62 +90,128 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
           </Form.Item>
 
           <Form.Item
-            label="字典类型"
+            label={intl.formatMessage({
+              id: 'sys.dict.dictType',
+            })}
             name="dictType"
-            rules={[{ required: true, message: '请输入字典类型!' }]}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'sys.dict.dictType',
+                })}`,
+              },
+            ]}
           >
             <Input maxLength={50} disabled />
           </Form.Item>
 
           <Form.Item
-            label="数据标签"
+            label={intl.formatMessage({
+              id: 'sys.dictKey.dictLabel',
+            })}
             name="dictLabel"
-            rules={[{ required: true, message: '请输入数据标签!' }]}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'sys.dictKey.dictLabel',
+                })}`,
+              },
+            ]}
           >
             <Input maxLength={50} />
           </Form.Item>
           <Form.Item
-            label="数据键值"
+            label={intl.formatMessage({
+              id: 'sys.dictKey.dictValue',
+            })}
             name="dictValue"
-            rules={[{ required: true, message: '请输入数据键值!' }]}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'sys.dictKey.dictValue',
+                })}`,
+              },
+            ]}
           >
             <Input maxLength={3} />
           </Form.Item>
 
           <Form.Item
-            label="显示排序"
+            label={intl.formatMessage({
+              id: 'sys.dictKey.dictSort',
+            })}
             name="dictSort"
-            rules={[{ required: true, message: '请输入显示排序!' }]}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'sys.dictKey.dictSort',
+                })}`,
+              },
+            ]}
           >
             <InputNumber style={{ width: '100%' }} min={1} max={30} />
           </Form.Item>
 
           <Form.Item
-            label="状态"
+            label={intl.formatMessage({
+              id: 'sys.base.status',
+            })}
             name="status"
-            rules={[{ required: true, message: '请选择状态!' }]}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.select',
+                })}${intl.formatMessage({
+                  id: 'sys.base.status',
+                })}`,
+              },
+            ]}
           >
             <DictSelect authorword="sys_normal_disable" type="radio" />
           </Form.Item>
 
           <Form.Item
-            label="备注"
+            label={intl.formatMessage({
+              id: 'sys.base.remark',
+            })}
             name="remark"
-            rules={[{ required: true, message: '请输入备注!' }]}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'sys.base.remark',
+                })}`,
+              },
+            ]}
           >
-            <TextArea
-              placeholder="请输入备注"
-              autoSize={{ minRows: 3, maxRows: 5 }}
-              maxLength={500}
-            />
+            <TextArea autoSize={{ minRows: 3, maxRows: 5 }} maxLength={500} />
           </Form.Item>
 
           <div className="modal-btns">
             <Button type="primary" htmlType="submit" loading={confirmLoading}>
-              确定
+              {intl.formatMessage({
+                id: 'pages.btn.confirm',
+              })}
             </Button>
             <Button onClick={cancel} className="cancel-btn">
-              取消
+              {intl.formatMessage({
+                id: 'pages.btn.cancel',
+              })}
             </Button>
           </div>
         </Form>

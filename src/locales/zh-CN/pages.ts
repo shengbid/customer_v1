@@ -21,6 +21,7 @@ export default {
   'pages.btn.import': '导入',
   'pages.btn.down': '下载模板',
   'pages.btn.upload': '上传',
+  'pages.btn.back': '返回',
   'pages.modal.importInfo': '导入成功',
   'pages.modal.importTitle': '导入模板',
   'pages.modal.importTit': '仅允许导入xls、xlsx格式文件。',

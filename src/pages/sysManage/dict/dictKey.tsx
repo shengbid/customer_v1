@@ -8,7 +8,7 @@ import DictSelect from '@/components/ComSelect'
 import AddModal from './components/addKeyModal'
 import { handleTreeData } from '@/utils/base'
 import { ArrowLeftOutlined } from '@ant-design/icons'
-import { history } from 'umi'
+import { history, useIntl } from 'umi'
 
 const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
@@ -18,6 +18,7 @@ const RoleManage: React.FC = (props: any) => {
   const [dictOptions, setDictOptions] = useState<any[]>([])
   const [info, setInfo] = useState<any>()
   const [dictType, setDictType] = useState<string>(props.location.query.type)
+  const intl = useIntl()
 
   const getDicOption = async () => {
     const { data } = await getDictSelect()
@@ -33,17 +34,25 @@ const RoleManage: React.FC = (props: any) => {
   // 删除用户
   const delteRecored = async (ids: number | string) => {
     await deleteDictKey(ids)
-    message.success('删除成功')
+    message.success(
+      intl.formatMessage({
+        id: 'pages.form.delete',
+      }),
+    )
     actionRef.current?.reload()
   }
 
   const columns: ProColumns<dictKeyProps>[] = [
     {
-      title: '序号',
+      title: intl.formatMessage({
+        id: 'pages.table.index',
+      }),
       valueType: 'index',
     },
     {
-      title: '字典名称',
+      title: intl.formatMessage({
+        id: 'sys.dict.dictName',
+      }),
       key: 'dictType',
       dataIndex: 'dictType',
       hideInTable: true,
@@ -55,24 +64,32 @@ const RoleManage: React.FC = (props: any) => {
       },
     },
     {
-      title: '字典标签',
+      title: intl.formatMessage({
+        id: 'sys.dictKey.dictLabel',
+      }),
       key: 'dictLabel',
       dataIndex: 'dictLabel',
     },
     {
-      title: '字典键值',
+      title: intl.formatMessage({
+        id: 'sys.dictKey.dictValue',
+      }),
       hideInSearch: true,
       key: 'dictValue',
       dataIndex: 'dictValue',
     },
     {
-      title: '字典排序',
+      title: intl.formatMessage({
+        id: 'sys.dictKey.dictSort',
+      }),
       key: 'dictSort',
       hideInSearch: true,
       dataIndex: 'dictSort',
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInTable: true,
@@ -84,21 +101,27 @@ const RoleManage: React.FC = (props: any) => {
       },
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInSearch: true,
       render: (val) => (val === '0' ? <Tag color="blue">正常</Tag> : <Tag color="error">停用</Tag>),
     },
     {
-      title: '备注',
+      title: intl.formatMessage({
+        id: 'sys.base.remark',
+      }),
       key: 'remark',
       ellipsis: true,
       hideInSearch: true,
       dataIndex: 'remark',
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({
+        id: 'sys.base.createTime',
+      }),
       width: 160,
       key: 'createTime',
       dataIndex: 'createTime',
@@ -106,7 +129,9 @@ const RoleManage: React.FC = (props: any) => {
       valueType: 'dateTime',
     },
     {
-      title: '操作',
+      title: intl.formatMessage({
+        id: 'pages.table.option',
+      }),
       width: 150,
       key: 'option',
       valueType: 'option',
@@ -144,11 +169,19 @@ const RoleManage: React.FC = (props: any) => {
   const multipleDelete = async () => {
     if (selectedRowKeys.length) {
       await deleteDictKey(selectedRowKeys.join(','))
-      message.success('删除成功')
+      message.success(
+        intl.formatMessage({
+          id: 'pages.form.delete',
+        }),
+      )
       actionRef.current?.reload()
       setSelectedRowKeys([])
     } else {
-      message.warning('请先选择要删除的数据!')
+      message.warning(
+        intl.formatMessage({
+          id: 'pages.table.oneDataDelete',
+        }),
+      )
     }
   }
 
@@ -175,7 +208,9 @@ const RoleManage: React.FC = (props: any) => {
               history.push('/sys/dict')
             }}
           >
-            返回
+            {intl.formatMessage({
+              id: 'pages.btn.back',
+            })}
           </Button>,
           <MenuAddButton
             key="add"

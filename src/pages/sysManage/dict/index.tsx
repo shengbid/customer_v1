@@ -8,6 +8,7 @@ import ExportFile from '@/components/ComUpload/exportFile'
 import DictSelect from '@/components/ComSelect'
 import { Link } from 'umi'
 import AddModal from './components/addModal'
+import { useIntl } from 'umi'
 
 const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
@@ -16,34 +17,46 @@ const RoleManage: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
   const [params, setParams] = useState<dictParamProps>()
-
+  const intl = useIntl()
   const actionRef = useRef<ActionType>()
 
   // 删除用户
   const delteRecored = async (ids: number | string) => {
     await deleteDict(ids)
-    message.success('删除成功')
+    message.success(
+      intl.formatMessage({
+        id: 'pages.form.delete',
+      }),
+    )
     actionRef.current?.reload()
   }
 
   const columns: ProColumns<dictProps>[] = [
     {
-      title: '序号',
+      title: intl.formatMessage({
+        id: 'pages.table.index',
+      }),
       valueType: 'index',
     },
     {
-      title: '字典名称',
+      title: intl.formatMessage({
+        id: 'sys.dict.dictName',
+      }),
       key: 'dictName',
       dataIndex: 'dictName',
     },
     {
-      title: '字典类型',
+      title: intl.formatMessage({
+        id: 'sys.dict.dictType',
+      }),
       key: 'dictType',
       dataIndex: 'dictType',
       render: (val, recored) => <Link to={`/sys/dict/type?type=${val}`}>{recored.dictType}</Link>,
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInTable: true,
@@ -55,29 +68,49 @@ const RoleManage: React.FC = () => {
       },
     },
     {
-      title: '状态',
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
       key: 'status',
       dataIndex: 'status',
       hideInSearch: true,
       render: (val) =>
-        val === '0' ? <Tag color="processing">正常</Tag> : <Tag color="error">停用</Tag>,
+        val === '0' ? (
+          <Tag color="processing">
+            {intl.formatMessage({
+              id: 'sys.base.normal',
+            })}
+          </Tag>
+        ) : (
+          <Tag color="error">
+            {intl.formatMessage({
+              id: 'sys.base.out',
+            })}
+          </Tag>
+        ),
     },
     {
-      title: '备注',
+      title: intl.formatMessage({
+        id: 'sys.base.remark',
+      }),
       key: 'remark',
       ellipsis: true,
       hideInSearch: true,
       dataIndex: 'remark',
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({
+        id: 'sys.base.createTime',
+      }),
       key: 'createTime',
       dataIndex: 'createTime',
       hideInSearch: true,
       valueType: 'dateTime',
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({
+        id: 'sys.base.createTime',
+      }),
       hideInTable: true,
       dataIndex: 'createTime',
       valueType: 'dateRange',
@@ -86,7 +119,9 @@ const RoleManage: React.FC = () => {
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({
+        id: 'pages.table.option',
+      }),
       width: 150,
       key: 'option',
       valueType: 'option',
@@ -122,11 +157,19 @@ const RoleManage: React.FC = () => {
   const multipleDelete = async () => {
     if (selectedRowKeys.length) {
       await deleteDict(selectedRowKeys.join(','))
-      message.success('删除成功')
+      message.success(
+        intl.formatMessage({
+          id: 'pages.form.delete',
+        }),
+      )
       actionRef.current?.reload()
       setSelectedRowKeys([])
     } else {
-      message.warning('请先选择要删除的数据!')
+      message.warning(
+        intl.formatMessage({
+          id: 'pages.table.oneDataDelete',
+        }),
+      )
     }
   }
 
@@ -157,7 +200,9 @@ const RoleManage: React.FC = () => {
             authorword="system:dict:export"
             key="export"
             params={params}
-            title="数据字典"
+            title={intl.formatMessage({
+              id: 'sys.dict.name',
+            })}
             url="dict/type"
           />,
           <MenuMultiDelButton

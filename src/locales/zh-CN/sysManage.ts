@@ -2,6 +2,7 @@ export default {
   'sys.base.normal': '正常',
   'sys.base.out': '停用',
   'sys.base.status': '状态',
+  'sys.base.remark': '备注',
   'sys.base.createTime': '创建时间',
   'sys.user.title': '个人信息',
   'sys.user.base': '基本资料',
@@ -51,4 +52,10 @@ export default {
   'sys.dept.parentId': '上级部门',
   'sys.dept.leader': '负责人',
   'sys.dept.status': '部门状态',
+  'sys.dict.dictName': '字典名称',
+  'sys.dict.dictType': '字典类型',
+  'sys.dict.name': '数据字典',
+  'sys.dictKey.dictLabel': '字典标签',
+  'sys.dictKey.dictValue': '字典键值',
+  'sys.dictKey.dictSort': '字典排序',
 }
