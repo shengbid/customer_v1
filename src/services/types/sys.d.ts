@@ -46,6 +46,13 @@ export interface dictkeyParamProps extends pageLimitProps {
   dictLabel?: string
   status?: string
 }
+// 参数设置查询参数
+export interface paramsParamProps extends pageLimitProps {
+  configName?: string
+  configKey?: string
+  configType?: string
+  createTime?: string
+}
 
 // 数据字典
 export interface dictProps {
@@ -124,4 +131,14 @@ export interface postListProps {
   postSort?: string
   status?: string
   createTime?: string
+}
+// 参数设置
+export interface paramsProps {
+  configId: number
+  configName?: string
+  configKey?: string
+  configValue?: string
+  configType?: string
+  createTime?: string
+  remark?: string
 }

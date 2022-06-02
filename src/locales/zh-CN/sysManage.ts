@@ -58,4 +58,9 @@ export default {
   'sys.dictKey.dictLabel': '字典标签',
   'sys.dictKey.dictValue': '字典键值',
   'sys.dictKey.dictSort': '字典排序',
+  'sys.params.name': '参数',
+  'sys.params.configName': '参数名称',
+  'sys.params.configKey': '参数键名',
+  'sys.params.configValue': '参数键值',
+  'sys.params.configType': '系统内置',
 }
