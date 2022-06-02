@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { EllipsisOutlined } from '@ant-design/icons'
-import ComCard from '@/components/ComCard'
+import ComCard from '@/components/ComPage'
 import * as echarts from 'echarts'
 
 const Middle1: React.FC = () => {

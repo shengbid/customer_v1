@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import ComCard from '@/components/ComCard'
+import ComCard from '@/components/ComPage'
 import * as echarts from 'echarts'
 
 const Right1: React.FC = () => {

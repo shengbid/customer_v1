@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import ComCard from '@/components/ComCard'
+import ComCard from '@/components/ComPage'
 import { useIntl } from 'umi'
 import { Row, Col, Avatar, Tabs, Button, Form, Input, message, Spin } from 'antd'
 import {
