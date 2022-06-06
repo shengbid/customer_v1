@@ -42,7 +42,7 @@ export async function changeUserStatus(data: { status: string; userId: number })
   })
 }
 
-/** 改变用户状态 */
+/** 重置密码 */
 export async function resetPass(data: { password: string; userId: number }) {
   return request(`${url}/resetPwd`, {
     data,

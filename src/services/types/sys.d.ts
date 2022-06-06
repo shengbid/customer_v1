@@ -127,3 +127,22 @@ export interface onlineUserProps {
   os?: string
   loginTime?: number
 }
+// 定时任务
+export interface timedTaskProps {
+  jobId: number
+  jobName?: string
+  jobGroup: string
+  invokeTarget?: string
+  cronExpression?: string
+  status?: string
+}
+// 定时任务日志
+export interface timedTaskLogProps {
+  jobId: number
+  jobName?: string
+  jobGroup: string
+  invokeTarget?: string
+  msg?: string
+  status?: string
+  createTime?: string
+}

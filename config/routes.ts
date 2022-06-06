@@ -147,6 +147,11 @@
             component: './sysManage/systemMonitor/timedTask',
           },
           {
+            path: '/systemMonitor/timedTask/log',
+            name: '日志',
+            component: './sysManage/systemMonitor/timedTask/log',
+          },
+          {
             path: '/systemMonitor/sentinel',
             name: 'Sentinel控制台',
             target: '_blank',

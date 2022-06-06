@@ -131,7 +131,7 @@ const OnlineUser: React.FC = () => {
   return (
     <MenuProTable<onlineUserProps>
       request={getList}
-      rowKey="infoId"
+      rowKey="tokenId"
       columns={columns}
       actionRef={actionRef}
       toolBarRender={false}

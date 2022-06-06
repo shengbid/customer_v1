@@ -74,3 +74,16 @@ export interface onlineUserParamProps extends pageLimitProps {
   userName?: string
   ipaddr?: string
 }
+// 定时任务查询参数
+export interface timedTaskParamProps extends pageLimitProps {
+  jobName?: string
+  jobGroup?: string
+  status?: string
+}
+// 定时任务日志查询参数
+export interface timedTaskLogParamProps extends pageLimitProps {
+  jobName?: string
+  jobGroup?: string
+  status?: string
+  createTime?: string
+}
