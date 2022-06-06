@@ -14,3 +14,7 @@ export const statusData = {
   '0': statusText.success,
   '1': statusText.fail,
 }
+export const sysJobData = {
+  SYSTEM: statusText.sys,
+  DEFAULT: statusText.default,
+}
