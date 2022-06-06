@@ -95,6 +95,7 @@ const Meun: React.FC = () => {
       }),
       key: 'status',
       dataIndex: 'status',
+      width: 80,
       hideInSearch: true,
       render: (val) =>
         val === '0' ? (

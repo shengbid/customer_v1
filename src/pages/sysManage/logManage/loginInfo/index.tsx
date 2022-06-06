@@ -111,8 +111,8 @@ const RoleManage: React.FC = () => {
       title: intl.formatMessage({
         id: 'sys.loginInfo.loginTime',
       }),
-      key: 'loginTime',
-      dataIndex: 'loginTime',
+      key: 'accessTime',
+      dataIndex: 'accessTime',
       hideInSearch: true,
       valueType: 'dateTime',
     },
@@ -121,7 +121,7 @@ const RoleManage: React.FC = () => {
         id: 'sys.loginInfo.loginTime',
       }),
       hideInTable: true,
-      dataIndex: 'loginTime',
+      dataIndex: 'accessTime',
       valueType: 'dateRange',
       search: {
         transform: (value: any) => ({ beginTime: value[0], endTime: value[1] }),

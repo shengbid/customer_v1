@@ -123,41 +123,66 @@ const AddModal: React.FC<modalProps> = ({
           <TreeDataSelect type="1" />
         </Form.Item>
 
-        <Form.Item
-          label={intl.formatMessage({
-            id: 'sys.menu.menuType',
-          })}
-          name="menuType"
-          labelCol={labelCol}
-          rules={[
-            {
-              required: true,
-              message: `${intl.formatMessage({
-                id: 'pages.form.select',
-              })}${intl.formatMessage({
+        <Row>
+          <Col span={12}>
+            <Form.Item
+              label={intl.formatMessage({
                 id: 'sys.menu.menuType',
-              })}`,
-            },
-          ]}
-        >
-          <Radio.Group onChange={changeMenuType}>
-            <Radio value={'M'}>
-              {intl.formatMessage({
-                id: 'sys.menu.catalogue',
               })}
-            </Radio>
-            <Radio value={'C'}>
-              {intl.formatMessage({
-                id: 'sys.menu.menu',
-              })}
-            </Radio>
-            <Radio value={'F'}>
-              {intl.formatMessage({
-                id: 'sys.menu.btn',
-              })}
-            </Radio>
-          </Radio.Group>
-        </Form.Item>
+              name="menuType"
+              rules={[
+                {
+                  required: true,
+                  message: `${intl.formatMessage({
+                    id: 'pages.form.select',
+                  })}${intl.formatMessage({
+                    id: 'sys.menu.menuType',
+                  })}`,
+                },
+              ]}
+            >
+              <Radio.Group onChange={changeMenuType}>
+                <Radio value={'M'}>
+                  {intl.formatMessage({
+                    id: 'sys.menu.catalogue',
+                  })}
+                </Radio>
+                <Radio value={'C'}>
+                  {intl.formatMessage({
+                    id: 'sys.menu.menu',
+                  })}
+                </Radio>
+                <Radio value={'F'}>
+                  {intl.formatMessage({
+                    id: 'sys.menu.btn',
+                  })}
+                </Radio>
+              </Radio.Group>
+            </Form.Item>
+          </Col>
+          {menuType !== 'M' ? (
+            <Col span={11}>
+              <Form.Item
+                label={intl.formatMessage({
+                  id: 'sys.menu.icon1',
+                })}
+                name="icon"
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.select',
+                    })}${intl.formatMessage({
+                      id: 'sys.menu.icon1',
+                    })}`,
+                  },
+                ]}
+              >
+                <IconSelect />
+              </Form.Item>
+            </Col>
+          ) : null}
+        </Row>
 
         <Form.Item
           label={intl.formatMessage({

@@ -114,4 +114,16 @@ export interface loginInfoProps {
   status?: string
   msg: number
   loginTime?: string
+  accessTime?: string
+}
+// 在线用户
+export interface onlineUserProps {
+  tokenId: string
+  userName?: string
+  deptName?: string
+  loginLocation?: string
+  ipaddr?: string
+  browser?: string
+  os?: string
+  loginTime?: number
 }

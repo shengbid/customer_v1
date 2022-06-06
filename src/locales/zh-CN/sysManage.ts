@@ -85,5 +85,8 @@ export default {
   'sys.loginInfo.os': '操作系统',
   'sys.loginInfo.status': '登录状态',
   'sys.loginInfo.msg': '操作信息',
-  'sys.loginInfo.loginTime': '登陆日期',
+  'sys.loginInfo.loginTime': '登陆时间',
+  'sys.onlineUser.tokenId': '会话编号',
+  'sys.onlineUser.ipaddr': '主机',
+  'sys.onlineUser.out': '强退',
 }

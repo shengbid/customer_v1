@@ -67,4 +67,10 @@ export interface loginInfoParamProps extends pageLimitProps {
   ipaddr: string
   status?: string
   loginTime?: string
+  accessTime?: string
+}
+// 在线用户查询参数
+export interface onlineUserParamProps extends pageLimitProps {
+  userName?: string
+  ipaddr?: string
 }
