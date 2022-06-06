@@ -16,13 +16,6 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleCancel, info, e
   const [infoData, setInfoData] = useState<operateInfoProps>()
 
   const intl = useIntl()
-  const text = info
-    ? intl.formatMessage({
-        id: 'pages.btn.edit',
-      })
-    : intl.formatMessage({
-        id: 'pages.btn.add',
-      })
 
   const getDetail = () => {
     setSpinning(true)
@@ -42,7 +35,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleCancel, info, e
 
   return (
     <Modal
-      title={`${text}${intl.formatMessage({
+      title={`${intl.formatMessage({
         id: 'sys.operate.name',
       })}`}
       maskClosable={false}
