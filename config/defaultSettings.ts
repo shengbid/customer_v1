@@ -4,14 +4,15 @@ const Settings: LayoutSettings & {
   pwa?: boolean
   logo?: string
 } = {
-  navTheme: 'dark',
+  navTheme: 'light',
   // 拂晓蓝
   primaryColor: '#1890ff',
-  layout: 'side',
+  layout: 'mix',
   contentWidth: 'Fluid',
   fixedHeader: true,
   fixSiderbar: true,
   colorWeak: false,
+  splitMenus: true,
   title: '供应链系统',
   pwa: false,
   iconfontUrl: '',

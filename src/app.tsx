@@ -1,6 +1,6 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout'
 import { SettingDrawer } from '@ant-design/pro-layout'
-import { PageLoading, ProBreadcrumb } from '@ant-design/pro-layout'
+import { PageLoading } from '@ant-design/pro-layout'
 import { message, notification } from 'antd'
 import type { RunTimeLayoutConfig, RequestConfig } from 'umi'
 import type { userProps } from '@/services/types'
@@ -90,16 +90,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       const staticRoutes = menu.filter((item) => ['/welcome'].includes(item.path as string))
       return [...staticRoutes, ...(initialState?.menus || [])]
     },
-    // links: isDev
-    //   ? [
-    //       <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-    //         <LinkOutlined />
-    //         <span>OpenAPI 文档</span>
-    //       </Link>,
-    //     ]
-    //   : [],
-    menuHeaderRender: undefined,
-    headerContentRender: () => <ProBreadcrumb />,
     // 增加一个 loading 的状态
     childrenRender: (children, props) => {
       if (initialState?.loading) return <PageLoading />
