@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Spin } from 'antd'
 import type { operateInfoProps } from '@/services/types'
-import { operateInfoDetail } from '@/services'
 import { useIntl } from 'umi'
 import ComDescriptions from '@/components/ComPage/Descriptions'
 const { DescriptionsItem } = ComDescriptions
@@ -25,13 +24,10 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleCancel, info, e
         id: 'pages.btn.add',
       })
 
-  const getDetail = async () => {
+  const getDetail = () => {
     setSpinning(true)
-    const { data } = await operateInfoDetail(info)
+    setInfoData({ ...extraInfo })
     setSpinning(false)
-    if (data) {
-      setInfoData({ ...data, ...extraInfo })
-    }
   }
 
   useEffect(() => {

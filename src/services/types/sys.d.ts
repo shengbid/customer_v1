@@ -96,6 +96,7 @@ export interface operateInfoProps {
   operIp?: string
   operLocation?: string
   operatorType: number
+  status: number
   operTime?: string
   method?: string
   operParam?: string

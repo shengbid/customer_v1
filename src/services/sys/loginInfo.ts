@@ -2,7 +2,7 @@ import { request } from 'umi'
 import type { loginInfoParamProps, loginInfoProps } from '@/services/types'
 import { paramsToPageParams } from '@/utils/base'
 
-const url = '/monitor/logininfor'
+const url = '/system/logininfor'
 
 /** 获取登录信息列表 */
 export async function getLoginInfoList(params: loginInfoParamProps) {

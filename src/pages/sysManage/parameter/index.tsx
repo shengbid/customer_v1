@@ -79,6 +79,7 @@ const RoleManage: React.FC = () => {
       }),
       key: 'configType',
       dataIndex: 'configType',
+      width: 80,
       hideInSearch: true,
       render: (val) =>
         val === 'Y' ? (
@@ -100,6 +101,8 @@ const RoleManage: React.FC = () => {
         id: 'sys.base.remark',
       }),
       key: 'remark',
+      width: '17%',
+      ellipsis: true,
       hideInSearch: true,
       dataIndex: 'remark',
     },
@@ -109,6 +112,7 @@ const RoleManage: React.FC = () => {
       }),
       key: 'createTime',
       dataIndex: 'createTime',
+      width: 160,
       hideInSearch: true,
       valueType: 'dateTime',
     },
@@ -127,7 +131,7 @@ const RoleManage: React.FC = () => {
       title: intl.formatMessage({
         id: 'pages.table.option',
       }),
-      width: 150,
+      width: 130,
       key: 'option',
       valueType: 'option',
       render: (_, recored) => [

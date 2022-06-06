@@ -80,7 +80,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
           form={form}
           autoComplete="off"
         >
-          <Form.Item label="id" name="postId" style={{ display: 'none' }}>
+          <Form.Item label="id" name="configId" style={{ display: 'none' }}>
             <Input />
           </Form.Item>
           <Form.Item

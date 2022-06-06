@@ -8,7 +8,9 @@ import ExportFile from '@/components/ComUpload/exportFile'
 import DictSelect from '@/components/ComSelect'
 import AddModal from './components/addModal'
 import PermissionButton from '@/components/Permission'
+import { FolderViewOutlined } from '@ant-design/icons'
 import { useIntl } from 'umi'
+import { statusData } from '@/utils/dictData'
 
 const { MenuMultiDelButton, MenuDelteButton } = MenuProTable
 
@@ -108,8 +110,8 @@ const RoleManage: React.FC = () => {
       title: intl.formatMessage({
         id: 'sys.operate.operatorType',
       }),
-      key: 'operatorType',
-      dataIndex: 'operatorType',
+      key: 'status',
+      dataIndex: 'status',
       hideInTable: true,
       renderFormItem: (_, { type }) => {
         if (type === 'form') {
@@ -122,11 +124,11 @@ const RoleManage: React.FC = () => {
       title: intl.formatMessage({
         id: 'sys.operate.operatorType',
       }),
-      key: 'operatorType',
-      dataIndex: 'operatorType',
+      key: 'status',
+      dataIndex: 'status',
       hideInSearch: true,
       render: (val) =>
-        val === '0' ? (
+        Number(val) === 0 ? (
           <Tag color="processing">
             {intl.formatMessage({
               id: 'pages.form.success',
@@ -171,15 +173,18 @@ const RoleManage: React.FC = () => {
         <PermissionButton
           key="edit"
           authorword="monitor:operlog:query"
+          type="link"
           onClick={() => {
             setId(recored.operId)
             setExtraInfo({
+              ...recored,
               businessType: operType[recored.businessType],
-              operatorType: operType[recored.operatorType],
+              operatorType: statusData[String(recored.status)],
             })
             setModalVisible(true)
           }}
         >
+          <FolderViewOutlined style={{ marginRight: 3 }} />
           {intl.formatMessage({
             id: 'pages.btn.detail',
           })}
