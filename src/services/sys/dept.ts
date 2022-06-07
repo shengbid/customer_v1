@@ -15,6 +15,11 @@ export async function getDeptTreeList() {
   return request<{ data: any[] }>(`${url}/treeselect`)
 }
 
+/** 获取角色部门列表下拉 */
+export async function getRoleDeptTreeList(id: number) {
+  return request<{ data: { checkedKeys: number[] } }>(`${url}/roleDeptTreeselect/${id}`)
+}
+
 /** 新增编辑部门 */
 export async function addDept(data: deptListProps) {
   return request<{ data: any[] }>(`${url}`, {

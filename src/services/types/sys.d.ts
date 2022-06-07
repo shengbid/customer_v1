@@ -59,7 +59,9 @@ export interface roleListProps {
   status?: string
   createTime?: string
   remark?: string
+  dataScope?: string
   menuIds?: number[]
+  deptIds?: number[]
 }
 // 角色tree列表
 export interface roleTreeProps {

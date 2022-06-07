@@ -37,3 +37,10 @@ export async function changeRoleStatus(data: { status: string; roleId: number })
     method: 'put',
   })
 }
+/** 分配权限 */
+export async function addDataPerms(data: roleListProps) {
+  return request(`${url}/dataScope`, {
+    data,
+    method: 'put',
+  })
+}

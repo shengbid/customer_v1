@@ -61,6 +61,12 @@
             component: './sysManage/role',
           },
           {
+            path: '/sys/role/user',
+            name: '角色用户管理',
+            icon: 'SettingOutlined',
+            component: './sysManage/role/user',
+          },
+          {
             path: '/sys/menu',
             name: '菜单管理',
             icon: 'SettingOutlined',

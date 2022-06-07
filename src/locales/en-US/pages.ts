@@ -41,6 +41,7 @@ export default {
   'pages.form.success': 'Success',
   'pages.form.fail': 'Fail',
   'pages.form.remark': 'Remark',
+  'pages.form.allot': '分配',
   'pages.login.title': '吉祥科创',
   'pages.login.subtitle': '供应链金融',
   'pages.login.tabaccount': '账户密码登录',

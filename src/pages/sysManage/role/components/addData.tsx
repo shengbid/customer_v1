@@ -1,30 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Button, Form, Input, InputNumber, message, Spin } from 'antd'
+import { Modal, Button, Form, Input, message, Spin } from 'antd'
 import type { addModalProps } from '@/services/types'
 import MultiTreeDataSelect from '@/components/ComSelect/multiTreeSelect'
-import { addRole, roleDetail, getRoleMenu } from '@/services'
+import { addDataPerms, roleDetail, getRoleDeptTreeList } from '@/services'
 import DictSelect from '@/components/ComSelect'
 import { useIntl } from 'umi'
-
-const { TextArea } = Input
 
 const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel, info }) => {
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [spinning, setSpinning] = useState<boolean>(false)
   const [form] = Form.useForm()
   const intl = useIntl()
-  const text = info
-    ? intl.formatMessage({
-        id: 'pages.btn.edit',
-      })
-    : intl.formatMessage({
-        id: 'pages.btn.add',
-      })
 
   const getDetail = async () => {
     setSpinning(true)
     const { data } = await roleDetail(info)
-    const res = await getRoleMenu(info)
+    const res = await getRoleDeptTreeList(info)
     setSpinning(false)
     if (res && res.data) {
       form.setFieldsValue({ ...data, menuIds: res.data.checkedKeys })
@@ -41,14 +32,14 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
     setConfirmLoading(true)
     try {
       const menuIds = values.menuIds.map((item: any) => item.value)
-      await addRole({ ...values, menuIds })
+      await addDataPerms({ ...values, menuIds })
       setConfirmLoading(false)
     } catch (error) {
       setConfirmLoading(false)
       return
     }
     message.success(
-      `${text}${intl.formatMessage({
+      `${intl.formatMessage({
         id: 'pages.form.success',
       })}`,
     )
@@ -63,8 +54,10 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
   return (
     <Modal
-      title={`${text}${intl.formatMessage({
-        id: 'sys.role.role',
+      title={`${intl.formatMessage({
+        id: 'pages.form.allot',
+      })}${intl.formatMessage({
+        id: 'sys.role.dataPerm',
       })}`}
       maskClosable={false}
       destroyOnClose
@@ -102,7 +95,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
               },
             ]}
           >
-            <Input maxLength={50} />
+            <Input disabled maxLength={50} />
           </Form.Item>
 
           <Form.Item
@@ -121,40 +114,21 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
               },
             ]}
           >
-            <Input maxLength={50} />
+            <Input disabled maxLength={50} />
           </Form.Item>
 
           <Form.Item
             label={intl.formatMessage({
-              id: 'sys.menu.orderNum',
+              id: 'sys.role.dataScope',
             })}
-            name="roleSort"
-            rules={[
-              {
-                required: true,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.input',
-                })}${intl.formatMessage({
-                  id: 'sys.menu.orderNum',
-                })}`,
-              },
-            ]}
-          >
-            <InputNumber style={{ width: '100%' }} min={1} max={30} />
-          </Form.Item>
-
-          <Form.Item
-            label={intl.formatMessage({
-              id: 'sys.base.status',
-            })}
-            name="status"
+            name="dataScope"
             rules={[
               {
                 required: true,
                 message: `${intl.formatMessage({
                   id: 'pages.form.select',
                 })}${intl.formatMessage({
-                  id: 'sys.base.status',
+                  id: 'sys.role.dataScope',
                 })}`,
               },
             ]}
@@ -164,40 +138,21 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
           <Form.Item
             label={intl.formatMessage({
-              id: 'sys.role.menuIds',
+              id: 'sys.role.dataPerm',
             })}
-            name="menuIds"
+            name="deptIds"
             rules={[
               {
                 required: true,
                 message: `${intl.formatMessage({
                   id: 'pages.form.select',
                 })}${intl.formatMessage({
-                  id: 'sys.role.menuIds',
+                  id: 'sys.role.dataPerm',
                 })}`,
               },
             ]}
           >
             <MultiTreeDataSelect />
-          </Form.Item>
-
-          <Form.Item
-            label={intl.formatMessage({
-              id: 'pages.form.remark',
-            })}
-            name="remark"
-            rules={[
-              {
-                required: false,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.input',
-                })}${intl.formatMessage({
-                  id: 'pages.form.remark',
-                })}`,
-              },
-            ]}
-          >
-            <TextArea autoSize={{ minRows: 3, maxRows: 5 }} maxLength={500} />
           </Form.Item>
 
           <div className="modal-btns">

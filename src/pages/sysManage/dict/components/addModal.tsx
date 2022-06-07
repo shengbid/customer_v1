@@ -104,6 +104,25 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
           <Form.Item
             label={intl.formatMessage({
+              id: 'sys.dict.dictName',
+            })}
+            name="dictLabelFt"
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'sys.dict.dictName',
+                })}`,
+              },
+            ]}
+          >
+            <Input maxLength={50} />
+          </Form.Item>
+
+          <Form.Item
+            label={intl.formatMessage({
               id: 'sys.dict.dictType',
             })}
             name="dictType"

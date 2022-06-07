@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TreeSelect } from 'antd'
-import { getMenuTreeData } from '@/services'
+import { getMenuTreeData, getDeptTreeList } from '@/services'
 import { handleTreeData } from '@/utils/base'
 import { useIntl } from 'umi'
 export interface treeSelectProps {
@@ -36,8 +36,11 @@ const MultiTreeDataSelect: React.FC<treeSelectProps> = (props) => {
   const getList = async () => {
     let data: any = {}
     switch (type) {
-      case '0':
+      case '0': //菜单
         data = await getMenuTreeData()
+        break
+      case '1': // 部门
+        data = await getDeptTreeList()
         break
 
       default:

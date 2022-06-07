@@ -1,3 +1,5 @@
 export default {
-  'app.setting.pagestyle': '整体风格设置',
+  zhCN: '简体中文',
+  zhEN: 'English',
+  zhTW: '繁体中文',
 }
