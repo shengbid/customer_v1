@@ -46,6 +46,8 @@ export default {
   'sys.role.roleKey': '权限字符',
   'sys.role.dataScope': '权限范围',
   'sys.role.menuIds': '菜单权限',
+  'sys.role.cancelperms': '取消授权',
+  'sys.role.cancelperms1': '批量取消授权',
   'sys.post.name': '岗位',
   'sys.post.postName': '岗位名称',
   'sys.post.postCode': '岗位编码',

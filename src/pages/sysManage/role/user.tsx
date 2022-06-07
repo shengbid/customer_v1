@@ -1,103 +1,61 @@
-import React, { useState, useRef } from 'react'
+import React, { useRef } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
-import type { timedTaskLogProps, timedTaskLogParamProps } from '@/services/types'
+import type { roleListProps, roleParamProps } from '@/services/types'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import { message, Tag, Button } from 'antd'
-import { deleteTimedTaskLog, getTimedTaskLogList } from '@/services'
-import DictSelect from '@/components/ComSelect'
-import { ArrowLeftOutlined } from '@ant-design/icons'
+import { /*message,*/ Tag, Button } from 'antd'
+import { /*cancelAuthor,*/ getRoleUserList } from '@/services'
+import { ArrowLeftOutlined /**CloseCircleOutlined**/ } from '@ant-design/icons'
 import { history, useIntl } from 'umi'
-import { sysJobData } from '@/utils/dictData'
+// import PermissionButton from '@/components/Permission'
 
-const { MenuMultiDelButton, MenuDelteButton } = MenuProTable
-
-const RoleManage: React.FC = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+const RoleManage: React.FC = (props: any) => {
   const intl = useIntl()
+  const { roleId } = props.location.query
 
   const actionRef = useRef<ActionType>()
 
   // 取消授权
-  const delteRecored = async (ids: number | string) => {
-    await deleteTimedTaskLog(ids)
-    message.success(
-      intl.formatMessage({
-        id: 'pages.form.delete',
-      }),
-    )
-    actionRef.current?.reload()
-  }
+  // const delteRecored = async (ids: number | string) => {
+  //   await cancelAuthor({ roleId, userId: ids })
+  //   message.success(
+  //     intl.formatMessage({
+  //       id: 'pages.form.delete',
+  //     }),
+  //   )
+  //   actionRef.current?.reload()
+  // }
 
-  const columns: ProColumns<timedTaskLogProps>[] = [
+  const columns: ProColumns<roleListProps>[] = [
     {
       title: intl.formatMessage({
-        id: 'sys.timedTaskLog.jobLogId',
+        id: 'sys.user.userName',
       }),
+      key: 'userName',
+      dataIndex: 'userName',
+    },
+    {
+      title: intl.formatMessage({
+        id: 'sys.user.nickName',
+      }),
+      key: 'nickName',
+      dataIndex: 'nickName',
       hideInSearch: true,
-      key: 'jobLogId',
-      dataIndex: 'jobLogId',
-      width: 73,
     },
     {
       title: intl.formatMessage({
-        id: 'sys.timedTask.jobName',
+        id: 'sys.user.email',
       }),
-      key: 'jobName',
-      dataIndex: 'jobName',
-    },
-    {
-      title: intl.formatMessage({
-        id: 'sys.timedTask.jobGroup',
-      }),
+      key: 'email',
+      dataIndex: 'email',
       hideInSearch: true,
-      key: 'jobGroup',
-      dataIndex: 'jobGroup',
-      renderText: (val) => sysJobData[val],
     },
     {
       title: intl.formatMessage({
-        id: 'sys.timedTask.jobGroup',
+        id: 'sys.user.phonenumber',
       }),
-      key: 'jobGroup',
-      dataIndex: 'jobGroup',
-      hideInTable: true,
-      renderFormItem: (_, { type }) => {
-        if (type === 'form') {
-          return null
-        }
-        return <DictSelect authorword="sys_job_group" />
-      },
-    },
-    {
-      title: intl.formatMessage({
-        id: 'sys.timedTask.invokeTarget',
-      }),
-      width: '18%',
-      key: 'invokeTarget',
+      key: 'phonenumber',
+      dataIndex: 'phonenumber',
       hideInSearch: true,
-      dataIndex: 'invokeTarget',
-    },
-    {
-      title: intl.formatMessage({
-        id: 'sys.timedTaskLog.jobMessage',
-      }),
-      key: 'jobMessage',
-      hideInSearch: true,
-      dataIndex: 'jobMessage',
-    },
-    {
-      title: intl.formatMessage({
-        id: 'sys.base.status',
-      }),
-      key: 'status',
-      dataIndex: 'status',
-      hideInTable: true,
-      renderFormItem: (_, { type }) => {
-        if (type === 'form') {
-          return null
-        }
-        return <DictSelect authorword="sys_common_status" />
-      },
     },
     {
       title: intl.formatMessage({
@@ -123,75 +81,71 @@ const RoleManage: React.FC = () => {
     },
     {
       title: intl.formatMessage({
-        id: 'sys.timedTaskLog.createTime',
+        id: 'sys.base.createTime',
       }),
       key: 'createTime',
       dataIndex: 'createTime',
       hideInSearch: true,
+      width: 170,
       valueType: 'dateTime',
     },
-    {
-      title: intl.formatMessage({
-        id: 'sys.timedTaskLog.createTime',
-      }),
-      hideInTable: true,
-      dataIndex: 'createTime',
-      valueType: 'dateRange',
-      search: {
-        transform: (value: any) => ({ beginTime: value[0], endTime: value[1] }),
-      },
-    },
-    {
-      title: intl.formatMessage({
-        id: 'pages.table.option',
-      }),
-      width: 80,
-      key: 'option',
-      valueType: 'option',
-      render: (_, recored) => [
-        <MenuDelteButton
-          authorword="monitor:job:remove"
-          onClick={() => delteRecored(recored.jobLogId)}
-          key="delete"
-        />,
-      ],
-    },
+    // {
+    //   title: intl.formatMessage({
+    //     id: 'pages.table.option',
+    //   }),
+    //   width: 100,
+    //   key: 'option',
+    //   valueType: 'option',
+    //   render: (_, recored) => [
+    //     <PermissionButton
+    //       authorword="system:role:remove"
+    //       onClick={() => delteRecored(recored.userId)}
+    //       key="delete"
+    //       type="link"
+    //     >
+    //       <CloseCircleOutlined style={{ marginRight: 3 }} />
+    //       {intl.formatMessage({
+    //         id: 'sys.role.cancelperms',
+    //       })}
+    //     </PermissionButton>,
+    //   ],
+    // },
   ]
 
-  const getList = async (param: timedTaskLogParamProps) => {
+  const getList = async (param: roleParamProps) => {
     // console.log(param)
-    const { rows, total } = await getTimedTaskLogList(param)
+    const { rows, total } = await getRoleUserList({ ...param, roleId })
     return {
       data: rows,
       total,
     }
   }
 
-  // 批量删除
-  const multipleDelete = async () => {
-    if (selectedRowKeys.length) {
-      await deleteTimedTaskLog(selectedRowKeys.join(','))
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete',
-        }),
-      )
-      actionRef.current?.reload()
-      setSelectedRowKeys([])
-    } else {
-      message.warning(
-        intl.formatMessage({
-          id: 'pages.table.oneDataDelete',
-        }),
-      )
-    }
-  }
+  // 批量取消
+  // const multipleDelete = async () => {
+  //   if (selectedRowKeys.length) {
+  //     await cancelAuthor({ roleId, userId: selectedRowKeys.join(',') })
+  //     message.success(
+  //       intl.formatMessage({
+  //         id: 'pages.form.success',
+  //       }),
+  //     )
+  //     actionRef.current?.reload()
+  //     setSelectedRowKeys([])
+  //   } else {
+  //     message.warning(
+  //       intl.formatMessage({
+  //         id: 'pages.table.oneDataDelete',
+  //       }),
+  //     )
+  //   }
+  // }
 
   return (
     <>
-      <MenuProTable<timedTaskLogProps>
+      <MenuProTable<roleListProps>
         request={getList}
-        rowKey="jobLogId"
+        rowKey="userId"
         columns={columns}
         actionRef={actionRef}
         headerTitle={[
@@ -201,28 +155,45 @@ const RoleManage: React.FC = () => {
             style={{ marginRight: 8 }}
             icon={<ArrowLeftOutlined />}
             onClick={() => {
-              history.push('/systemMonitor/timedTask')
+              history.push('/sys/role')
             }}
           >
             {intl.formatMessage({
               id: 'pages.btn.back',
             })}
           </Button>,
+          // <PermissionButton
+          //   authorword="system:role:remove"
+          //   type="primary"
+          //   onClick={() => {setModalVisible(true)}}
+          //   key="delete"
+          // >
+          //   <CloseCircleOutlined />
+          //   {intl.formatMessage({
+          //     id: 'sys.role.cancelperms1',
+          //   })}
+          // </PermissionButton>,
         ]}
         toolBarRender={() => [
-          <MenuMultiDelButton
-            authorword="system:dict:remove"
-            key="delete"
-            onClick={multipleDelete}
-          />,
+          // <PermissionButton
+          //   authorword="system:role:remove"
+          //   type="primary"
+          //   onClick={multipleDelete}
+          //   key="delete"
+          // >
+          //   <CloseCircleOutlined />
+          //   {intl.formatMessage({
+          //     id: 'sys.role.cancelperms1',
+          //   })}
+          // </PermissionButton>,
         ]}
         tableAlertRender={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (value) => {
-            setSelectedRowKeys(value)
-          },
-        }}
+        // rowSelection={{
+        //   selectedRowKeys,
+        //   onChange: (value) => {
+        //     setSelectedRowKeys(value)
+        //   },
+        // }}
       />
     </>
   )

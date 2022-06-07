@@ -2,8 +2,8 @@ import React, { useState, useRef } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
 import type { roleListProps, roleParamProps } from '@/services/types'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import { Switch, Popconfirm, message, Dropdown, Menu } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Switch, Popconfirm, message } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 import { getRoleList, deleteRole, changeRoleStatus } from '@/services'
 import ExportFile from '@/components/ComUpload/exportFile'
 import DictSelect from '@/components/ComSelect'
@@ -44,41 +44,41 @@ const RoleManage: React.FC = () => {
     actionRef.current?.reload()
   }
 
-  const menu = (recored: roleListProps) => (
-    <Menu
-      items={[
-        {
-          key: '2',
-          label: (
-            <a
-              onClick={() => {
-                setDataVisible(true)
-                setId(recored.roleId)
-              }}
-            >
-              {intl.formatMessage({
-                id: 'sys.role.dataPerm',
-              })}
-            </a>
-          ),
-        },
-        {
-          key: '3',
-          label: (
-            <a
-              onClick={() => {
-                history.push(`/sys/role/user`)
-              }}
-            >
-              {intl.formatMessage({
-                id: 'sys.role.allotUser',
-              })}
-            </a>
-          ),
-        },
-      ]}
-    />
-  )
+  // const menu = (recored: roleListProps) => (
+  //   <Menu
+  //     items={[
+  //       {
+  //         key: '2',
+  //         label: (
+  //           <a
+  //             onClick={() => {
+  //               setDataVisible(true)
+  //               setId(recored.roleId)
+  //             }}
+  //           >
+  //             {intl.formatMessage({
+  //               id: 'sys.role.dataPerm',
+  //             })}
+  //           </a>
+  //         ),
+  //       },
+  //       {
+  //         key: '3',
+  //         label: (
+  //           <a
+  //             onClick={() => {
+  //               history.push(`/sys/role/user`)
+  //             }}
+  //           >
+  //             {intl.formatMessage({
+  //               id: 'sys.role.allotUser',
+  //             })}
+  //           </a>
+  //         ),
+  //       },
+  //     ]}
+  //   />
+  // )
 
   const columns: ProColumns<roleListProps>[] = [
     {
@@ -178,7 +178,7 @@ const RoleManage: React.FC = () => {
       title: intl.formatMessage({
         id: 'pages.table.option',
       }),
-      width: 170,
+      width: 180,
       key: 'option',
       valueType: 'option',
       render: (_, recored) => [
@@ -195,14 +195,17 @@ const RoleManage: React.FC = () => {
           onClick={() => delteRecored(recored.roleId)}
           key="delete"
         />,
-        <Dropdown key="log" overlay={() => menu(recored)}>
-          <a onClick={(e) => e.preventDefault()}>
-            {intl.formatMessage({
-              id: 'pages.btn.more',
-            })}
-            <DownOutlined />
-          </a>
-        </Dropdown>,
+        <a
+          key="user"
+          onClick={() => {
+            history.push(`/sys/role/user?roleId=${recored.roleId}`)
+          }}
+        >
+          <UserOutlined style={{ marginRight: 3 }} />
+          {intl.formatMessage({
+            id: 'sys.user.user',
+          })}
+        </a>,
       ],
     },
   ]

@@ -28,6 +28,7 @@ export interface roleParamProps extends pageLimitProps {
   status?: string
   beginTime?: string
   endTime?: string
+  roleId?: number
 }
 // 部门查询参数
 export interface deptParamProps extends pageLimitProps {

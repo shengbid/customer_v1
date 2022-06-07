@@ -53,6 +53,7 @@ export interface menuListProps {
 // 角色列表
 export interface roleListProps {
   roleId: number
+  userId: number
   roleName?: string
   roleKey?: number
   roleSort?: string

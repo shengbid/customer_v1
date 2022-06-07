@@ -44,3 +44,17 @@ export async function addDataPerms(data: roleListProps) {
     method: 'put',
   })
 }
+
+/** 获取角色用户列表 */
+export async function getRoleUserList(params: roleParamProps) {
+  return request<{ rows: roleListProps[]; total: number }>(`${url}/authUser/allocatedList`, {
+    params: paramsToPageParams(params),
+  })
+}
+/** 取消授权 */
+export async function cancelAuthor(data: { userId: number | string; roleId: number }) {
+  return request(`${url}/authUser/cancel`, {
+    data,
+    method: 'put',
+  })
+}

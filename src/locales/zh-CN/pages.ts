@@ -7,7 +7,7 @@ export default {
   'pages.table.model': '模板',
   'pages.table.option': '操作',
   'pages.table.oneData': '至少保留一条数据',
-  'pages.table.oneDataDelete': '请先选择要删除的数据!',
+  'pages.table.oneDataDelete': '请先选择数据!',
   'pages.btn.add': '新增',
   'pages.btn.batchDelete': '批量删除',
   'pages.btn.save': '保存',
