@@ -46,7 +46,7 @@
         routes: [
           {
             path: '/sys',
-            redirect: '/sys/menu',
+            redirect: '/sys/user',
           },
           {
             path: '/sys/user',
