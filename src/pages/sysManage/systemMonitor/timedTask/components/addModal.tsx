@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Button, Form, Input, InputNumber, message, Spin } from 'antd'
+import { Modal, Button, Form, Input, message, Spin } from 'antd'
 import type { addModalProps } from '@/services/types'
-import { addPost, postDetail } from '@/services'
+import { addTimedTask, timedTaskDetail } from '@/services'
 import DictSelect from '@/components/ComSelect'
 import { useIntl } from 'umi'
-
-const { TextArea } = Input
 
 const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel, info }) => {
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
@@ -22,7 +20,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
   const getDetail = async () => {
     setSpinning(true)
-    const { data } = await postDetail(info)
+    const { data } = await timedTaskDetail(info)
     setSpinning(false)
     if (data) {
       form.setFieldsValue({ ...data })
@@ -38,7 +36,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
   const handleOk = async (values: any) => {
     setConfirmLoading(true)
     try {
-      await addPost(values)
+      await addTimedTask(values)
       setConfirmLoading(false)
     } catch (error) {
       setConfirmLoading(false)
@@ -61,7 +59,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
   return (
     <Modal
       title={`${text}${intl.formatMessage({
-        id: 'sys.post.name',
+        id: 'sys.timedTask.name',
       })}`}
       maskClosable={false}
       destroyOnClose
@@ -73,28 +71,28 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
       <Spin spinning={spinning}>
         <Form
           name="basic"
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 18 }}
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 17 }}
           initialValues={{ status: '0' }}
           onFinish={handleOk}
           form={form}
           autoComplete="off"
         >
-          <Form.Item label="id" name="postId" style={{ display: 'none' }}>
+          <Form.Item label="id" name="jobId" style={{ display: 'none' }}>
             <Input />
           </Form.Item>
           <Form.Item
             label={intl.formatMessage({
-              id: 'sys.post.postName',
+              id: 'sys.timedTask.jobName',
             })}
-            name="postName"
+            name="jobName"
             rules={[
               {
                 required: true,
                 message: `${intl.formatMessage({
                   id: 'pages.form.input',
                 })}${intl.formatMessage({
-                  id: 'sys.post.postName',
+                  id: 'sys.timedTask.jobName',
                 })}`,
               },
             ]}
@@ -104,45 +102,102 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
           <Form.Item
             label={intl.formatMessage({
-              id: 'sys.post.postCode',
+              id: 'sys.timedTask.jobGroup',
             })}
-            name="postCode"
+            name="jobGroup"
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.select',
+                })}${intl.formatMessage({
+                  id: 'sys.timedTask.jobGroup',
+                })}`,
+              },
+            ]}
+          >
+            <DictSelect authorword="sys_job_group" />
+          </Form.Item>
+
+          <Form.Item
+            label={intl.formatMessage({
+              id: 'sys.timedTask.invokeTarget',
+            })}
+            name="invokeTarget"
             rules={[
               {
                 required: true,
                 message: `${intl.formatMessage({
                   id: 'pages.form.input',
                 })}${intl.formatMessage({
-                  id: 'sys.post.postCode',
+                  id: 'sys.timedTask.invokeTarget',
                 })}`,
               },
             ]}
           >
-            <Input maxLength={50} />
+            <Input maxLength={150} />
           </Form.Item>
 
           <Form.Item
             label={intl.formatMessage({
-              id: 'sys.post.postSort',
+              id: 'sys.timedTask.cronExpression',
             })}
-            name="postSort"
+            name="cronExpression"
             rules={[
               {
                 required: true,
                 message: `${intl.formatMessage({
                   id: 'pages.form.input',
                 })}${intl.formatMessage({
-                  id: 'sys.post.postSort',
+                  id: 'sys.timedTask.cronExpression',
                 })}`,
               },
             ]}
           >
-            <InputNumber style={{ width: '100%' }} min={1} max={30} />
+            <Input maxLength={350} />
           </Form.Item>
 
           <Form.Item
             label={intl.formatMessage({
-              id: 'sys.base.status',
+              id: 'sys.timedTask.misfirePolicy',
+            })}
+            name="misfirePolicy"
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.select',
+                })}${intl.formatMessage({
+                  id: 'sys.timedTask.misfirePolicy',
+                })}`,
+              },
+            ]}
+          >
+            <DictSelect authorword="sys_job_celue" type="radio" />
+          </Form.Item>
+
+          <Form.Item
+            label={intl.formatMessage({
+              id: 'sys.timedTask.concurrent',
+            })}
+            name="concurrent"
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.select',
+                })}${intl.formatMessage({
+                  id: 'sys.timedTask.concurrent',
+                })}`,
+              },
+            ]}
+          >
+            <DictSelect authorword="sys_job_erupt" type="radio" />
+          </Form.Item>
+
+          <Form.Item
+            label={intl.formatMessage({
+              id: 'sys.timedTask.status',
             })}
             name="status"
             rules={[
@@ -151,31 +206,12 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                 message: `${intl.formatMessage({
                   id: 'pages.form.select',
                 })}${intl.formatMessage({
-                  id: 'sys.base.status',
+                  id: 'sys.timedTask.status',
                 })}`,
               },
             ]}
           >
-            <DictSelect authorword="sys_normal_disable" type="radio" />
-          </Form.Item>
-
-          <Form.Item
-            label={intl.formatMessage({
-              id: 'pages.form.remark',
-            })}
-            name="remark"
-            rules={[
-              {
-                required: false,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.input',
-                })}${intl.formatMessage({
-                  id: 'pages.form.remark',
-                })}`,
-              },
-            ]}
-          >
-            <TextArea autoSize={{ minRows: 3, maxRows: 5 }} maxLength={500} />
+            <DictSelect authorword="sys_common_status" type="radio" />
           </Form.Item>
 
           <div className="modal-btns">

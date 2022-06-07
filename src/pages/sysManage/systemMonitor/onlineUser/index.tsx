@@ -134,8 +134,6 @@ const OnlineUser: React.FC = () => {
       rowKey="tokenId"
       columns={columns}
       actionRef={actionRef}
-      toolBarRender={false}
-      tableAlertRender={false}
     />
   )
 }

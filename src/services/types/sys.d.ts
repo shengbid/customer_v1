@@ -134,15 +134,19 @@ export interface timedTaskProps {
   jobGroup: string
   invokeTarget?: string
   cronExpression?: string
-  status?: string
+  status: string
+  createTime?: string
+  nextValidTime?: string
+  concurrent: string
+  misfirePolicy: string
 }
 // 定时任务日志
 export interface timedTaskLogProps {
-  jobId: number
+  jobLogId: number
   jobName?: string
   jobGroup: string
   invokeTarget?: string
-  msg?: string
+  jobMessage?: string
   status?: string
   createTime?: string
 }

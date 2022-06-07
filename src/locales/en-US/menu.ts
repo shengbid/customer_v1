@@ -21,6 +21,7 @@ export default {
   'menu.系统监控': '系统监控',
   'menu.系统监控.在线用户': '在线用户',
   'menu.系统监控.定时任务': '定时任务',
+  'menu.系统监控.日志': '日志',
   'menu.系统监控.Sentinel控制台': 'Sentinel',
   'menu.系统监控.Nacos控制台': 'Nacos',
   'menu.系统监控.Admin控制台': 'Admin',

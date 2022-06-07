@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
 import type { timedTaskProps, timedTaskParamProps } from '@/services/types'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import { message, Switch, Popconfirm, Dropdown, Space, Menu } from 'antd'
+import { message, Switch, Popconfirm, Dropdown, Menu } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import { getTimedTaskList, deleteTimedTask, changeTaskStatus, runTaskStatus } from '@/services'
 import ExportFile from '@/components/ComUpload/exportFile'
@@ -214,7 +214,7 @@ const RoleManage: React.FC = () => {
       title: intl.formatMessage({
         id: 'pages.table.option',
       }),
-      width: 150,
+      width: 180,
       key: 'option',
       valueType: 'option',
       render: (_, recored) => [
@@ -233,12 +233,10 @@ const RoleManage: React.FC = () => {
         />,
         <Dropdown key="log" overlay={() => menu(recored)}>
           <a onClick={(e) => e.preventDefault()}>
-            <Space>
-              {intl.formatMessage({
-                id: 'sys.timedTask.log',
-              })}
-              <DownOutlined />
-            </Space>
+            {intl.formatMessage({
+              id: 'pages.btn.more',
+            })}
+            <DownOutlined />
           </a>
         </Dropdown>,
       ],
@@ -304,9 +302,9 @@ const RoleManage: React.FC = () => {
             key="export"
             params={params}
             title={intl.formatMessage({
-              id: 'sys.post.name',
+              id: 'sys.timedTask.name',
             })}
-            url="job"
+            url="/schedule/job"
           />,
           <MenuMultiDelButton
             authorword="monitor:job:remove"

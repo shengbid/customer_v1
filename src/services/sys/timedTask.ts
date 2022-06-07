@@ -8,7 +8,7 @@ import type {
 import { paramsToPageParams } from '@/utils/base'
 
 const url = '/schedule/job'
-const logUrl = '/schedule/jobLog'
+const logUrl = '/schedule/job/log'
 
 /** 获取定时任务列表 */
 export async function getTimedTaskList(params: timedTaskParamProps) {

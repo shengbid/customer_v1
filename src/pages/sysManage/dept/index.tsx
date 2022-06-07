@@ -34,14 +34,14 @@ const RoleManage: React.FC = () => {
   const columns: ProColumns<deptListProps>[] = [
     {
       title: intl.formatMessage({
-        id: 'sys.base.createTime',
+        id: 'sys.dept.deptName',
       }),
       key: 'deptName',
       dataIndex: 'deptName',
     },
     {
       title: intl.formatMessage({
-        id: 'sys.dept.deptName',
+        id: 'sys.menu.orderNum',
       }),
       key: 'orderNum',
       dataIndex: 'orderNum',

@@ -33,11 +33,11 @@ const RoleManage: React.FC = () => {
   const columns: ProColumns<timedTaskLogProps>[] = [
     {
       title: intl.formatMessage({
-        id: 'sys.timedTaskLog.jobId',
+        id: 'sys.timedTaskLog.jobLogId',
       }),
       hideInSearch: true,
-      key: 'jobId',
-      dataIndex: 'jobId',
+      key: 'jobLogId',
+      dataIndex: 'jobLogId',
       width: 73,
     },
     {
@@ -74,17 +74,18 @@ const RoleManage: React.FC = () => {
       title: intl.formatMessage({
         id: 'sys.timedTask.invokeTarget',
       }),
+      width: '18%',
       key: 'invokeTarget',
       hideInSearch: true,
       dataIndex: 'invokeTarget',
     },
     {
       title: intl.formatMessage({
-        id: 'sys.timedTaskLog.msg',
+        id: 'sys.timedTaskLog.jobMessage',
       }),
-      key: 'msg',
+      key: 'jobMessage',
       hideInSearch: true,
-      dataIndex: 'msg',
+      dataIndex: 'jobMessage',
     },
     {
       title: intl.formatMessage({
@@ -146,13 +147,13 @@ const RoleManage: React.FC = () => {
       title: intl.formatMessage({
         id: 'pages.table.option',
       }),
-      width: 150,
+      width: 80,
       key: 'option',
       valueType: 'option',
       render: (_, recored) => [
         <MenuDelteButton
           authorword="monitor:job:remove"
-          onClick={() => delteRecored(recored.jobId)}
+          onClick={() => delteRecored(recored.jobLogId)}
           key="delete"
         />,
       ],
@@ -193,7 +194,7 @@ const RoleManage: React.FC = () => {
     <>
       <MenuProTable<timedTaskLogProps>
         request={getList}
-        rowKey="dictCode"
+        rowKey="jobLogId"
         columns={columns}
         actionRef={actionRef}
         headerTitle={[
@@ -222,9 +223,9 @@ const RoleManage: React.FC = () => {
             key="export"
             params={params}
             title={intl.formatMessage({
-              id: 'sys.post.name',
+              id: 'sys.timedTask.log',
             })}
-            url="job"
+            url="/schedule/job/log"
           />,
         ]}
         tableAlertRender={false}

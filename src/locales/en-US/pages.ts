@@ -23,6 +23,7 @@ export default {
   'pages.btn.down': 'download',
   'pages.btn.upload': 'Upload',
   'pages.btn.back': 'Back',
+  'pages.btn.more': 'More',
   'pages.modal.importInfo': '导入成功',
   'pages.modal.importTitle': '导入模板',
   'pages.modal.importTit': '仅允许导入xls、xlsx格式文件。',
