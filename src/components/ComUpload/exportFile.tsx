@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { VerticalAlignBottomOutlined } from '@ant-design/icons'
 import { Button, notification } from 'antd'
 import { downloadFile, exportFile } from '@/services'
@@ -17,10 +17,13 @@ export interface exportProps {
 // 导出模板
 const ExportFile: React.FC<exportProps> = ({ title, url, authorword, icon = true, params }) => {
   const intl = useIntl()
+  const [loading, setLoading] = useState<boolean>(false)
 
   // 下载模板
   const download = async () => {
+    setLoading(true)
     const res = icon ? await exportFile(url, params) : await downloadFile(url)
+    setLoading(false)
     if (res && res.size) {
       if (res.type === 'application/json') {
         // 如果接口报错,抛出错误
@@ -64,13 +67,14 @@ const ExportFile: React.FC<exportProps> = ({ title, url, authorword, icon = true
         authorword={authorword}
         icon={<VerticalAlignBottomOutlined />}
         onClick={download}
+        loading={loading}
       >
         {intl.formatMessage({ id: 'pages.btn.export' })}
       </PermissionButton>
     )
   }
   return (
-    <Button type="link" onClick={download}>
+    <Button type="link" loading={loading} onClick={download}>
       {intl.formatMessage({ id: 'pages.btn.down' })}
     </Button>
   )
