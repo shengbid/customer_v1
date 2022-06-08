@@ -3,11 +3,19 @@ import { Modal, Button, Form, Input, message, Spin } from 'antd'
 import type { addModalProps } from '@/services/types'
 import { addNotice, noticeDetail } from '@/services'
 import DictSelect from '@/components/ComSelect'
-import { useIntl } from 'umi'
+import { useIntl, getLocale } from 'umi'
 // 引入编辑器组件
 import BraftEditor from 'braft-editor'
 // 引入编辑器样式
 import 'braft-editor/dist/index.css'
+
+const languageObj = {
+  'zh-CN': 'zh',
+  'en-US': 'en',
+  'zh-TW': 'zh-hant',
+  'ja-JP': 'jpn',
+  'ko-KR': 'KR',
+}
 
 const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel, info }) => {
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
@@ -27,9 +35,23 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
     const { data } = await noticeDetail(info)
     setSpinning(false)
     if (data) {
-      form.setFieldsValue({ ...data })
+      form.setFieldsValue({
+        ...data,
+        noticeContent: BraftEditor.createEditorState(data.noticeContent),
+      })
     }
   }
+  // 不需要的编辑器属性
+  const excludeControls = [
+    'font-family',
+    'letter-spacing',
+    'emoji',
+    'text-indent',
+    'media',
+    'separator',
+    'superscript',
+    'subscript',
+  ]
 
   useEffect(() => {
     if (modalVisible && info) {
@@ -40,7 +62,10 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
   const handleOk = async (values: any) => {
     setConfirmLoading(true)
     try {
-      await addNotice(values)
+      await addNotice({
+        ...values,
+        noticeContent: values.noticeContent.toHTML(),
+      })
       setConfirmLoading(false)
     } catch (error) {
       setConfirmLoading(false)
@@ -67,7 +92,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
       })}`}
       maskClosable={false}
       destroyOnClose
-      width={600}
+      width={900}
       visible={modalVisible}
       footer={false}
       onCancel={cancel}
@@ -75,8 +100,8 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
       <Spin spinning={spinning}>
         <Form
           name="basic"
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 18 }}
+          labelCol={{ span: 3 }}
+          wrapperCol={{ span: 20 }}
           initialValues={{ status: '0' }}
           onFinish={handleOk}
           form={form}
@@ -89,7 +114,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             label={intl.formatMessage({
               id: 'sys.notice.noticeTitle',
             })}
-            name="postName"
+            name="noticeTitle"
             rules={[
               {
                 required: true,
@@ -108,7 +133,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             label={intl.formatMessage({
               id: 'sys.notice.noticeType',
             })}
-            name="status"
+            name="noticeType"
             rules={[
               {
                 required: true,
@@ -120,7 +145,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
               },
             ]}
           >
-            <DictSelect authorword="sys_notice_type" type="radio" />
+            <DictSelect authorword="sys_notice_type" />
           </Form.Item>
 
           <Form.Item
@@ -146,19 +171,19 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             label={intl.formatMessage({
               id: 'sys.notice.noticeContent',
             })}
-            name="remark"
+            name="noticeContent"
             rules={[
               {
-                required: false,
+                required: true,
                 message: `${intl.formatMessage({
                   id: 'pages.form.input',
                 })}${intl.formatMessage({
-                  id: 'pages.form.noticeContent',
+                  id: 'sys.notice.noticeContent',
                 })}`,
               },
             ]}
           >
-            <BraftEditor />
+            <BraftEditor language={languageObj[getLocale()]} excludeControls={excludeControls} />
           </Form.Item>
 
           <div className="modal-btns">

@@ -8,13 +8,12 @@ import DictSelect from '@/components/ComSelect'
 import AddModal from './components/addModal'
 import { useIntl } from 'umi'
 
-const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
+const { MenuAddButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
 const RoleManage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
-  const [setParams] = useState<noticeParamProps>()
   const intl = useIntl()
   const actionRef = useRef<ActionType>()
 
@@ -50,6 +49,14 @@ const RoleManage: React.FC = () => {
       key: 'noticeType',
       dataIndex: 'noticeType',
       hideInSearch: true,
+      render: (val) =>
+        val === '1'
+          ? intl.formatMessage({
+              id: 'sys.notice.notice',
+            })
+          : intl.formatMessage({
+              id: 'sys.notice.name',
+            }),
     },
     {
       title: intl.formatMessage({
@@ -131,7 +138,6 @@ const RoleManage: React.FC = () => {
 
   const getList = async (param: noticeParamProps) => {
     // console.log(param)
-    setParams(param)
     const { rows, total } = await getNoticeList(param)
     return {
       data: rows,
@@ -140,25 +146,25 @@ const RoleManage: React.FC = () => {
   }
 
   // 批量删除
-  const multipleDelete = async () => {
-    console.log(selectedRowKeys)
-    if (selectedRowKeys.length) {
-      await deleteNotice(selectedRowKeys.join(','))
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete',
-        }),
-      )
-      actionRef.current?.reload()
-      setSelectedRowKeys([])
-    } else {
-      message.warning(
-        intl.formatMessage({
-          id: 'pages.table.oneDataDelete',
-        }),
-      )
-    }
-  }
+  // const multipleDelete = async () => {
+  //   console.log(selectedRowKeys)
+  //   if (selectedRowKeys.length) {
+  //     await deleteNotice(selectedRowKeys.join(','))
+  //     message.success(
+  //       intl.formatMessage({
+  //         id: 'pages.form.delete',
+  //       }),
+  //     )
+  //     actionRef.current?.reload()
+  //     setSelectedRowKeys([])
+  //   } else {
+  //     message.warning(
+  //       intl.formatMessage({
+  //         id: 'pages.table.oneDataDelete',
+  //       }),
+  //     )
+  //   }
+  // }
 
   // 新增
   const submit = () => {
@@ -183,11 +189,11 @@ const RoleManage: React.FC = () => {
           />
         }
         toolBarRender={() => [
-          <MenuMultiDelButton
-            authorword="system:notice:remove"
-            key="delete"
-            onClick={multipleDelete}
-          />,
+          // <MenuMultiDelButton
+          //   authorword="system:notice:remove"
+          //   key="delete"
+          //   onClick={multipleDelete}
+          // />,
         ]}
         tableAlertRender={false}
         rowSelection={{

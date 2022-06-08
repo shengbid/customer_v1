@@ -69,6 +69,7 @@ export default {
   'sys.params.configValue': '参数键值',
   'sys.params.configType': '系统内置',
   'sys.notice.name': '公告',
+  'sys.notice.notice': '通知',
   'sys.notice.noticeTitle': '公告标题',
   'sys.notice.noticeType': '公告类型',
   'sys.notice.createBy': '创建者',
