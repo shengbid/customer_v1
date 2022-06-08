@@ -12,11 +12,10 @@ import { FolderViewOutlined } from '@ant-design/icons'
 import { useIntl } from 'umi'
 import { statusData } from '@/utils/dictData'
 
-const { MenuMultiDelButton, MenuDelteButton } = MenuProTable
+const { MenuDelteButton } = MenuProTable
 
 const RoleManage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
   const [operType, setOperType] = useState<any>()
   const [extraInfo, setExtraInfo] = useState<any>()
@@ -208,27 +207,6 @@ const RoleManage: React.FC = () => {
     }
   }
 
-  // 批量删除
-  const multipleDelete = async () => {
-    console.log(selectedRowKeys)
-    if (selectedRowKeys.length) {
-      await deleteOperateInfo(selectedRowKeys.join(','))
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete',
-        }),
-      )
-      actionRef.current?.reload()
-      setSelectedRowKeys([])
-    } else {
-      message.warning(
-        intl.formatMessage({
-          id: 'pages.table.oneDataDelete',
-        }),
-      )
-    }
-  }
-
   return (
     <>
       <MenuProTable<operateInfoProps>
@@ -246,19 +224,8 @@ const RoleManage: React.FC = () => {
             })}
             url="/monitor/operlog"
           />,
-          <MenuMultiDelButton
-            authorword="monitor:operlog:remove"
-            key="delete"
-            onClick={multipleDelete}
-          />,
         ]}
         tableAlertRender={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (value) => {
-            setSelectedRowKeys(value)
-          },
-        }}
       />
 
       <AddModal

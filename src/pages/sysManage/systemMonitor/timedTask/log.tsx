@@ -10,10 +10,9 @@ import { history, useIntl } from 'umi'
 import ExportFile from '@/components/ComUpload/exportFile'
 import { sysJobData } from '@/utils/dictData'
 
-const { MenuMultiDelButton, MenuDelteButton } = MenuProTable
+const { MenuDelteButton } = MenuProTable
 
 const RoleManage: React.FC = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [params, setParams] = useState<timedTaskLogParamProps>()
   const intl = useIntl()
 
@@ -170,26 +169,6 @@ const RoleManage: React.FC = () => {
     }
   }
 
-  // 批量删除
-  const multipleDelete = async () => {
-    if (selectedRowKeys.length) {
-      await deleteTimedTaskLog(selectedRowKeys.join(','))
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete',
-        }),
-      )
-      actionRef.current?.reload()
-      setSelectedRowKeys([])
-    } else {
-      message.warning(
-        intl.formatMessage({
-          id: 'pages.table.oneDataDelete',
-        }),
-      )
-    }
-  }
-
   return (
     <>
       <MenuProTable<timedTaskLogProps>
@@ -213,11 +192,6 @@ const RoleManage: React.FC = () => {
           </Button>,
         ]}
         toolBarRender={() => [
-          <MenuMultiDelButton
-            authorword="system:dict:remove"
-            key="delete"
-            onClick={multipleDelete}
-          />,
           <ExportFile
             authorword="monitor:job:export"
             key="export"
@@ -229,12 +203,6 @@ const RoleManage: React.FC = () => {
           />,
         ]}
         tableAlertRender={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (value) => {
-            setSelectedRowKeys(value)
-          },
-        }}
       />
     </>
   )

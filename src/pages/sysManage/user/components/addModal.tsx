@@ -175,7 +175,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                 name="email"
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: `${intl.formatMessage({
                       id: 'pages.form.input',
                     })}${intl.formatMessage({
@@ -219,7 +219,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                 name="sex"
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: `${intl.formatMessage({
                       id: 'pages.form.select',
                     })}${intl.formatMessage({

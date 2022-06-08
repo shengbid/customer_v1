@@ -2,23 +2,23 @@ import React, { useState, useRef } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
 import type { roleListProps, roleParamProps } from '@/services/types'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import { Switch, Popconfirm, message } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { Switch, Popconfirm, message, Menu, Dropdown } from 'antd'
+import { DownOutlined, UserOutlined, SecurityScanOutlined } from '@ant-design/icons'
 import { getRoleList, deleteRole, changeRoleStatus } from '@/services'
-import ExportFile from '@/components/ComUpload/exportFile'
+// import ExportFile from '@/components/ComUpload/exportFile'
 import DictSelect from '@/components/ComSelect'
 import AddModal from './components/addModal'
 import { useIntl, history } from 'umi'
 import DataModal from './components/addData'
 
-const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
+const { MenuAddButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
 const RoleManage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
   const [dataVisible, setDataVisible] = useState<boolean>(false)
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+  // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
-  const [params, setParams] = useState<roleParamProps>()
+  // const [params, setParams] = useState<roleParamProps>()
   const intl = useIntl()
   const actionRef = useRef<ActionType>()
 
@@ -44,49 +44,45 @@ const RoleManage: React.FC = () => {
     actionRef.current?.reload()
   }
 
-  // const menu = (recored: roleListProps) => (
-  //   <Menu
-  //     items={[
-  //       {
-  //         key: '2',
-  //         label: (
-  //           <a
-  //             onClick={() => {
-  //               setDataVisible(true)
-  //               setId(recored.roleId)
-  //             }}
-  //           >
-  //             {intl.formatMessage({
-  //               id: 'sys.role.dataPerm',
-  //             })}
-  //           </a>
-  //         ),
-  //       },
-  //       {
-  //         key: '3',
-  //         label: (
-  //           <a
-  //             onClick={() => {
-  //               history.push(`/sys/role/user`)
-  //             }}
-  //           >
-  //             {intl.formatMessage({
-  //               id: 'sys.role.allotUser',
-  //             })}
-  //           </a>
-  //         ),
-  //       },
-  //     ]}
-  //   />
-  // )
+  const menu = (recored: roleListProps) => (
+    <Menu
+      items={[
+        {
+          key: '2',
+          label: (
+            <MenuDelteButton
+              authorword="system:role:remove"
+              onClick={() => delteRecored(recored.roleId)}
+              key="delete"
+            />
+          ),
+        },
+        {
+          key: '3',
+          label: (
+            <a
+              onClick={() => {
+                history.push(`/sys/role/user`)
+              }}
+            >
+              <UserOutlined style={{ marginRight: 3 }} />
+              {intl.formatMessage({
+                id: 'sys.user.user',
+              })}
+            </a>
+          ),
+        },
+      ]}
+    />
+  )
 
   const columns: ProColumns<roleListProps>[] = [
-    {
-      title: intl.formatMessage({
-        id: 'pages.table.index',
-      }),
-      valueType: 'index',
-    },
+    // {
+    //   title: intl.formatMessage({
+    //     id: 'pages.table.index',
+    //   }),
+    //   valueType: 'index',
+    // },
     {
       title: intl.formatMessage({
         id: 'sys.role.roleName',
@@ -178,7 +174,7 @@ const RoleManage: React.FC = () => {
       title: intl.formatMessage({
         id: 'pages.table.option',
       }),
-      width: 180,
+      width: 200,
       key: 'option',
       valueType: 'option',
       render: (_, recored) => [
@@ -190,29 +186,33 @@ const RoleManage: React.FC = () => {
             setModalVisible(true)
           }}
         />,
-        <MenuDelteButton
-          authorword="system:role:remove"
-          onClick={() => delteRecored(recored.roleId)}
-          key="delete"
-        />,
         <a
-          key="user"
+          key="perm"
           onClick={() => {
-            history.push(`/sys/role/user?roleId=${recored.roleId}`)
+            setDataVisible(true)
+            setId(recored.roleId)
           }}
         >
-          <UserOutlined style={{ marginRight: 3 }} />
+          <SecurityScanOutlined style={{ marginRight: 3 }} />
           {intl.formatMessage({
-            id: 'sys.user.user',
+            id: 'sys.role.dataPerm',
           })}
         </a>,
+        <Dropdown key="user" overlay={() => menu(recored)}>
+          <a onClick={(e) => e.preventDefault()}>
+            {intl.formatMessage({
+              id: 'pages.btn.more',
+            })}
+            <DownOutlined />
+          </a>
+        </Dropdown>,
       ],
     },
   ]
 
   const getList = async (param: roleParamProps) => {
     // console.log(param)
-    setParams(param)
+    // setParams(param)
     const { rows, total } = await getRoleList(param)
     return {
       data: rows,
@@ -221,25 +221,25 @@ const RoleManage: React.FC = () => {
   }
 
   // 批量删除
-  const multipleDelete = async () => {
-    console.log(selectedRowKeys)
-    if (selectedRowKeys.length) {
-      await deleteRole(selectedRowKeys.join(','))
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete',
-        }),
-      )
-      actionRef.current?.reload()
-      setSelectedRowKeys([])
-    } else {
-      message.warning(
-        intl.formatMessage({
-          id: 'pages.table.oneDataDelete',
-        }),
-      )
-    }
-  }
+  // const multipleDelete = async () => {
+  //   console.log(selectedRowKeys)
+  //   if (selectedRowKeys.length) {
+  //     await deleteRole(selectedRowKeys.join(','))
+  //     message.success(
+  //       intl.formatMessage({
+  //         id: 'pages.form.delete',
+  //       }),
+  //     )
+  //     actionRef.current?.reload()
+  //     setSelectedRowKeys([])
+  //   } else {
+  //     message.warning(
+  //       intl.formatMessage({
+  //         id: 'pages.table.oneDataDelete',
+  //       }),
+  //     )
+  //   }
+  // }
 
   // 新增
   const submit = () => {
@@ -268,29 +268,29 @@ const RoleManage: React.FC = () => {
             }}
           />
         }
-        toolBarRender={() => [
-          <ExportFile
-            authorword="system:role:export"
-            key="export"
-            params={params}
-            title={intl.formatMessage({
-              id: 'sys.role.role',
-            })}
-            url="role"
-          />,
-          <MenuMultiDelButton
-            authorword="system:role:remove"
-            key="delete"
-            onClick={multipleDelete}
-          />,
-        ]}
+        // toolBarRender={() => [
+        //   <ExportFile
+        //     authorword="system:role:export"
+        //     key="export"
+        //     params={params}
+        //     title={intl.formatMessage({
+        //       id: 'sys.role.role',
+        //     })}
+        //     url="role"
+        //   />,
+        //   <MenuMultiDelButton
+        //     authorword="system:role:remove"
+        //     key="delete"
+        //     onClick={multipleDelete}
+        //   />,
+        // ]}
         tableAlertRender={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (value) => {
-            setSelectedRowKeys(value)
-          },
-        }}
+        // rowSelection={{
+        //   selectedRowKeys,
+        //   onChange: (value) => {
+        //     setSelectedRowKeys(value)
+        //   },
+        // }}
       />
 
       <AddModal

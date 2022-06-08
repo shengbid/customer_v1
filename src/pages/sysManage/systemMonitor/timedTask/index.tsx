@@ -12,12 +12,11 @@ import { useIntl, history } from 'umi'
 import { sysJobData } from '@/utils/dictData'
 import DetailModal from './components/detailModal'
 
-const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
+const { MenuAddButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
 const RoleManage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
   const [detailVisible, setDetailVisible] = useState<boolean>(false)
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
   const [params, setParams] = useState<timedTaskParamProps>()
   const intl = useIntl()
@@ -253,27 +252,6 @@ const RoleManage: React.FC = () => {
     }
   }
 
-  // 批量删除
-  const multipleDelete = async () => {
-    console.log(selectedRowKeys)
-    if (selectedRowKeys.length) {
-      await deleteTimedTask(selectedRowKeys.join(','))
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete',
-        }),
-      )
-      actionRef.current?.reload()
-      setSelectedRowKeys([])
-    } else {
-      message.warning(
-        intl.formatMessage({
-          id: 'pages.table.oneDataDelete',
-        }),
-      )
-    }
-  }
-
   // 新增
   const submit = () => {
     setModalVisible(false)
@@ -306,19 +284,8 @@ const RoleManage: React.FC = () => {
             })}
             url="/schedule/job"
           />,
-          <MenuMultiDelButton
-            authorword="monitor:job:remove"
-            key="delete"
-            onClick={multipleDelete}
-          />,
         ]}
         tableAlertRender={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (value) => {
-            setSelectedRowKeys(value)
-          },
-        }}
       />
 
       <AddModal

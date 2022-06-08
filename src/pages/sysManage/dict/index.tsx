@@ -4,19 +4,16 @@ import type { dictProps, dictParamProps } from '@/services/types'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import { message, Tag } from 'antd'
 import { getDictList, deleteDict } from '@/services'
-import ExportFile from '@/components/ComUpload/exportFile'
 import DictSelect from '@/components/ComSelect'
 import { Link } from 'umi'
 import AddModal from './components/addModal'
 import { useIntl } from 'umi'
 
-const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
+const { MenuAddButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
 const RoleManage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
-  const [params, setParams] = useState<dictParamProps>()
   const intl = useIntl()
   const actionRef = useRef<ActionType>()
 
@@ -32,12 +29,6 @@ const RoleManage: React.FC = () => {
   }
 
   const columns: ProColumns<dictProps>[] = [
-    {
-      title: intl.formatMessage({
-        id: 'pages.table.index',
-      }),
-      valueType: 'index',
-    },
     {
       title: intl.formatMessage({
         id: 'sys.dict.dictName',
@@ -145,31 +136,10 @@ const RoleManage: React.FC = () => {
 
   const getList = async (param: dictParamProps) => {
     // console.log(param)
-    setParams(param)
     const { rows, total } = await getDictList(param)
     return {
       data: rows,
       total,
-    }
-  }
-
-  // 批量删除
-  const multipleDelete = async () => {
-    if (selectedRowKeys.length) {
-      await deleteDict(selectedRowKeys.join(','))
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete',
-        }),
-      )
-      actionRef.current?.reload()
-      setSelectedRowKeys([])
-    } else {
-      message.warning(
-        intl.formatMessage({
-          id: 'pages.table.oneDataDelete',
-        }),
-      )
     }
   }
 
@@ -195,29 +165,7 @@ const RoleManage: React.FC = () => {
             }}
           />
         }
-        toolBarRender={() => [
-          <ExportFile
-            authorword="system:dict:export"
-            key="export"
-            params={params}
-            title={intl.formatMessage({
-              id: 'sys.dict.name',
-            })}
-            url="dict/type"
-          />,
-          <MenuMultiDelButton
-            authorword="system:dict:remove"
-            key="delete"
-            onClick={multipleDelete}
-          />,
-        ]}
         tableAlertRender={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (value) => {
-            setSelectedRowKeys(value)
-          },
-        }}
       />
 
       <AddModal

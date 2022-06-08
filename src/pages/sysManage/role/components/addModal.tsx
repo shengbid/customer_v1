@@ -40,8 +40,9 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
   const handleOk = async (values: any) => {
     setConfirmLoading(true)
     try {
-      const menuIds = values.menuIds.map((item: any) => item.value)
-      await addRole({ ...values, menuIds })
+      // const menuIds = values.menuIds.map((item: any) => item.value)
+      // await addRole({ ...values, menuIds })
+      await addRole(values)
       setConfirmLoading(false)
     } catch (error) {
       setConfirmLoading(false)
@@ -131,7 +132,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             name="roleSort"
             rules={[
               {
-                required: true,
+                required: false,
                 message: `${intl.formatMessage({
                   id: 'pages.form.input',
                 })}${intl.formatMessage({

@@ -5,20 +5,20 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import { Switch, Popconfirm, message } from 'antd'
 import { getUserList, deleteUser, changeUserStatus } from '@/services'
 import DictSelect from '@/components/ComSelect'
-import ImportFile from '@/components/ComUpload/importFile'
-import ExportFile from '@/components/ComUpload/exportFile'
+// import ImportFile from '@/components/ComUpload/importFile'
+// import ExportFile from '@/components/ComUpload/exportFile'
 import AddModal from './components/addModal'
 import ResetPass from './components/resetPass'
 import PermissionButton from '@/components/Permission'
 import { KeyOutlined } from '@ant-design/icons'
 import { useIntl } from 'umi'
 
-const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
+const { MenuAddButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
 const UserManage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
   const [passVisible, setPassVisible] = useState<boolean>(false)
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+  // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
   const intl = useIntl()
   const actionRef = useRef<ActionType>()
@@ -45,12 +45,12 @@ const UserManage: React.FC = () => {
   }
 
   const columns: ProColumns<userProps>[] = [
-    {
-      title: intl.formatMessage({
-        id: 'pages.table.index',
-      }),
-      valueType: 'index',
-    },
+    // {
+    //   title: intl.formatMessage({
+    //     id: 'pages.table.index',
+    //   }),
+    //   valueType: 'index',
+    // },
     {
       title: intl.formatMessage({
         id: 'sys.user.userName',
@@ -187,24 +187,24 @@ const UserManage: React.FC = () => {
   }
 
   // 批量删除
-  const multipleDelete = async () => {
-    if (selectedRowKeys.length) {
-      await deleteUser(selectedRowKeys.join(','))
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete',
-        }),
-      )
-      actionRef.current?.reload()
-      setSelectedRowKeys([])
-    } else {
-      message.warning(
-        intl.formatMessage({
-          id: 'pages.table.oneDataDelete',
-        }),
-      )
-    }
-  }
+  // const multipleDelete = async () => {
+  //   if (selectedRowKeys.length) {
+  //     await deleteUser(selectedRowKeys.join(','))
+  //     message.success(
+  //       intl.formatMessage({
+  //         id: 'pages.form.delete',
+  //       }),
+  //     )
+  //     actionRef.current?.reload()
+  //     setSelectedRowKeys([])
+  //   } else {
+  //     message.warning(
+  //       intl.formatMessage({
+  //         id: 'pages.table.oneDataDelete',
+  //       }),
+  //     )
+  //   }
+  // }
 
   // 新增
   const submit = () => {
@@ -213,9 +213,9 @@ const UserManage: React.FC = () => {
   }
 
   // 导入成功
-  const handleSuccess = () => {
-    actionRef?.current?.reload()
-  }
+  // const handleSuccess = () => {
+  //   actionRef?.current?.reload()
+  // }
 
   return (
     <>
@@ -234,36 +234,36 @@ const UserManage: React.FC = () => {
           />
         }
         toolBarRender={() => [
-          <ImportFile
-            authorword="system:user:import"
-            key="import"
-            url="user"
-            title={intl.formatMessage({
-              id: 'sys.user.user',
-            })}
-            handleSuccess={handleSuccess}
-          />,
-          <ExportFile
-            authorword="system:user:export"
-            key="export"
-            title={intl.formatMessage({
-              id: 'sys.user.user',
-            })}
-            url="user"
-          />,
-          <MenuMultiDelButton
-            authorword="system:user:remove"
-            key="delete"
-            onClick={multipleDelete}
-          />,
+          // <ImportFile
+          //   authorword="system:user:import"
+          //   key="import"
+          //   url="user"
+          //   title={intl.formatMessage({
+          //     id: 'sys.user.user',
+          //   })}
+          //   handleSuccess={handleSuccess}
+          // />,
+          // <ExportFile
+          //   authorword="system:user:export"
+          //   key="export"
+          //   title={intl.formatMessage({
+          //     id: 'sys.user.user',
+          //   })}
+          //   url="user"
+          // />,
+          // <MenuMultiDelButton
+          //   authorword="system:user:remove"
+          //   key="delete"
+          //   onClick={multipleDelete}
+          // />,
         ]}
         tableAlertRender={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (value) => {
-            setSelectedRowKeys(value)
-          },
-        }}
+        // rowSelection={{
+        //   selectedRowKeys,
+        //   onChange: (value) => {
+        //     setSelectedRowKeys(value)
+        //   },
+        // }}
       />
 
       <AddModal

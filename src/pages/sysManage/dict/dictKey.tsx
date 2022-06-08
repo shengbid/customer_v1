@@ -10,11 +10,10 @@ import { handleTreeData } from '@/utils/base'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { history, useIntl } from 'umi'
 
-const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
+const { MenuAddButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
 const RoleManage: React.FC = (props: any) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [dictOptions, setDictOptions] = useState<any[]>([])
   const [info, setInfo] = useState<any>()
   const [dictType, setDictType] = useState<string>(props.location.query.type)
@@ -43,12 +42,6 @@ const RoleManage: React.FC = (props: any) => {
   }
 
   const columns: ProColumns<dictKeyProps>[] = [
-    {
-      title: intl.formatMessage({
-        id: 'pages.table.index',
-      }),
-      valueType: 'index',
-    },
     {
       title: intl.formatMessage({
         id: 'sys.dict.dictName',
@@ -165,26 +158,6 @@ const RoleManage: React.FC = (props: any) => {
     }
   }
 
-  // 批量删除
-  const multipleDelete = async () => {
-    if (selectedRowKeys.length) {
-      await deleteDictKey(selectedRowKeys.join(','))
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete',
-        }),
-      )
-      actionRef.current?.reload()
-      setSelectedRowKeys([])
-    } else {
-      message.warning(
-        intl.formatMessage({
-          id: 'pages.table.oneDataDelete',
-        }),
-      )
-    }
-  }
-
   // 新增
   const submit = () => {
     setModalVisible(false)
@@ -223,20 +196,7 @@ const RoleManage: React.FC = (props: any) => {
             }}
           />,
         ]}
-        toolBarRender={() => [
-          <MenuMultiDelButton
-            authorword="system:dict:remove"
-            key="delete"
-            onClick={multipleDelete}
-          />,
-        ]}
         tableAlertRender={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (value) => {
-            setSelectedRowKeys(value)
-          },
-        }}
       />
 
       <AddModal

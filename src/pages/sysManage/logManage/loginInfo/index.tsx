@@ -2,16 +2,13 @@ import React, { useState, useRef } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
 import type { loginInfoProps, loginInfoParamProps } from '@/services/types'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import { message, Tag } from 'antd'
-import { getLoginInfoList, deleteLoginInfo } from '@/services'
+import { Tag } from 'antd'
+import { getLoginInfoList } from '@/services'
 import ExportFile from '@/components/ComUpload/exportFile'
 import DictSelect from '@/components/ComSelect'
 import { useIntl } from 'umi'
 
-const { MenuMultiDelButton } = MenuProTable
-
 const RoleManage: React.FC = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [params, setParams] = useState<loginInfoParamProps>()
   const intl = useIntl()
   const actionRef = useRef<ActionType>()
@@ -139,27 +136,6 @@ const RoleManage: React.FC = () => {
     }
   }
 
-  // 批量删除
-  const multipleDelete = async () => {
-    console.log(selectedRowKeys)
-    if (selectedRowKeys.length) {
-      await deleteLoginInfo(selectedRowKeys.join(','))
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete',
-        }),
-      )
-      actionRef.current?.reload()
-      setSelectedRowKeys([])
-    } else {
-      message.warning(
-        intl.formatMessage({
-          id: 'pages.table.oneDataDelete',
-        }),
-      )
-    }
-  }
-
   return (
     <>
       <MenuProTable<loginInfoProps>
@@ -177,19 +153,8 @@ const RoleManage: React.FC = () => {
             })}
             url="/monitor/logininfor"
           />,
-          <MenuMultiDelButton
-            authorword="monitor:logininfor:remove"
-            key="delete"
-            onClick={multipleDelete}
-          />,
         ]}
         tableAlertRender={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (value) => {
-            setSelectedRowKeys(value)
-          },
-        }}
       />
     </>
   )

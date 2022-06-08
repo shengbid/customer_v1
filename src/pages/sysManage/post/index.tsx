@@ -4,18 +4,18 @@ import type { postListProps, postParamProps } from '@/services/types'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import { message, Tag } from 'antd'
 import { getPostList, deletePost } from '@/services'
-import ExportFile from '@/components/ComUpload/exportFile'
+// import ExportFile from '@/components/ComUpload/exportFile'
 import DictSelect from '@/components/ComSelect'
 import AddModal from './components/addModal'
 import { useIntl } from 'umi'
 
-const { MenuAddButton, MenuMultiDelButton, MenuEditButton, MenuDelteButton } = MenuProTable
+const { MenuAddButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
 const RoleManage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+  // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
-  const [params, setParams] = useState<postParamProps>()
+  // const [params, setParams] = useState<postParamProps>()
   const intl = useIntl()
   const actionRef = useRef<ActionType>()
 
@@ -31,12 +31,12 @@ const RoleManage: React.FC = () => {
   }
 
   const columns: ProColumns<postListProps>[] = [
-    {
-      title: intl.formatMessage({
-        id: 'pages.table.index',
-      }),
-      valueType: 'index',
-    },
+    // {
+    //   title: intl.formatMessage({
+    //     id: 'pages.table.index',
+    //   }),
+    //   valueType: 'index',
+    // },
     {
       title: intl.formatMessage({
         id: 'sys.post.postName',
@@ -142,7 +142,7 @@ const RoleManage: React.FC = () => {
 
   const getList = async (param: postParamProps) => {
     // console.log(param)
-    setParams(param)
+    // setParams(param)
     const { rows, total } = await getPostList(param)
     return {
       data: rows,
@@ -150,26 +150,26 @@ const RoleManage: React.FC = () => {
     }
   }
 
-  // 批量删除
-  const multipleDelete = async () => {
-    console.log(selectedRowKeys)
-    if (selectedRowKeys.length) {
-      await deletePost(selectedRowKeys.join(','))
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete',
-        }),
-      )
-      actionRef.current?.reload()
-      setSelectedRowKeys([])
-    } else {
-      message.warning(
-        intl.formatMessage({
-          id: 'pages.table.oneDataDelete',
-        }),
-      )
-    }
-  }
+  // // 批量删除
+  // const multipleDelete = async () => {
+  //   console.log(selectedRowKeys)
+  //   if (selectedRowKeys.length) {
+  //     await deletePost(selectedRowKeys.join(','))
+  //     message.success(
+  //       intl.formatMessage({
+  //         id: 'pages.form.delete',
+  //       }),
+  //     )
+  //     actionRef.current?.reload()
+  //     setSelectedRowKeys([])
+  //   } else {
+  //     message.warning(
+  //       intl.formatMessage({
+  //         id: 'pages.table.oneDataDelete',
+  //       }),
+  //     )
+  //   }
+  // }
 
   // 新增
   const submit = () => {
@@ -193,29 +193,29 @@ const RoleManage: React.FC = () => {
             }}
           />
         }
-        toolBarRender={() => [
-          <ExportFile
-            authorword="system:post:export"
-            key="export"
-            params={params}
-            title={intl.formatMessage({
-              id: 'sys.post.name',
-            })}
-            url="post"
-          />,
-          <MenuMultiDelButton
-            authorword="system:post:remove"
-            key="delete"
-            onClick={multipleDelete}
-          />,
-        ]}
+        // toolBarRender={() => [
+        //   <ExportFile
+        //     authorword="system:post:export"
+        //     key="export"
+        //     params={params}
+        //     title={intl.formatMessage({
+        //       id: 'sys.post.name',
+        //     })}
+        //     url="post"
+        //   />,
+        //   <MenuMultiDelButton
+        //     authorword="system:post:remove"
+        //     key="delete"
+        //     onClick={multipleDelete}
+        //   />,
+        // ]}
         tableAlertRender={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (value) => {
-            setSelectedRowKeys(value)
-          },
-        }}
+        // rowSelection={{
+        //   selectedRowKeys,
+        //   onChange: (value) => {
+        //     setSelectedRowKeys(value)
+        //   },
+        // }}
       />
 
       <AddModal
