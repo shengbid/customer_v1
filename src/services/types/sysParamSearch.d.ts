@@ -54,6 +54,12 @@ export interface paramsParamProps extends pageLimitProps {
   configType?: string
   createTime?: string
 }
+// 通知公告查询参数
+export interface noticeParamProps extends pageLimitProps {
+  noticeTitle?: string
+  noticeType?: string
+  createBy?: string
+}
 // 操作日志查询参数
 export interface operateInfoParamProps extends pageLimitProps {
   title?: string

@@ -89,6 +89,15 @@ export interface paramsProps {
   createTime?: string
   remark?: string
 }
+// 通知公告
+export interface noticeProps {
+  noticeId: number
+  noticeTitle?: string
+  noticeType?: string
+  createBy?: string
+  createTime?: string
+  noticeContent?: string
+}
 // 操作日志
 export interface operateInfoProps {
   operId: number
