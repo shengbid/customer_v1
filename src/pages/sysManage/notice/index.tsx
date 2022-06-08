@@ -12,7 +12,7 @@ const { MenuAddButton, MenuEditButton, MenuDelteButton } = MenuProTable
 
 const RoleManage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+  // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
   const intl = useIntl()
   const actionRef = useRef<ActionType>()
@@ -29,18 +29,19 @@ const RoleManage: React.FC = () => {
   }
 
   const columns: ProColumns<noticeProps>[] = [
-    {
-      title: intl.formatMessage({
-        id: 'pages.table.index',
-      }),
-      valueType: 'index',
-    },
+    // {
+    //   title: intl.formatMessage({
+    //     id: 'pages.table.index',
+    //   }),
+    //   valueType: 'index',
+    // },
     {
       title: intl.formatMessage({
         id: 'sys.notice.noticeTitle',
       }),
       key: 'noticeTitle',
       dataIndex: 'noticeTitle',
+      width: '32%',
     },
     {
       title: intl.formatMessage({
@@ -110,6 +111,7 @@ const RoleManage: React.FC = () => {
       dataIndex: 'createTime',
       hideInSearch: true,
       valueType: 'dateTime',
+      width: 150,
     },
     {
       title: intl.formatMessage({
@@ -196,12 +198,12 @@ const RoleManage: React.FC = () => {
           // />,
         ]}
         tableAlertRender={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (value) => {
-            setSelectedRowKeys(value)
-          },
-        }}
+        // rowSelection={{
+        //   selectedRowKeys,
+        //   onChange: (value) => {
+        //     setSelectedRowKeys(value)
+        //   },
+        // }}
       />
 
       <AddModal

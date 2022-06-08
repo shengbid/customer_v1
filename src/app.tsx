@@ -1,5 +1,5 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout'
-import { SettingDrawer } from '@ant-design/pro-layout'
+// import { SettingDrawer } from '@ant-design/pro-layout'
 import { PageLoading } from '@ant-design/pro-layout'
 import { message, notification } from 'antd'
 import type { RunTimeLayoutConfig, RequestConfig } from 'umi'
@@ -67,7 +67,7 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   // console.log(initialState?.currentUser)
   return {
     logo: <img src={logo} alt="" />,
@@ -90,12 +90,12 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       return [...staticRoutes, ...(initialState?.menus || [])]
     },
     // 增加一个 loading 的状态
-    childrenRender: (children, props) => {
+    childrenRender: (children) => {
       if (initialState?.loading) return <PageLoading />
       return (
         <>
           {children}
-          {!props.location?.pathname?.includes('/login') && (
+          {/* {!props.location?.pathname?.includes('/login') && (
             <SettingDrawer
               disableUrlParams
               enableDarkTheme
@@ -107,7 +107,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
                 }))
               }}
             />
-          )}
+          )} */}
         </>
       )
     },
