@@ -99,7 +99,7 @@ const RoleManage: React.FC = () => {
     },
     {
       title: intl.formatMessage({
-        id: 'sys.operate.browserVersion',
+        id: 'sys.loginInfo.browserVersion',
       }),
       key: 'browserVersion',
       hideInSearch: true,
