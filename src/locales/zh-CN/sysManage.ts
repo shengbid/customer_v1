@@ -93,6 +93,7 @@ export default {
   'sys.loginInfo.ipaddr': '登录地址',
   'sys.loginInfo.loginLocation': '登陆地点',
   'sys.loginInfo.browser': '浏览器',
+  'sys.loginInfo.browserVersion': '浏览器版本号',
   'sys.loginInfo.os': '操作系统',
   'sys.loginInfo.status': '登录状态',
   'sys.loginInfo.msg': '操作信息',

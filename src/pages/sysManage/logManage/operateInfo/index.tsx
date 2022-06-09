@@ -97,14 +97,14 @@ const RoleManage: React.FC = () => {
       hideInSearch: true,
       dataIndex: 'operIp',
     },
-    // {
-    //   title: intl.formatMessage({
-    //     id: 'sys.operate.operLocation',
-    //   }),
-    //   key: 'operLocation',
-    //   hideInSearch: true,
-    //   dataIndex: 'operLocation',
-    // },
+    {
+      title: intl.formatMessage({
+        id: 'sys.operate.browserVersion',
+      }),
+      key: 'browserVersion',
+      hideInSearch: true,
+      dataIndex: 'browserVersion',
+    },
     {
       title: intl.formatMessage({
         id: 'sys.operate.operatorType',
