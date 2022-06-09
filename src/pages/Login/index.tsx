@@ -1,7 +1,7 @@
 import { LockOutlined, MobileOutlined, UserOutlined, SecurityScanOutlined } from '@ant-design/icons'
 import { Alert, message, Tabs, Row, Col } from 'antd'
 import React, { useState, useEffect } from 'react'
-import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form'
+import { ProFormCaptcha, ProFormText, LoginForm } from '@ant-design/pro-form'
 import { history, useModel, SelectLang, useIntl } from 'umi'
 import Footer from '@/components/Footer'
 import { login, getAuthorRoutes, queryCurrentUser, getCaptcha } from '@/services'
@@ -289,13 +289,14 @@ const Login: React.FC = () => {
           <div
             style={{
               marginBottom: 24,
+              height: 10,
             }}
           >
-            <ProFormCheckbox noStyle name="autoLogin">
+            {/* <ProFormCheckbox noStyle name="autoLogin">
               {intl.formatMessage({
                 id: 'pages.login.autoLogin',
               })}
-            </ProFormCheckbox>
+            </ProFormCheckbox> */}
             <a
               style={{
                 float: 'right',
