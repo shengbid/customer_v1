@@ -9,6 +9,7 @@ import { useIntl } from 'umi'
 const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel, info }) => {
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [spinning, setSpinning] = useState<boolean>(false)
+  const [dataType, setDataType] = useState<number>(1)
   const [form] = Form.useForm()
   const intl = useIntl()
 
@@ -18,7 +19,8 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
     const res = await getRoleDeptTreeList(info)
     setSpinning(false)
     if (res && res.data) {
-      form.setFieldsValue({ ...data, menuIds: res.data.checkedKeys })
+      form.setFieldsValue({ ...data, deptIds: res.data.checkedKeys })
+      setDataType(Number(data.dataScope))
     }
   }
 
@@ -31,8 +33,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
   const handleOk = async (values: any) => {
     setConfirmLoading(true)
     try {
-      const menuIds = values.menuIds.map((item: any) => item.value)
-      await addDataPerms({ ...values, menuIds })
+      await addDataPerms(values)
       setConfirmLoading(false)
     } catch (error) {
       setConfirmLoading(false)
@@ -133,27 +134,34 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
               },
             ]}
           >
-            <DictSelect authorword="sys_normal_disable" type="radio" />
+            <DictSelect
+              onChange={(value) => {
+                setDataType(Number(value))
+              }}
+              authorword="sys_role_data_type"
+            />
           </Form.Item>
 
-          <Form.Item
-            label={intl.formatMessage({
-              id: 'sys.role.dataPerm',
-            })}
-            name="deptIds"
-            rules={[
-              {
-                required: true,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.select',
-                })}${intl.formatMessage({
-                  id: 'sys.role.dataPerm',
-                })}`,
-              },
-            ]}
-          >
-            <MultiTreeDataSelect />
-          </Form.Item>
+          {dataType === 2 ? (
+            <Form.Item
+              label={intl.formatMessage({
+                id: 'sys.role.dataPerm',
+              })}
+              name="deptIds"
+              rules={[
+                {
+                  required: true,
+                  message: `${intl.formatMessage({
+                    id: 'pages.form.select',
+                  })}${intl.formatMessage({
+                    id: 'sys.role.dataPerm',
+                  })}`,
+                },
+              ]}
+            >
+              <MultiTreeDataSelect type="1" />
+            </Form.Item>
+          ) : null}
 
           <div className="modal-btns">
             <Button type="primary" htmlType="submit" loading={confirmLoading}>

@@ -112,7 +112,31 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             label={intl.formatMessage({
               id: 'sys.dictKey.dictLabel',
             })}
+            tooltip={intl.formatMessage({
+              id: 'zhCN',
+            })}
             name="dictLabel"
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'sys.dictKey.dictLabel',
+                })}`,
+              },
+            ]}
+          >
+            <Input maxLength={50} />
+          </Form.Item>
+          <Form.Item
+            label={intl.formatMessage({
+              id: 'sys.dictKey.dictLabel',
+            })}
+            tooltip={intl.formatMessage({
+              id: 'zhTW',
+            })}
+            name="dictLabelFt"
             rules={[
               {
                 required: true,

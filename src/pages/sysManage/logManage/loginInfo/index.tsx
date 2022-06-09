@@ -36,14 +36,14 @@ const RoleManage: React.FC = () => {
       key: 'ipaddr',
       dataIndex: 'ipaddr',
     },
-    {
-      title: intl.formatMessage({
-        id: 'sys.loginInfo.loginLocation',
-      }),
-      key: 'loginLocation',
-      hideInSearch: true,
-      dataIndex: 'loginLocation',
-    },
+    // {
+    //   title: intl.formatMessage({
+    //     id: 'sys.loginInfo.loginLocation',
+    //   }),
+    //   key: 'loginLocation',
+    //   hideInSearch: true,
+    //   dataIndex: 'loginLocation',
+    // },
     {
       title: intl.formatMessage({
         id: 'sys.loginInfo.browser',

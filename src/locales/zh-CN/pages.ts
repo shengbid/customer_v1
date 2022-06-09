@@ -55,7 +55,7 @@ export default {
   'pages.login.getcodeSuccess': '获取验证码成功！',
   'pages.login.autoLogin': '自动登录',
   'pages.login.forgetPass': '忘记密码',
-  'pages.login.user': '用户名',
+  'pages.login.user': '用户名/手机号码',
   'pages.login.password': '密码',
   'pages.login.phone': '手机号',
 }
