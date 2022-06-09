@@ -33,6 +33,9 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
   const handleOk = async (values: any) => {
     setConfirmLoading(true)
     try {
+      if (!values.deptIds) {
+        Reflect.set(values, 'deptIds', [])
+      }
       await addDataPerms(values)
       setConfirmLoading(false)
     } catch (error) {
