@@ -15,7 +15,7 @@ const CompletePage: React.FC = (props: any) => {
   }
 
   const toBack = () => {
-    history.push('/login')
+    history.push('/sign')
   }
   return (
     <Result

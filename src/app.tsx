@@ -17,6 +17,7 @@ import logo from './assets/home/logo.jpg'
 
 // const isDev = process.env.NODE_ENV === 'development'
 const loginPath = '/login'
+const signRoute = ['/sign', '/complete']
 
 // 全局配置message
 message.config({
@@ -52,7 +53,7 @@ export async function getInitialState(): Promise<{
   // 如果不是登录页面，执行
   if (
     history.location.pathname !== loginPath &&
-    location.pathname !== '/complete' &&
+    !signRoute.includes(location.pathname) &&
     history.location.pathname !== '/'
   ) {
     const user = await fetchUserInfo()
@@ -88,7 +89,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       if (
         !initialState?.currentUser &&
         location.pathname !== loginPath &&
-        location.pathname !== '/complete'
+        !signRoute.includes(location.pathname)
       ) {
         history.push(loginPath)
       }

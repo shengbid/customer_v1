@@ -45,7 +45,7 @@ const Docusign: React.FC = () => {
   }
   return (
     <div style={{ padding: '50px 100px', background: '#e9ebec' }}>
-      <Card title="申请签约" bordered={false} style={{ width: 350 }}>
+      <Card title="确定签约" bordered={false} style={{ width: 350 }}>
         <p>点击进行签约</p>
         <Button
           type="primary"
@@ -58,7 +58,7 @@ const Docusign: React.FC = () => {
           确定
         </Button>
       </Card>
-      <Card title="申请签约(短信验证)" bordered={false} style={{ width: 350, marginTop: 30 }}>
+      <Card title="确定签约(短信验证)" bordered={false} style={{ width: 350, marginTop: 30 }}>
         <p>点击进行签约</p>
         <Button
           type="primary"
