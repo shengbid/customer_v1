@@ -1,6 +1,8 @@
 import React from 'react'
-import { Modal, Button, Form, Input } from 'antd'
+import { Modal, Button, Form, Input, Select } from 'antd'
 import { emailReg, phoneReg } from '@/utils/reg'
+
+const { Option } = Select
 
 interface modalPrps {
   modalVisible: boolean
@@ -76,6 +78,21 @@ const DetailModal: React.FC<modalPrps> = ({
           ]}
         >
           <Input maxLength={50} />
+        </Form.Item>
+        <Form.Item
+          label="签约角色"
+          name="roleName"
+          rules={[
+            {
+              required: true,
+              message: `请选择签约角色`,
+            },
+          ]}
+        >
+          <Select style={{ width: '100%' }}>
+            <Option value="partyA">甲方</Option>
+            <Option value="partyB">乙方</Option>
+          </Select>
         </Form.Item>
         {signType === 2 ? (
           <>
