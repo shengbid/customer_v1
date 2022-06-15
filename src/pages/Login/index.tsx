@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { ProFormCaptcha, ProFormText, LoginForm } from '@ant-design/pro-form'
 import { history, useModel, SelectLang, useIntl } from 'umi'
 import Footer from '@/components/Footer'
-import { login, getAuthorRoutes, queryCurrentUser, getCaptcha } from '@/services'
+import { login, getAuthorRoutes, queryCurrentUser, getCaptcha, getPhoneCaptcha } from '@/services'
 import type { loginProps, LoginResult } from '@/services/types'
 import Cookies from 'js-cookie'
 import logo from '@/assets/home/logo.jpg'
@@ -64,7 +64,10 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: loginProps) => {
     try {
       // 登录
-      const { data } = await login({ ...values, uuid: captchaUid })
+      if (type === 'phone') {
+        Reflect.set(values, 'username', values.phone)
+      }
+      const { data } = await login({ ...values, uuid: captchaUid, loginType: type })
       if (data.access_token) {
         Cookies.set('token', data.access_token)
       }
@@ -127,7 +130,7 @@ const Login: React.FC = () => {
               })}
             />
             <Tabs.TabPane
-              key="mobile"
+              key="phone"
               tab={intl.formatMessage({
                 id: 'pages.login.tabphone',
               })}
@@ -213,14 +216,15 @@ const Login: React.FC = () => {
               })}
             />
           )}
-          {type === 'mobile' && (
+          {type === 'phone' && (
             <>
               <ProFormText
                 fieldProps={{
                   size: 'large',
+                  autoComplete: 'off',
                   prefix: <MobileOutlined className={styles.prefixIcon} />,
                 }}
-                name="mobile"
+                name="phone"
                 placeholder={intl.formatMessage({
                   id: 'pages.login.phone',
                 })}
@@ -259,7 +263,8 @@ const Login: React.FC = () => {
                     id: 'pages.login.getcode',
                   })
                 }}
-                name="captcha"
+                name="phoneCode"
+                phoneName="phone"
                 rules={[
                   {
                     required: true,
@@ -270,13 +275,11 @@ const Login: React.FC = () => {
                     })}`,
                   },
                 ]}
-                onGetCaptcha={async () => {
-                  // const result = await getFakeCaptcha({
-                  //   phone,
-                  // })
-                  // if (result === false) {
-                  //   return
-                  // }
+                onGetCaptcha={async (phone) => {
+                  const result = await getPhoneCaptcha(phone)
+                  if (result === false) {
+                    return
+                  }
                   message.success(
                     intl.formatMessage({
                       id: 'pages.login.getcodeSuccess',

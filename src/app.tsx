@@ -50,7 +50,11 @@ export async function getInitialState(): Promise<{
     return undefined
   }
   // 如果不是登录页面，执行
-  if (history.location.pathname !== loginPath && history.location.pathname !== '/') {
+  if (
+    history.location.pathname !== loginPath &&
+    location.pathname !== '/complete' &&
+    history.location.pathname !== '/'
+  ) {
     const user = await fetchUserInfo()
     const { data } = await getAuthorRoutes()
     return {
@@ -81,7 +85,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     onPageChange: () => {
       const { location } = history
       // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
+      if (
+        !initialState?.currentUser &&
+        location.pathname !== loginPath &&
+        location.pathname !== '/complete'
+      ) {
         history.push(loginPath)
       }
     },

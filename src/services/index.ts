@@ -12,3 +12,5 @@ export * from './sys/operateInfo' // 操作日志
 export * from './sys/loginInfo' // 登录信息
 export * from './sys/onlineUser' // 在线用户
 export * from './sys/timedTask' // 定时任务
+
+export * from './docusin' // docusign

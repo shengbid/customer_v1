@@ -4,6 +4,8 @@ export interface loginProps {
   username: string
   password: string
   uuid: string
+  loginType: string
+  phone: string
   autoLogin?: boolean
 }
 

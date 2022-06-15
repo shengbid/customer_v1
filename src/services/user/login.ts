@@ -18,7 +18,12 @@ export async function outLogin() {
 
 /** 获取验证码 */
 export async function getCaptcha() {
-  return request('/code')
+  return request(`/code`)
+}
+
+/** 获取手机验证码 */
+export async function getPhoneCaptcha(code: string) {
+  return request(`/auth/verify/${code}`)
 }
 
 /** 获取登录信息 */

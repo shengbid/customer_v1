@@ -3,7 +3,14 @@
     layout: false,
     name: 'login',
     path: '/login',
-    component: './Login',
+    // component: './Login',
+    component: './Docusign',
+  },
+  {
+    layout: false,
+    name: 'login',
+    path: '/complete',
+    component: './Docusign/complete',
   },
   {
     path: '/',
