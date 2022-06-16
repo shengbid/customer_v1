@@ -13,4 +13,4 @@ export * from './sys/loginInfo' // 登录信息
 export * from './sys/onlineUser' // 在线用户
 export * from './sys/timedTask' // 定时任务
 
-export * from './docusin' // docusign
+export * from './docusin/index' // docusign

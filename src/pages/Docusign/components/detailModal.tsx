@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Modal, Button, Form, Input, Select } from 'antd'
 import { emailReg, phoneReg } from '@/utils/reg'
 
@@ -17,11 +17,15 @@ const DetailModal: React.FC<modalPrps> = ({
   handleCancel,
 }) => {
   const [form] = Form.useForm()
+  const [isPhoneVialid, setIsPhoneViad] = useState<boolean>(false)
+
   const initialValues = {
     signerName: 'ShouMei Lai',
     signerEmail: 'lsm2022@163.com',
     countryCode: '+86',
     phoneNumber: '18033098150',
+    templateId: '2f9bf387-68e4-4168-b90a-df821830161c',
+    // templateId: 'bc831ebc-6160-4d68-b9f4-036b7932e3d6',
   }
   const text = '填写个人信息'
 
@@ -89,12 +93,35 @@ const DetailModal: React.FC<modalPrps> = ({
             },
           ]}
         >
-          <Select style={{ width: '100%' }}>
+          <Select
+            style={{ width: '100%' }}
+            onChange={(value: string) => {
+              if (value === 'partyB') {
+                setIsPhoneViad(true)
+              } else {
+                setIsPhoneViad(false)
+              }
+            }}
+          >
             <Option value="partyA">甲方</Option>
             <Option value="partyB">乙方</Option>
           </Select>
         </Form.Item>
-        {signType === 2 ? (
+        <Form.Item
+          label="签约模板"
+          name="templateId"
+          rules={[
+            {
+              required: true,
+              message: `请选择签约模板`,
+            },
+          ]}
+        >
+          <Select style={{ width: '100%' }} disabled>
+            <Option value="2f9bf387-68e4-4168-b90a-df821830161c">双方签约</Option>
+          </Select>
+        </Form.Item>
+        {signType === 2 || isPhoneVialid ? (
           <>
             <Form.Item
               label="地区编码"

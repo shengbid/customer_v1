@@ -9,3 +9,9 @@ export interface addModalProps {
   handleCancel: () => void
   info?: any
 }
+
+// select option
+export interface selectOptionProps {
+  label: string
+  value: string | number
+}
