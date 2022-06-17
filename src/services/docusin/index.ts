@@ -41,3 +41,10 @@ export async function getTemplateSignUrl(data: signerProps) {
     data,
   })
 }
+/** 获取签约地址(模板生成) */
+export async function getTemplateSignUrl2(data: signerProps) {
+  return request(`/template/sendByTemplate`, {
+    method: 'post',
+    data,
+  })
+}

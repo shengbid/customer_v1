@@ -29,7 +29,7 @@ export interface dictListProps {
 // 部门列表
 export interface deptProps {
   deptId: number
-  deptName?: string
+  deptName: string
   orderNum?: number
   status?: string
   createTime?: string
@@ -54,7 +54,7 @@ export interface menuListProps {
 export interface roleListProps {
   roleId: number
   userId: number
-  roleName?: string
+  roleName: string
   roleKey?: number
   roleSort?: string
   status?: string

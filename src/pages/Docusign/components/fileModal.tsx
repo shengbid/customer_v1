@@ -3,7 +3,7 @@ import { Modal, Button, Form, Select, Spin, Row, Col } from 'antd'
 import { EditableProTable } from '@ant-design/pro-table'
 import { emailReg } from '@/utils/reg'
 import RequiredLabel from '@/components/RequiredLabel'
-import { getTemplates, getTemplateSigners } from '@/services'
+import { /*getTemplates, */ getTemplateSigners } from '@/services'
 import type { selectOptionProps } from '@/services/types'
 
 // const { Option } = Select
@@ -15,7 +15,7 @@ interface modalPrps {
 }
 const FileModal: React.FC<modalPrps> = ({ modalVisible, handleSubmit, handleCancel }) => {
   const [templateOptions, setTemplateOptions] = useState<selectOptionProps[]>([])
-  const [spinning, setSpinning] = useState<boolean>(false)
+  const [spinning /*setSpinning*/] = useState<boolean>(false)
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([])
   const [tableData, setTableData] = useState<any[]>([])
   // const [tableData, setTableData] = useState<any[]>([
@@ -27,19 +27,26 @@ const FileModal: React.FC<modalPrps> = ({ modalVisible, handleSubmit, handleCanc
   const [editForm] = Form.useForm()
   const text = '填写模板信息'
 
-  const getTemplateList = async () => {
-    const { data } = await getTemplates()
-    setSpinning(false)
-    if (data && data.length) {
-      setTemplateOptions(
-        data.map((item: any) => {
-          return {
-            label: item.name,
-            value: item.templateId,
-          }
-        }),
-      )
-    }
+  // const getTemplateList2 = async () => {
+  //   const { data } = await getTemplates()
+  //   setSpinning(false)
+  //   if (data && data.length) {
+  //     setTemplateOptions(
+  //       data.map((item: any) => {
+  //         return {
+  //           label: item.name,
+  //           value: item.templateId,
+  //         }
+  //       }),
+  //     )
+  //   }
+  // }
+
+  const getTemplateList = () => {
+    setTemplateOptions([
+      { label: '授信合同', value: 'bc831ebc-6160-4d68-b9f4-036b7932e3d6' },
+      { label: '借款合同', value: '2f9bf387-68e4-4168-b90a-df821830161c' },
+    ])
   }
 
   useEffect(() => {
@@ -143,6 +150,8 @@ const FileModal: React.FC<modalPrps> = ({ modalVisible, handleSubmit, handleCanc
                     style={{ width: '100%' }}
                     onChange={changeTemplate}
                     options={templateOptions}
+                    mode="multiple"
+                    allowClear
                   />
                 </Form.Item>
               </Col>

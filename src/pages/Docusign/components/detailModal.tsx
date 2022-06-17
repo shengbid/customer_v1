@@ -8,6 +8,7 @@ interface modalPrps {
   modalVisible: boolean
   handleSubmit: (value: any) => void
   handleCancel: () => void
+  templateInfo: any
   signType?: number
 }
 const DetailModal: React.FC<modalPrps> = ({
@@ -15,6 +16,7 @@ const DetailModal: React.FC<modalPrps> = ({
   modalVisible,
   handleSubmit,
   handleCancel,
+  templateInfo,
 }) => {
   const [form] = Form.useForm()
   const [isPhoneVialid, setIsPhoneViad] = useState<boolean>(false)
@@ -118,7 +120,7 @@ const DetailModal: React.FC<modalPrps> = ({
           ]}
         >
           <Select style={{ width: '100%' }} disabled>
-            <Option value="2f9bf387-68e4-4168-b90a-df821830161c">双方签约</Option>
+            <Option value={templateInfo.templateId}>{templateInfo.name}</Option>
           </Select>
         </Form.Item>
         {signType === 2 || isPhoneVialid ? (
