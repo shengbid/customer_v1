@@ -207,6 +207,27 @@
         ],
       },
       {
+        path: '/process',
+        name: '流程中心',
+        icon: 'DesktopOutlined',
+        routes: [
+          {
+            path: '/process',
+            redirect: '/process/create',
+          },
+          {
+            path: '/process/create',
+            name: '流程设计',
+            component: './sysManage/processManage/create',
+          },
+          {
+            path: '/process/list',
+            name: '流程管理',
+            component: './sysManage/processManage/list',
+          },
+        ],
+      },
+      {
         path: '/personal/center',
         name: '个人中心',
         icon: 'UserOutlined',
