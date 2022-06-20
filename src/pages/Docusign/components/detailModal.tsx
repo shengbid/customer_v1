@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Modal, Button, Form, Input, Select } from 'antd'
 import { emailReg, phoneReg } from '@/utils/reg'
 
@@ -12,14 +12,19 @@ interface modalPrps {
   signType?: number
 }
 const DetailModal: React.FC<modalPrps> = ({
-  signType = 1,
+  // signType = 1,
   modalVisible,
   handleSubmit,
   handleCancel,
   templateInfo,
 }) => {
   const [form] = Form.useForm()
-  const [isPhoneVialid, setIsPhoneViad] = useState<boolean>(false)
+
+  useEffect(() => {
+    console.log(55, templateInfo)
+
+    form.setFieldsValue(templateInfo)
+  }, [templateInfo])
 
   const initialValues = {
     signerName: 'ShouMei Lai',
@@ -27,9 +32,10 @@ const DetailModal: React.FC<modalPrps> = ({
     countryCode: '+86',
     phoneNumber: '18033098150',
     templateId: '2f9bf387-68e4-4168-b90a-df821830161c',
+    roleName: 'partyB',
     // templateId: 'bc831ebc-6160-4d68-b9f4-036b7932e3d6',
   }
-  const text = '填写个人信息'
+  const text = '签约人信息'
 
   const handleOk = async (values: any) => {
     handleSubmit(values)
@@ -70,7 +76,7 @@ const DetailModal: React.FC<modalPrps> = ({
             },
           ]}
         >
-          <Input placeholder="" maxLength={50} />
+          <Input disabled maxLength={50} />
         </Form.Item>
         <Form.Item
           label="邮箱"
@@ -83,7 +89,7 @@ const DetailModal: React.FC<modalPrps> = ({
             },
           ]}
         >
-          <Input maxLength={50} />
+          <Input disabled maxLength={50} />
         </Form.Item>
         <Form.Item
           label="签约角色"
@@ -95,63 +101,51 @@ const DetailModal: React.FC<modalPrps> = ({
             },
           ]}
         >
-          <Select
+          {/* <Select
             style={{ width: '100%' }}
-            onChange={(value: string) => {
-              if (value === 'partyB') {
-                setIsPhoneViad(true)
-              } else {
-                setIsPhoneViad(false)
-              }
-            }}
           >
             <Option value="partyA">甲方</Option>
             <Option value="partyB">乙方</Option>
-          </Select>
+          </Select> */}
+          <Input disabled maxLength={50} />
         </Form.Item>
-        <Form.Item
-          label="签约模板"
-          name="templateId"
-          rules={[
-            {
-              required: true,
-              message: `请选择签约模板`,
-            },
-          ]}
-        >
+        <Form.Item label="签约模板" name="templateId">
           <Select style={{ width: '100%' }} disabled>
             <Option value={templateInfo.templateId}>{templateInfo.name}</Option>
           </Select>
         </Form.Item>
-        {signType === 2 || isPhoneVialid ? (
-          <>
-            <Form.Item
-              label="地区编码"
-              name="countryCode"
-              rules={[
-                {
-                  required: true,
-                  message: `请输入地区编码`,
-                },
-              ]}
-            >
-              <Input maxLength={50} />
-            </Form.Item>
-            <Form.Item
-              label="电话"
-              name="phoneNumber"
-              rules={[
-                phoneReg,
-                {
-                  required: true,
-                  message: `请输入电话`,
-                },
-              ]}
-            >
-              <Input maxLength={50} />
-            </Form.Item>
-          </>
-        ) : null}
+        <Form.Item label="签约模板" name="envelopeId" style={{ display: 'none' }}>
+          <Input maxLength={500} />
+        </Form.Item>
+        <Form.Item label="signerClientId" name="signerClientId" style={{ display: 'none' }}>
+          <Input maxLength={500} />
+        </Form.Item>
+
+        <Form.Item
+          label="地区编码"
+          name="countryCode"
+          rules={[
+            {
+              required: true,
+              message: `请输入地区编码`,
+            },
+          ]}
+        >
+          <Input maxLength={50} />
+        </Form.Item>
+        <Form.Item
+          label="电话"
+          name="phoneNumber"
+          rules={[
+            phoneReg,
+            {
+              required: true,
+              message: `请输入电话`,
+            },
+          ]}
+        >
+          <Input maxLength={50} />
+        </Form.Item>
 
         <div className="modal-btns">
           <Button type="primary" htmlType="submit">
