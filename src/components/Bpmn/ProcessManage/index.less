@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-basis: auto;
+  flex-direction: row;
+  box-sizing: border-box;
+  height: 69vh;
+  padding: 10px 0;
+  .canvas {
+    flex: 1;
+    height: 100%;
+    background-image: linear-gradient(90deg, rgba(220, 220, 220, 0.5) 6%, transparent 0),
+      linear-gradient(rgba(192, 192, 192, 0.5) 6%, transparent 0);
+    background-size: 15px 15px;
+  }
+  :global {
+    .ant-space {
+      display: block;
+    }
+    .ant-table-cell {
+      word-break: break-all;
+    }
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td {
+      padding: 5px;
+    }
+    .bjs-powered-by,
+    .bjsl-button {
+      display: none !important;
+    }
+  }
+}
