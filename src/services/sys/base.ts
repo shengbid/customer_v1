@@ -23,9 +23,15 @@ export async function downloadFile(url: string) {
 }
 
 /** 导出模板 */
-export async function exportFile(url: string, data: any) {
-  const modelUrl = url.indexOf('/') > -1 ? url : `${Url}/${url}`
-  return request(`${modelUrl}/export`, {
+export async function exportFile(url: string, data: any, all: boolean) {
+  let modelUrl
+  if (all) {
+    modelUrl = url
+  } else {
+    modelUrl = url.indexOf('/') > -1 ? `${url}/export` : `${Url}/${url}/export`
+  }
+
+  return request(`${modelUrl}`, {
     responseType: 'blob',
     data: paramsToPageParams(data),
     method: 'post',

@@ -11,18 +11,28 @@ export interface exportProps {
   url: string
   authorword: string // 权限字符
   icon?: boolean
+  all?: boolean
   params?: any
+  exportText?: string
 }
 
 // 导出模板
-const ExportFile: React.FC<exportProps> = ({ title, url, authorword, icon = true, params }) => {
+const ExportFile: React.FC<exportProps> = ({
+  title,
+  url,
+  all = false,
+  authorword,
+  icon = true,
+  exportText,
+  params,
+}) => {
   const intl = useIntl()
   const [loading, setLoading] = useState<boolean>(false)
 
   // 下载模板
   const download = async () => {
     setLoading(true)
-    const res = icon ? await exportFile(url, params) : await downloadFile(url)
+    const res = icon ? await exportFile(url, params, all) : await downloadFile(url)
     setLoading(false)
     if (res && res.size) {
       if (res.type === 'application/json') {
@@ -69,7 +79,7 @@ const ExportFile: React.FC<exportProps> = ({ title, url, authorword, icon = true
         onClick={download}
         loading={loading}
       >
-        {intl.formatMessage({ id: 'pages.btn.export' })}
+        {exportText ? exportText : intl.formatMessage({ id: 'pages.btn.export' })}
       </PermissionButton>
     )
   }

@@ -28,7 +28,7 @@ const PermissionButton: React.FC<permissionProps> = (props) => {
     return isAdmin || isPermisson ? <a {...props} /> : <></>
   }
 
-  return isAdmin || isPermisson ? <Button {...props} /> : <></>
+  return isAdmin || !isPermisson ? <Button {...props} /> : <></>
 }
 
 export default PermissionButton

@@ -4,6 +4,7 @@ import { parse } from 'querystring'
 import * as Icon from '@ant-design/icons'
 import { history } from 'umi'
 import { stringify } from 'querystring'
+import moment from 'moment'
 
 // 处理分页参数
 export const paramsToPageParams = (params: any) => {
@@ -107,6 +108,14 @@ export interface setProductElementParam {
   value: string
   unit: string
   showPercent?: boolean
+}
+
+// 处理时间
+export const handleData = (date: string) => {
+  if (date) {
+    return moment(date).format(timeFormat)
+  }
+  return '-'
 }
 
 // 获取登录前页面地址
