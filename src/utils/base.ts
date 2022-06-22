@@ -176,15 +176,21 @@ export const handleSortParams = (param: any, sort: any) => {
  * @param id id对应的key
  * @param title title对应的key
  * @param label 要返回的title key
+ * @param idName 要返回的id key
  * @returns
  */
-export const handleTreeData = (data: any[], id: string, title: string, label = 'title') => {
+export const handleTreeData = (
+  data: any[],
+  id: string,
+  title: string,
+  label = 'title',
+  idName = 'value',
+) => {
   const render = (datas: any[]) => {
     const arr: any[] = []
     datas.map((item) => {
-      const obj = {
-        value: item[id],
-      }
+      const obj = {}
+      obj[idName] = item[id]
       obj[label] = item[title]
       if (item.children) {
         obj.children = render(item.children)
@@ -195,6 +201,19 @@ export const handleTreeData = (data: any[], id: string, title: string, label = '
   }
 
   return render(data)
+}
+
+// 处理selectoption数据
+export const handleOptionData = (data: any[], value: string, label: string) => {
+  const arr: any[] = []
+  data.map((item) => {
+    const obj = {
+      value: item[value],
+      label: item[label],
+    }
+    arr.push(obj)
+  })
+  return arr
 }
 
 // 处理菜单数据

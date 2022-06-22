@@ -7,8 +7,9 @@ export interface menuParamProps extends pageLimitProps {
 }
 // 用户管理列表查询参数
 export interface userParamProps extends pageLimitProps {
-  name?: string
+  userName?: string
   dept?: string
+  deptId?: number
   phone?: string
   status?: string
   beginTime?: string
