@@ -1,0 +1,80 @@
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.top {
+  display: flex;
+  align-content: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  .el-input {
+    width: 20%;
+  }
+  .el-breadcrumb {
+    max-width: 69%;
+    line-height: 36px;
+  }
+}
+.middle {
+  display: flex;
+  height: 400px;
+  .organization,
+  .member {
+    width: 50%;
+    padding: 10px 0;
+    overflow: auto;
+    border: 1px solid gainsboro;
+    border-bottom: none;
+    .title {
+      padding: 16px 24px;
+      font-size: 16px;
+    }
+  }
+  .member {
+    border-left: none;
+  }
+}
+.selected {
+  position: relative;
+  display: flex;
+  min-height: 90px;
+  margin-bottom: 10px;
+  padding: 10px 5px;
+  overflow: auto;
+  border: 1px solid gainsboro;
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: baseline;
+    width: 80px;
+    padding: 0 5px;
+    cursor: pointer;
+    .name {
+      padding-top: 10px;
+    }
+  }
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    box-sizing: border-box;
+    width: 0;
+    height: 0;
+    border: 15px solid;
+    border-color: gainsboro gainsboro transparent transparent;
+    cursor: pointer;
+    .closeicon {
+      position: absolute;
+      top: -13px;
+      right: -13px;
+      color: white;
+    }
+  }
+}
+.okbt {
+  padding: 10px;
+  text-align: center;
+}
