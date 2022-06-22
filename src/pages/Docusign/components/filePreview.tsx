@@ -85,9 +85,11 @@ const FilePreview: React.FC<modalPrps> = ({ modalVisible, handleCancel, envelope
           }}
         >
           <Spin spinning={spinning2}>
-            {fileList.map((ss: string) => (
-              <Image key={Math.random() * 100} width={200} src={ss} />
-            ))}
+            <Image.PreviewGroup>
+              {fileList.map((ss: string) => (
+                <Image key={Math.random() * 100} width={200} src={ss} />
+              ))}
+            </Image.PreviewGroup>
           </Spin>
         </Modal>
       </Spin>
