@@ -18,18 +18,6 @@ interface DataNode {
   children?: DataNode[]
 }
 
-const getOrgData = async () => {
-  const { data } = await getDeptList({
-    pageNum: 1,
-    pageSize: 20,
-  })
-  return handleTreeData(data, 'deptId', 'deptName', 'title', 'key')
-}
-const getUserData = async (orgId: any): Promise<userProps[]> => {
-  const { rows } = await getUserList({ deptId: orgId, pageNum: 1, pageSize: 20 })
-  return rows
-}
-
 /**
  * @description: 人员处理器
  * @param {boolean} visible 是否显示
@@ -59,11 +47,10 @@ const AddUserModal: React.FC<{
 }) => {
   const [orgData, setTreeData] = useState<Array<DataNode>>([])
   const [selectedOrg, setSelectedOrg] = useState<any>('')
+  const [defaultExpandedKeys, setDefaultExpandedKeys] = useState<any>([])
   const [userList, setUser] = useState<Array<userProps>>([])
-  const [selectedRowKeys, setSelectedRowKeys] = useState<ReactText[]>(
-    initSelectUser.map((itme) => itme[userKey]),
-  )
-  const [selectUser, setSelectUser] = useState<Array<userProps>>(initSelectUser)
+  const [selectedRowKeys, setSelectedRowKeys] = useState<ReactText[]>([])
+  const [selectUser, setSelectUser] = useState<Array<userProps>>([])
 
   const rowSelection: any = {
     selectedRowKeys,
@@ -83,23 +70,51 @@ const AddUserModal: React.FC<{
         selectedRowKeys.length >= maxSelectedNum && !selectedRowKeys.includes(record[userKey]), // Column configuration not to be checked
     }),
   }
+
+  const getOrgData = async () => {
+    const { data } = await getDeptList({
+      pageNum: 1,
+      pageSize: 20,
+    })
+    const arr = handleTreeData(data, 'deptId', 'deptName', 'title', 'key')
+    setTreeData(arr)
+    const newExpandedKeys: any = []
+    let count = 0
+    const render = (treeDatas: any) => {
+      // 获取到所有可展开的父节点
+      treeDatas.map((item: any) => {
+        if (item.children && count < 2) {
+          count += 1
+          newExpandedKeys.push(item.key)
+          render(item.children)
+        }
+      })
+      return newExpandedKeys
+    }
+    setDefaultExpandedKeys(render(arr))
+  }
+  const getUserData = async (orgId: any) => {
+    const { rows } = await getUserList({ deptId: orgId, pageNum: 1, pageSize: 20 })
+    setUser(rows)
+  }
+
   useEffect(() => {
     // 显示的时候重新查询组织架构
     if (visible) {
-      getOrgData().then((results) => {
-        setTreeData(results)
-      })
-      setSelectUser(initSelectUser)
-      setSelectedRowKeys(initSelectUser.map((itme) => itme[userKey]))
+      getOrgData()
+      if (initSelectUser.length) {
+        console.log(initSelectUser, userKey)
+        setSelectUser(initSelectUser)
+        setSelectedRowKeys(initSelectUser.map((itme) => itme[userKey]))
+        setUser(initSelectUser)
+      }
     }
   }, [visible, initSelectUser, userKey])
 
   useEffect(() => {
     // 选择的组织改变
     if (selectedOrg) {
-      getUserData(selectedOrg).then((results) => {
-        setUser(results)
-      })
+      getUserData(selectedOrg)
     }
   }, [selectedOrg])
 
@@ -131,7 +146,14 @@ const AddUserModal: React.FC<{
       <div className={styles.middle}>
         <div className={styles.organization}>
           <div className={styles.title}>组织架构</div>
-          <Tree treeData={orgData} onSelect={selectOrg} />
+          <Tree
+            treeData={orgData}
+            expandedKeys={defaultExpandedKeys}
+            onExpand={(expandedKeys: any) => {
+              setDefaultExpandedKeys(expandedKeys)
+            }}
+            onSelect={selectOrg}
+          />
         </div>
         <div className={styles.member}>
           <ProList<userProps>
@@ -141,7 +163,7 @@ const AddUserModal: React.FC<{
                 dataIndex: 'userName',
               },
               description: {
-                render: (_, record) => <>{record?.dept.deptName}</>,
+                render: (_, record) => <>{record.dept ? record.dept.deptName : '-'}</>,
               },
               avatar: {
                 render: () => (
