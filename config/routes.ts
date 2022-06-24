@@ -57,7 +57,6 @@
         name: '系统管理',
         access: 'hasMenu',
         icon: 'SettingOutlined',
-        // access: 'canAdmin',
         routes: [
           {
             path: '/sys',
@@ -255,7 +254,6 @@
       {
         path: '/personal/center',
         name: '个人中心',
-        access: 'hasMenu',
         icon: 'UserOutlined',
         component: './sysManage/personalCenter',
       },
