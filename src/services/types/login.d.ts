@@ -8,6 +8,12 @@ export interface loginProps {
   phone: string
   autoLogin?: boolean
 }
+export interface phoneCodeProps {
+  uuid?: string
+  loginType?: string
+  phone: string
+  code?: string
+}
 
 export interface LoginResult {
   status?: string

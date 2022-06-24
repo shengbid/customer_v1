@@ -1,5 +1,5 @@
 import { LockOutlined, MobileOutlined, UserOutlined, SecurityScanOutlined } from '@ant-design/icons'
-import { Alert, message, Tabs, Row, Col } from 'antd'
+import { Alert, message, Tabs, Row, Col, Modal, Input, Form } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { ProFormCaptcha, ProFormText, LoginForm } from '@ant-design/pro-form'
 import { history, useModel, SelectLang, useIntl } from 'umi'
@@ -31,7 +31,10 @@ const Login: React.FC = () => {
   const [type, setType] = useState<string>('account')
   const [captcha, setCaptcha] = useState<string>('')
   const [captchaUid, setCaptchaUid] = useState<string>('')
+  const [phoneCode, setPhoneCode] = useState<string>('')
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const { setInitialState } = useModel('@@initialState')
+  const [form] = Form.useForm()
 
   const intl = useIntl()
 
@@ -47,6 +50,22 @@ const Login: React.FC = () => {
   useEffect(() => {
     getCaptchas()
   }, [])
+
+  // 提交手机超次数验证码
+  const handleOk = async () => {
+    await getPhoneCaptcha({
+      code: phoneCode,
+      uuid: captchaUid,
+      loginType: type,
+      phone: form.getFieldValue('phone'),
+    })
+    setIsModalVisible(false)
+    message.success(
+      intl.formatMessage({
+        id: 'pages.login.getcodeSuccess',
+      }),
+    )
+  }
 
   const fetchUserInfo = async () => {
     // console.log(initialState)
@@ -109,6 +128,7 @@ const Login: React.FC = () => {
           logo={<img alt="logo" src={logo} />}
           title={intl.formatMessage({ id: 'pages.login.title' })}
           subTitle={intl.formatMessage({ id: 'pages.login.subtitle' })}
+          form={form}
           initialValues={{
             autoLogin: true,
           }}
@@ -122,7 +142,13 @@ const Login: React.FC = () => {
             await handleSubmit(values as loginProps)
           }}
         >
-          <Tabs activeKey={type} onChange={setType}>
+          <Tabs
+            activeKey={type}
+            onChange={(value) => {
+              setType(value)
+              if (value === 'account') getCaptchas()
+            }}
+          >
             <Tabs.TabPane
               key="account"
               tab={intl.formatMessage({
@@ -276,15 +302,16 @@ const Login: React.FC = () => {
                   },
                 ]}
                 onGetCaptcha={async (phone) => {
-                  const result = await getPhoneCaptcha(phone)
-                  if (result === false) {
-                    return
+                  const result = await getPhoneCaptcha({ phone, loginType: type })
+                  if (result.code === 2022) {
+                    setIsModalVisible(true)
+                  } else {
+                    message.success(
+                      intl.formatMessage({
+                        id: 'pages.login.getcodeSuccess',
+                      }),
+                    )
                   }
-                  message.success(
-                    intl.formatMessage({
-                      id: 'pages.login.getcodeSuccess',
-                    }),
-                  )
                 }}
               />
             </>
@@ -313,6 +340,35 @@ const Login: React.FC = () => {
         </LoginForm>
       </div>
       <Footer />
+
+      <Modal
+        title="安全验证"
+        visible={isModalVisible}
+        onOk={handleOk}
+        cancelButtonProps={{ style: { display: 'none' } }}
+        onCancel={() => {
+          setIsModalVisible(false)
+        }}
+      >
+        <Row>
+          <Col span={6}>
+            <a onClick={getCaptchas}>
+              <img src={captcha} alt="" style={{ height: 39 }} />
+            </a>
+          </Col>
+          <Col span={16}>
+            <Input
+              placeholder="输入验证码"
+              value={phoneCode}
+              onChange={(e) => {
+                setPhoneCode(e.target.value)
+              }}
+              size="large"
+              prefix={<SecurityScanOutlined className={styles.prefixIcon} />}
+            />
+          </Col>
+        </Row>
+      </Modal>
     </div>
   )
 }

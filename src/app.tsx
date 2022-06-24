@@ -164,7 +164,7 @@ const loginOut = () => {
  */
 const errorHandler = (error: ResponseError & { code?: number; msg?: string; url?: string }) => {
   const { msg, code, url, response } = error
-  // console.log(error)
+  console.log(error)
 
   if (msg && code && url) {
     if (code === 401) {
@@ -215,7 +215,7 @@ const middleware: OnionMiddleware = async (ctx, next) => {
   }
 
   await next()
-  if (ctx.res.code && ctx.res.code !== 200) {
+  if (ctx.res.code && ctx.res.code !== 200 && ctx.res.code !== 2022) {
     // if (!(ctx.res && ctx.res.size))
     throw { ...ctx.res, url }
   }

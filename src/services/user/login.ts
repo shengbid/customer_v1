@@ -1,5 +1,5 @@
 import { request } from 'umi'
-import type { loginProps, userRoleProps, userProps } from '@/services/types'
+import type { loginProps, userRoleProps, userProps, phoneCodeProps } from '@/services/types'
 
 /** 登录 */
 export async function login(data: loginProps) {
@@ -22,8 +22,11 @@ export async function getCaptcha() {
 }
 
 /** 获取手机验证码 */
-export async function getPhoneCaptcha(code: string) {
-  return request(`/auth/verify/${code}`)
+export async function getPhoneCaptcha(data: phoneCodeProps) {
+  return request(`/auth/verify/phone`, {
+    method: 'post',
+    data,
+  })
 }
 
 /** 获取登录信息 */

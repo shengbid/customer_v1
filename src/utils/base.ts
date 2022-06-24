@@ -204,11 +204,17 @@ export const handleTreeData = (
 }
 
 // 处理selectoption数据
-export const handleOptionData = (data: any[], value: string, label: string) => {
+interface optionProps {
+  data: any[]
+  value: string
+  label: string
+  valueType?: string
+}
+export const handleOptionData = ({ data, value, label, valueType = 'number' }: optionProps) => {
   const arr: any[] = []
   data.map((item) => {
     const obj = {
-      value: item[value],
+      value: valueType === 'number' ? Number(item[value]) : String(item[value]),
       label: item[label],
     }
     arr.push(obj)
@@ -234,4 +240,23 @@ export const handleMenuData = (data: any[]) => {
     return arr
   }
   return render(data)
+}
+// 树形数据变为同级数据
+export const treeDataToFlat = (data: any[]) => {
+  if (!data) return []
+  const arr: any[] = []
+  const render = (datas: any[]) => {
+    datas.map((item) => {
+      if (item.routes) {
+        render(item.routes)
+      }
+      const obj = {
+        path: item.path,
+        name: item.title,
+      }
+      arr.push(obj)
+    })
+  }
+  render(data)
+  return arr
 }
