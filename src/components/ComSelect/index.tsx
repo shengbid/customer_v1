@@ -13,6 +13,7 @@ export interface iconSelectProps {
   value?: string
   onChange?: (value: any) => void
   getDictData?: (value: any) => void
+  labelInValue?: boolean
 }
 // 数据字典
 const DictSelect: React.FC<iconSelectProps> = (props) => {
@@ -27,6 +28,7 @@ const DictSelect: React.FC<iconSelectProps> = (props) => {
     authorword,
     type,
     getDictData,
+    labelInValue = false,
   } = props
 
   const getList = async () => {
@@ -76,6 +78,7 @@ const DictSelect: React.FC<iconSelectProps> = (props) => {
       placeholder={place}
       // showSearch
       allowClear
+      labelInValue={labelInValue}
       value={value}
       onChange={onChange}
       style={{ width: '100%' }}
