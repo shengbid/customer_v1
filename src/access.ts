@@ -1,10 +1,15 @@
 /**
  * @see https://umijs.org/zh-CN/plugins/plugin-access
  * */
-export default function access(initialState: { currentUser?: API.CurrentUser } | undefined) {
-  const { currentUser } = initialState ?? {}
+import { treeDataToFlat } from './utils/base'
+
+export default function access(initialState: any) {
+  const { menus } = initialState ?? {}
+  const menuPathArr = treeDataToFlat(menus)?.map((item) => item.path)
+
   return {
-    canAdmin: currentUser && currentUser.access === 'admin',
-    user: currentUser && currentUser.access === 'user',
+    hasMenu: (route: any) => {
+      return menuPathArr ? menuPathArr.includes(route.path) : false
+    },
   }
 }
