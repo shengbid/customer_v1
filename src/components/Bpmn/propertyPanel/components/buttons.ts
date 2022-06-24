@@ -27,6 +27,14 @@ export default [
     name: '跳过',
     code: 'skip',
   },
+  {
+    name: '转办',
+    code: 'turnToDoFlow',
+  },
+  {
+    name: '沟通',
+    code: 'communicateFlow',
+  },
 ]
 // {
 //   name: '加签',
