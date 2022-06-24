@@ -58,6 +58,7 @@ export default {
   'sys.dept.leader': '负责人',
   'sys.dept.status': '部门状态',
   'sys.dict.dictName': '字典名称',
+  'sys.dict.serverName': '微服务名称',
   'sys.dict.dictType': '字典类型',
   'sys.dict.name': '数据字典',
   'sys.dictKey.dictLabel': '字典标签',

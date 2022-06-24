@@ -123,6 +123,25 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
           <Form.Item
             label={intl.formatMessage({
+              id: 'sys.dict.serverName',
+            })}
+            name="serverName"
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.select',
+                })}${intl.formatMessage({
+                  id: 'sys.dict.serverName',
+                })}`,
+              },
+            ]}
+          >
+            <DictSelect authorword="server_name" />
+          </Form.Item>
+
+          <Form.Item
+            label={intl.formatMessage({
               id: 'sys.base.status',
             })}
             name="status"
