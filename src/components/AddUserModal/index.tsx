@@ -101,7 +101,6 @@ const AddUserModal: React.FC<{
   useEffect(() => {
     // 显示的时候重新查询组织架构
     if (visible) {
-      getOrgData()
       if (initSelectUser.length) {
         console.log(initSelectUser, userKey)
         setSelectUser(initSelectUser)
@@ -110,6 +109,13 @@ const AddUserModal: React.FC<{
       }
     }
   }, [visible, initSelectUser, userKey])
+
+  useEffect(() => {
+    // 显示的时候重新查询组织架构
+    if (visible) {
+      getOrgData()
+    }
+  }, [visible])
 
   useEffect(() => {
     // 选择的组织改变

@@ -8,6 +8,9 @@ import DictSelect from '@/components/ComSelect'
 import FlowListener from './components/flowListener'
 import { isEmpty } from 'lodash'
 import { getUserList } from '@/services'
+import cmdHelper from 'bpmn-js-properties-panel/lib/helper/CmdHelper'
+import elementHelper from 'bpmn-js-properties-panel/lib/helper/ElementHelper'
+import ExtensionElementsHelper from 'bpmn-js-properties-panel/lib/helper/ExtensionElementsHelper'
 
 const { Panel } = Collapse
 const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
@@ -143,14 +146,14 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
       newUserTask.candidateUsersSelectedArr = []
 
       const { rows } = await getUserList({ pageNum: 1, pageSize: 200 })
-      rows.forEach((item: userProps, i: number, arr: userProps[]) => {
-        if (newArr.includes(item.userId)) {
+      rows.forEach((item: userProps) => {
+        if (newArr.includes(String(item.userId))) {
           newUserTask.candidateUsersName += item.userName
           newUserTask.candidateUsersSelectedArr.push({
             userId: item.userId,
             userName: item.userName,
           })
-          if (i !== arr.length - 1) {
+          if (newUserTask.candidateUsersSelectedArr.length < newArr.length) {
             newUserTask.candidateUsersName += ','
           }
         }
@@ -163,6 +166,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
       // 角色
       candidateGroups = businessObject?.extensionElements?.$parent?.candidateGroups.split(',')
     }
+
     setUserTaskArr({
       formKey: businessObject?.formKey,
       candidateGroups,
@@ -174,6 +178,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
     const obj: any = {
       extensionElements: [],
       taskListener: [],
+      executionListener: [],
       busNodeType: {},
     }
     const listenerTypeName: any = {
@@ -189,6 +194,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
             code: item.code,
           })
         } else if (item.$type === 'activiti:TaskListener') {
+          // 任务监听
           const info = {
             listenerTypeName: '',
             value: '',
@@ -203,7 +209,24 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
             event: item.event,
             ...info,
           })
+        } else if (item.$type === 'activiti:ExecutionListener') {
+          // 执行监听
+          const info = {
+            listenerTypeName: '',
+            value: '',
+          }
+          for (const key in listenerTypeName) {
+            if (item[key]) {
+              info.listenerTypeName = listenerTypeName[key]
+              info.value = item[key]
+            }
+          }
+          obj.executionListener.push({
+            event: item.event,
+            ...info,
+          })
         } else if (item.$type === 'activiti:BusNodeType') {
+          // 业务类型
           obj.busNodeType.value = item.code
           obj.busNodeType.label = item.name
         }
@@ -222,7 +245,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
         setUserTask(businessObject)
       }
       // 按钮组和任务监听, 业务节点
-      const { extensionElements, taskListener, busNodeType } = handleBtns(
+      const { extensionElements, executionListener, taskListener, busNodeType } = handleBtns(
         businessObject.extensionElements,
       )
 
@@ -232,7 +255,8 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
         targetNamespace: businessObject?.$parent?.targetNamespace, // 命名空间
         button: extensionElements,
         busNodeType,
-        executionListener: taskListener,
+        executionListener,
+        taskListener,
         height: currentElement?.height || 0,
         width: currentElement?.width || 0,
       })
@@ -257,11 +281,6 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
   useEffect(() => {
     form?.setFieldsValue({ ...panelValue, ...userTask })
   }, [panelValue, userTask, form])
-
-  // 流转表达式
-  const changeFormValue = (changedValues: any) => {
-    console.log('formchange', changedValues)
-  }
 
   // 选择处理人
   const selectAgent = (maxSelectedNum: number, name: string) => {
@@ -329,9 +348,53 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
   }
   // 删除按钮
   const deleteBT = (delBt: any) => {
-    console.log('delBt', delBt)
+    const newpanelValue = { ...panelValue }
+    newpanelValue.button = newpanelValue.button.filter((elem: any) => elem.code !== delBt.code)
+    const currentElement = element || rootElement
+    const bo = currentElement.businessObject
+    const { extensionElements } = bo
+    if (extensionElements) {
+      extensionElements.values = extensionElements.values.filter(
+        (elem: any) => elem.code !== delBt.code,
+      )
+    }
+
+    setForm(newpanelValue)
   }
-  const setExtensionElements = (values: any[], key: string) => {}
+  const executeCommand = (command: any) => {
+    const commandStack = bpmnModeler.get('commandStack')
+    commandStack.execute(command.cmd, command.context)
+  }
+  // 设置按钮,任务监听属性
+  const setExtensionElements = (values: any[], key: string) => {
+    const bpmnFactory = bpmnModeler.get('bpmnFactory')
+    const currentElement = element || rootElement
+    const bo = currentElement.businessObject
+    let { extensionElements } = bo
+    if (extensionElements) {
+      extensionElements.values = extensionElements.values.filter((elem: any) => elem.$type !== key)
+    } else {
+      extensionElements = elementHelper.createElement(
+        'bpmn:ExtensionElements',
+        { values: [] },
+        bo,
+        bpmnFactory,
+      )
+      executeCommand(
+        cmdHelper.updateBusinessObject(currentElement, bo, {
+          extensionElements,
+        }),
+      )
+    }
+    for (let i = 0; i < values.length; i += 1) {
+      const value = values[i]
+      const props = {
+        ...value,
+      }
+      const newElem = elementHelper.createElement(key, props, extensionElements, bpmnFactory)
+      executeCommand(ExtensionElementsHelper.addEntry(bo, currentElement, newElem, bpmnFactory))
+    }
+  }
   // 增加按钮
   const onBtFinish = (select: any[]) => {
     console.log('addBt', select)
@@ -359,14 +422,14 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
   }
   // 删除监听事件
   const deleteListener = (index: number, isTaskEvent: boolean) => {
-    // let key: string
+    let key: string
     let keyName: string
     if (isTaskEvent) {
       keyName = 'taskListener'
-      // key = 'activiti:TaskListener'
+      key = 'activiti:TaskListener'
     } else {
       keyName = 'executionListener'
-      // key = 'activiti:ExecutionListener'
+      key = 'activiti:ExecutionListener'
     }
     const newpanelValue = { ...panelValue }
     newpanelValue[keyName].splice(index, 1)
@@ -379,21 +442,21 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
       newElem.push(props)
     })
     newpanelValue[keyName] = [...newpanelValue[keyName]]
-    // setExtensionElements(newElem, key)
+    setExtensionElements(newElem, key)
     setForm(newpanelValue)
   }
 
   // 增加任务监听
   const onListenerFinish = (listenerObj: any, index: number | null, isTaskEvent: boolean) => {
     const newpanelValue = { ...panelValue }
-    // let key: string
+    let key: string
     let keyName: string
     if (isTaskEvent) {
       keyName = 'taskListener'
-      // key = 'activiti:TaskListener'
+      key = 'activiti:TaskListener'
     } else {
       keyName = 'executionListener'
-      // key = 'activiti:ExecutionListener'
+      key = 'activiti:ExecutionListener'
     }
     if (index !== null && index !== undefined) {
       newpanelValue[keyName][index] = listenerObj
@@ -409,9 +472,113 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
       newElem.push(props)
     })
     newpanelValue[keyName] = [...newpanelValue[keyName]]
-    // setExtensionElements(newElem, key)
+    setExtensionElements(newElem, key)
     setForm(newpanelValue)
     setInitListenerModal({ visible: false })
+  }
+
+  // 节点位置
+  const resizeShape = (properties: any) => {
+    const modeling = bpmnModeler.get('modeling')
+    const shape = element || rootElement
+    const bounds = {
+      x: shape.x,
+      y: shape.y,
+      width: shape.width,
+      height: shape.height,
+      ...properties,
+    }
+    modeling.resizeShape(element || rootElement, bounds)
+  }
+  // 命名空间
+  const updateDefinitions = (properties: any) => {
+    if (!rootElement) {
+      return
+    }
+    const modeling = bpmnModeler.get('modeling')
+    const definitions = rootElement?.businessObject?.$parent
+    modeling.updateModdleProperties(rootElement, definitions, { ...properties })
+  }
+
+  // form表单值变化
+  const changeFormValue = (changedValues: any) => {
+    console.log('formchange', changedValues)
+    const keyArr = Object.keys(changedValues)
+    keyArr.forEach((item) => {
+      // 直接属性修改
+      if (
+        item === 'id' ||
+        item === 'name' ||
+        item === 'taskPriority' ||
+        item === 'jobPriority' ||
+        item === 'historyTimeToLive' ||
+        item === 'candidateGroups' ||
+        item === 'formKey'
+      ) {
+        if (item === 'id' && !changedValues[item]) {
+          return false
+        }
+        updateProperties({ [item]: changedValues[item] })
+        //  id的话修改去动态修改id的值
+        if (item === 'id' && userTask.assigneeType === '3') {
+          // 设置成了上级节点指定
+          // 多实例和单实例不同值
+          const { businessObject } = element
+          const loopCharacteristics = businessObject.get('loopCharacteristics')
+          let candidateUsers
+          if (!loopCharacteristics) {
+            candidateUsers = `\${_OPTIONAL_EXECUTOR_${businessObject.get('id')}}`
+            setUserTaskArr({ ...userTask, candidateUsers })
+            updateProperties({ candidateUsers })
+          }
+        }
+      } else if (item === 'width' || item === 'height') {
+        resizeShape({ [item]: changedValues[item] > 10 ? Number(changedValues[item]) : 10 })
+      } else if (item === 'assigneeType') {
+        // 处理人类型
+        // handleChangeAssignee(changedValues[item])
+      } else if (item === 'optionalExecutor') {
+        // 是否指定下节点处理人
+        // setOptionalExecutor(changedValues[item])
+      } else if (item === 'loopCardinality' || item === 'completionCondition') {
+        // updateFormalExpression(item, changedValues[item])
+      } else if (item === 'conditionExpression') {
+        //  条件分支设置
+        // updateConditionExpression(changedValues[item])
+      } else if (item === 'targetNamespace') {
+        // 命名空间
+        updateDefinitions({ [item]: changedValues[item] })
+      } else if (item === 'busNodeType') {
+        const select: any[] = [
+          {
+            name: changedValues[item].label,
+            code: changedValues[item].value,
+          },
+        ]
+        setExtensionElements(select, 'activiti:BusNodeType')
+      } else if (item === 'delegateExpressionType' || item === 'delegateExpressionValue') {
+        let name = ''
+        let value = ''
+        Reflect.deleteProperty(element.businessObject, 'expression')
+        Reflect.deleteProperty(element.businessObject, 'class')
+        Reflect.deleteProperty(element.businessObject, 'delegateExpression')
+        if (item === 'delegateExpressionType') {
+          name = changedValues[item]
+          value = panelValue.delegateExpressionValue
+        }
+        if (item === 'delegateExpressionValue') {
+          value = changedValues[item]
+          name = panelValue.delegateExpressionType
+        }
+        updateProperties({ [name]: value })
+      }
+      if (item === 'candidateGroups' || item === 'formKey') {
+        setUserTask({ ...userTask, [item]: changedValues[item] })
+      } else {
+        setForm({ ...panelValue, [item]: changedValues[item] })
+      }
+      return true
+    })
   }
 
   return (
@@ -479,7 +646,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
                 </Form.Item>
               </>
             )}
-            {isUserTask && (
+            {/* {isUserTask && (
               <Form.Item
                 labelCol={{ span: 12 }}
                 wrapperCol={{ span: 10 }}
@@ -491,7 +658,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
                   <Select.Option value="true">是</Select.Option>
                 </Select>
               </Form.Item>
-            )}
+            )} */}
           </Panel>
 
           {/* 处理人设置 */}
@@ -617,7 +784,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
           )} */}
 
           {!isGateway && (
-            <Panel header="任务监听" key="7">
+            <Panel header="执行监听" key="7">
               <Button
                 type="primary"
                 onClick={() => {
@@ -673,6 +840,70 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
                     },
                   ]}
                   dataSource={panelValue.executionListener}
+                  pagination={false}
+                  bordered
+                  style={{ marginTop: 10 }}
+                />
+              )}
+            </Panel>
+          )}
+          {isUserTask && (
+            <Panel header="任务监听" key="8">
+              <Button
+                type="primary"
+                onClick={() => {
+                  addListeners(true)
+                }}
+              >
+                添加
+              </Button>
+              {panelValue.taskListener.length > 0 && (
+                <Table
+                  rowKey={(_record, index = 0) => index}
+                  columns={[
+                    {
+                      title: '事件',
+                      dataIndex: 'event',
+                      key: 'event',
+                      width: 50,
+                    },
+                    {
+                      title: '类型',
+                      dataIndex: 'listenerTypeName',
+                      key: 'listenerTypeName',
+                      width: 100,
+                    },
+                    {
+                      title: '值',
+                      dataIndex: 'value',
+                      key: 'value',
+                    },
+                    {
+                      title: '操作',
+                      key: 'action',
+                      render: (text: any, record: any, index: number) => (
+                        <div>
+                          <a
+                            style={{ marginRight: 10 }}
+                            onClick={() => {
+                              editListeners(true, record, index)
+                            }}
+                          >
+                            编辑
+                          </a>
+                          <a
+                            onClick={() => {
+                              deleteListener(index, true)
+                            }}
+                          >
+                            删除
+                          </a>
+                        </div>
+                      ),
+                      width: 80,
+                    },
+                  ]}
+                  dataSource={panelValue.taskListener}
                   pagination={false}
                   bordered
                   style={{ marginTop: 10 }}

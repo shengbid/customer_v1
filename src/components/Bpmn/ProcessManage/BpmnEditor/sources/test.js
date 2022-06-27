@@ -6,7 +6,7 @@ export default function getDefaultXml() {
         <outgoing>Flow_1wzoseh</outgoing>
       </startEvent>
       <sequenceFlow id="Flow_1wzoseh" sourceRef="Event_0vmrjpl" targetRef="Activity_1hl9wil" />
-      <userTask id="Activity_1hl9wil" name="尽职调查" activiti:formKey="projectInitiatedForm">
+      <userTask id="Activity_1hl9wil" name="尽职调查" activiti:formKey="projectInitiatedForm" activiti:candidateUsers="1,3">
         <extensionElements>
           <activiti:button name="通过" code="taskComplete" />
           <activiti:button name="驳回" code="jumpFlow" />
@@ -54,6 +54,7 @@ export default function getDefaultXml() {
           <activiti:button name="驳回" code="jumpFlow" />
           <activiti:button name="转办" code="turnToDoFlow" />
           <activiti:button name="沟通" code="communicateFlow" />
+          <activiti:busNodeType name="签约节点" code="1" />
         </extensionElements>
         <incoming>Flow_03wpzhw</incoming>
         <outgoing>Flow_003t7di</outgoing>

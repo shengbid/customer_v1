@@ -3,7 +3,8 @@
   flex-basis: auto;
   flex-direction: row;
   box-sizing: border-box;
-  height: 69vh;
+  height: 65vh;
+
   // padding: 10px 0;
   .canvas {
     flex: 1;
@@ -14,12 +15,15 @@
   }
   .panel {
     position: absolute;
-    top: 12;
+    // top: 12;
     right: 0;
-    height: 100%;
+    height: 65vh;
     overflow: hidden;
   }
   :global {
+    .ant-form {
+      border-bottom: 1px solid rgba(192, 192, 192, 0.5);
+    }
     .ant-space {
       display: block;
     }

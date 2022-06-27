@@ -203,19 +203,19 @@ const ProcessDesign: React.FC = () => {
     bpmnModeler.get('commandStack').undo()
   }
 
-  // 下载 SVG 格式
-  const handleDownloadSvg = () => {
-    bpmnModeler.saveSVG({ format: true }, (err: any, data: any) => {
-      download('svg', data)
-    })
-  }
-
-  // 下载 XML 格式
-  // handleDownloadXml = () => {
-  //   this.bpmnModeler.saveXML({ format: true }, (err, data) => {
-  //     this.download('xml', data)
+  // 下载 流程图片
+  // const handleDownloadSvg = () => {
+  //   bpmnModeler.saveSVG({ format: true }, (err: any, data: any) => {
+  //     download('svg', data)
   //   })
   // }
+
+  // 下载 XML 格式
+  const handleDownloadXml = () => {
+    bpmnModeler.saveXML({ format: true }, (err: any, data: any) => {
+      download('xml', data)
+    })
+  }
 
   // 流程图放大缩小
   const handleZoom = (radio?: any) => {
@@ -265,8 +265,8 @@ const ProcessDesign: React.FC = () => {
                 onSave={handleSave}
                 onUndo={handleUndo}
                 onRedo={handleRedo}
-                onDownloadSvg={handleDownloadSvg}
-                // onDownloadXml={handleDownloadXml}
+                // onDownloadSvg={handleDownloadSvg}
+                onDownloadXml={handleDownloadXml}
                 onZoomIn={() => handleZoom(0.1)}
                 onZoomOut={() => handleZoom(-0.1)}
                 onZoomReset={() => handleZoom()}

@@ -26,8 +26,8 @@ class EditingTools extends Component {
       onUndo,
       onRedo,
       onSave,
-      // onDownloadXml,
-      onDownloadSvg,
+      onDownloadXml,
+      // onDownloadSvg,
       onPreview,
       // onPreviewXml,
     } = this.props
@@ -76,20 +76,20 @@ class EditingTools extends Component {
           </li>
 
           <li className={styles.control}>
-            <button type="button" title="保存流程" onClick={onSave}>
+            <button type="button" title="部署流程" onClick={onSave}>
               <PlayCircleOutlined />
             </button>
           </li>
-          {/* <li className={styles.control}>
-            <button type="button" title="下载BPMN文件" onClick={onDownloadXml}>
-            <DownloadOutlined />
-            </button>
-          </li> */}
           <li className={styles.control}>
-            <button type="button" title="下载流程图片" onClick={onDownloadSvg}>
+            <button type="button" title="下载BPMN文件" onClick={onDownloadXml}>
               <DownloadOutlined />
             </button>
           </li>
+          {/* <li className={styles.control}>
+            <button type="button" title="下载流程图片" onClick={onDownloadSvg}>
+              <DownloadOutlined />
+            </button>
+          </li> */}
           <li className={styles.control}>
             <button type="button" title="预览流程图片" onClick={onPreview}>
               <FileImageOutlined />
