@@ -119,4 +119,8 @@ export default {
   'sys.timedTaskLog.jobLogId': '日志编号',
   'sys.timedTaskLog.jobMessage': '日志信息',
   'sys.timedTaskLog.createTime': '执行时间',
+  'sys.process.name': '流程名称',
+  'sys.process.processKey': '流程标识',
+  'sys.process.processVsion': '流程版本',
+  'sys.process.fileName': '文件名',
 }
