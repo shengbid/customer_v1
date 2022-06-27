@@ -12,7 +12,7 @@ import EditingTools from './BpmnEditor/EditingTools'
 import BpmnModeler from './BpmnEditor/CustomModeler'
 // import BpmnModeler from './BpmnEditor/Modeler'
 import CustomTranslate from './BpmnEditor/CustomModeler/CustomTranslate/customTranslate'
-import getDefaultXml from './BpmnEditor/sources/test' // 初始文件
+import getDefaultXml from './BpmnEditor/sources/xml' // 初始文件
 import styles from './index.less'
 import lintModule from 'bpmn-js-bpmnlint'
 // import fileDrop from 'file-drops'

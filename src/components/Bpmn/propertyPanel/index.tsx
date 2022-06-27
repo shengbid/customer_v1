@@ -6,7 +6,7 @@ import type { userProps } from '@/services/types'
 import AddBtnForm from './components/addBtnForm'
 import DictSelect from '@/components/ComSelect'
 import FlowListener from './components/flowListener'
-import { isEmpty } from 'lodash'
+import { isEmpty, isArray } from 'lodash'
 import { getUserList } from '@/services'
 import cmdHelper from 'bpmn-js-properties-panel/lib/helper/CmdHelper'
 import elementHelper from 'bpmn-js-properties-panel/lib/helper/ElementHelper'
@@ -129,7 +129,8 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
 
   // 流程处理人数据处理
   const setUserTask = async (businessObject: any) => {
-    let candidateGroups = []
+    // console.log(businessObject)
+    let candidateGroups = businessObject?.candidateGroups ? businessObject?.candidateGroups : []
     const oldSaveProperties = { ...saveProperties }
     const newUserTask: any = {}
     oldSaveProperties[businessObject.id] = saveProperties[businessObject.id] || {}
@@ -159,12 +160,9 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
         }
       })
     }
-    if (
-      businessObject?.extensionElements &&
-      !isEmpty(businessObject?.extensionElements?.$parent?.candidateGroups)
-    ) {
+    if (businessObject?.candidateGroups && !isArray(businessObject?.candidateGroups)) {
       // 角色
-      candidateGroups = businessObject?.extensionElements?.$parent?.candidateGroups.split(',')
+      candidateGroups = businessObject?.candidateGroups.split(',')
     }
 
     setUserTaskArr({
@@ -179,7 +177,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
       extensionElements: [],
       taskListener: [],
       executionListener: [],
-      busNodeType: {},
+      busNodeType: { label: '', value: '' },
     }
     const listenerTypeName: any = {
       class: '类',
@@ -253,6 +251,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
         ...businessObject,
         ...businessObject?.$attrs,
         targetNamespace: businessObject?.$parent?.targetNamespace, // 命名空间
+        name: businessObject?.name,
         button: extensionElements,
         busNodeType,
         executionListener,
@@ -551,8 +550,8 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
       } else if (item === 'busNodeType') {
         const select: any[] = [
           {
-            name: changedValues[item].label,
-            code: changedValues[item].value,
+            name: changedValues[item] ? changedValues[item].label : '',
+            code: changedValues[item] ? changedValues[item].value : '',
           },
         ]
         setExtensionElements(select, 'activiti:BusNodeType')
