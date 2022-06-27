@@ -3,7 +3,7 @@ import { Modal, Button, Form, Input, Row, Col, Select, message, Spin } from 'ant
 import type { addModalProps, postListProps, roleListProps } from '@/services/types'
 import DictSelect from '@/components/ComSelect'
 import TreeDataSelect from '@/components/ComSelect/treeSelect'
-import { emailReg, passwordReg, phoneReg } from '@/utils/reg'
+import { emailReg, passwordReg, phoneReg, accountReg } from '@/utils/reg'
 import { handleTreeData } from '@/utils/base'
 import { getUser, addUser, userDetail } from '@/services'
 import { useIntl } from 'umi'
@@ -116,6 +116,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                         id: 'sys.user.userName',
                       })}`,
                     },
+                    accountReg,
                   ]}
                 >
                   <Input maxLength={50} />

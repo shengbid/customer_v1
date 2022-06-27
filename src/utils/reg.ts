@@ -30,6 +30,8 @@ export const REGS = {
   // 身份证校验
   ID_CARD_REG:
     /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/,
+  // 账号验证 (字母或数字.字母开头)
+  ACCOUNT_REG: /^(^[a-zA-Z])([0-9A-Za-z]+$)/,
 }
 
 // 身份证正则的验证
@@ -73,4 +75,9 @@ export const passwordReg = {
 export const bankCardReg = {
   message: RegText.bankCard,
   pattern: REGS.BANK_CARD_REG,
+}
+// 用户账号验证
+export const accountReg = {
+  message: RegText.account,
+  pattern: REGS.ACCOUNT_REG,
 }

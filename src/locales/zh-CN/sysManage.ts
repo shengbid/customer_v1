@@ -7,7 +7,7 @@ export default {
   'sys.user.title': '个人信息',
   'sys.user.base': '基本资料',
   'sys.user.editPass': '修改密码',
-  'sys.user.userName': '用户名称',
+  'sys.user.userName': '账号',
   'sys.user.dept': '部门',
   'sys.user.dept1': '所属部门',
   'sys.user.phonenumber': '手机号码',
