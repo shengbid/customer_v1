@@ -3,7 +3,7 @@ import MenuProTable from '@/components/ComProtable/MenuProTable'
 import type { postListProps, postParamProps } from '@/services/types'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import { message, Button } from 'antd'
-import { getPostList, deletePost } from '@/services'
+import { getProcessList, deletePost } from '@/services'
 // import ExportFile from '@/components/ComUpload/exportFile'
 import AddModal from './components/addModal'
 import { useIntl, history } from 'umi'
@@ -95,7 +95,7 @@ const RoleManage: React.FC = () => {
   const getList = async (param: postParamProps) => {
     // console.log(param)
     // setParams(param)
-    const { rows, total } = await getPostList(param)
+    const { rows, total } = await getProcessList(param)
     return {
       data: rows,
       total,
