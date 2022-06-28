@@ -13,6 +13,8 @@ const RegText = RegObj[getLocale()]
 export const REGS = {
   // 手机号正则表达式
   TELEPHONE_REG: /^1[3-9]\d{9}$/,
+  // 香港手机号正则表达式
+  TELEPHONE_HK_REG: /^\d{8}$/,
   // 六位校验码
   CHECK_CODE: /^[0-9]{6}$/,
   // 银行卡号

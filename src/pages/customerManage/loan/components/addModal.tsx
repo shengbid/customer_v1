@@ -4,6 +4,7 @@ import type { addModalProps } from '@/services/types'
 import { postDetail } from '@/services'
 import DictSelect from '@/components/ComSelect'
 import { useIntl } from 'umi'
+import { REGS } from '@/utils/reg'
 
 const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel, info }) => {
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
@@ -72,8 +73,6 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
       <Spin spinning={spinning}>
         <Form
           name="basic"
-          // labelCol={{ span: 6 }}
-          // wrapperCol={{ span: 18 }}
           initialValues={{ code: '1' }}
           onFinish={handleOk}
           form={form}
@@ -202,6 +201,23 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                           id: 'customer.loan.phone',
                         })}`,
                       },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (Number(getFieldValue('code')) === 1) {
+                            if (REGS.TELEPHONE_REG.test(value)) {
+                              return Promise.resolve()
+                            } else {
+                              return Promise.reject(new Error('手机号格式为11位数字'))
+                            }
+                          } else {
+                            if (REGS.TELEPHONE_HK_REG.test(value)) {
+                              return Promise.resolve()
+                            } else {
+                              return Promise.reject(new Error('手机号格式为8位数字'))
+                            }
+                          }
+                        },
+                      }),
                     ]}
                   >
                     <Input maxLength={50} />
