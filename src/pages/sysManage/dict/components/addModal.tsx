@@ -137,7 +137,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
               },
             ]}
           >
-            <DictSelect authorword="server_name" />
+            <DictSelect authorword="sys_server_name" />
           </Form.Item>
 
           <Form.Item
