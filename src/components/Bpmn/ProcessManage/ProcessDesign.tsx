@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { notification, Spin, Tabs } from 'antd'
+import { notification, Spin, Tabs, message } from 'antd'
 import FullModal from '../FullModal'
 // Bpmn 相关文件
 // 这里引入的是右侧属性栏这个框
@@ -20,6 +20,7 @@ import * as bpmnlintConfig from './packed-config' // 流程检查
 // 引入右侧表单
 import PropertyPanel from '../propertyPanel'
 import SourceXml from './BpmnEditor/SourceXml'
+import { addProcess } from '@/services'
 
 // 以下为bpmn工作流绘图工具的样式
 import 'bpmn-js/dist/assets/diagram-js.css' // 左边工具栏以及编辑节点的样式
@@ -168,19 +169,21 @@ const ProcessDesign: React.FC = () => {
   }
 
   // 保存
-  const handleSave = () => {
+  const handleSave = async () => {
     setLoading(true)
-    // let bpmnXml = ''
+    let bpmnXml = ''
     // let svgXml = ''
     bpmnModeler.saveXML({ format: true }, (err: any, xml: any) => {
       console.log(xml)
-      // bpmnXml = xml
+      bpmnXml = xml
     })
     // bpmnModeler.saveSVG({ format: true }, (err: any, data: any) => {
     //   console.log(data)
     //   svgXml = data
     // })
     setLoading(false)
+    await addProcess({ stringBPMN: bpmnXml })
+    message.success('部署成功!')
     // 将bpmnXml和svgXml传给后台
   }
   const handleTabClick = (key: string) => {
