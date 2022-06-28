@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
-import type { postListProps, postParamProps } from '@/services/types'
+import type { processListProps, processListParamProps } from '@/services/types'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import { message, Button } from 'antd'
 import { getProcessList, deletePost } from '@/services'
@@ -15,7 +15,6 @@ const RoleManage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
   // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [id, setId] = useState<any>()
-  // const [params, setParams] = useState<postParamProps>()
   const intl = useIntl()
   const actionRef = useRef<ActionType>()
 
@@ -30,7 +29,7 @@ const RoleManage: React.FC = () => {
     actionRef.current?.reload()
   }
 
-  const columns: ProColumns<postListProps>[] = [
+  const columns: ProColumns<processListProps>[] = [
     // {
     //   title: intl.formatMessage({
     //     id: 'pages.table.index',
@@ -41,30 +40,38 @@ const RoleManage: React.FC = () => {
       title: intl.formatMessage({
         id: 'sys.process.name',
       }),
-      key: 'postName',
-      dataIndex: 'postName',
+      key: 'name',
+      dataIndex: 'name',
     },
     {
       title: intl.formatMessage({
         id: 'sys.process.processKey',
       }),
-      key: 'processKey',
-      dataIndex: 'processKey',
+      key: 'key',
+      dataIndex: 'key',
     },
     {
       title: intl.formatMessage({
         id: 'sys.process.processVsion',
       }),
-      key: 'processVsion',
+      key: 'version',
       hideInSearch: true,
-      dataIndex: 'processVsion',
+      dataIndex: 'version',
     },
     {
       title: intl.formatMessage({
-        id: 'sys.process.fileName',
+        id: 'sys.process.createTime',
       }),
-      key: 'fileName',
-      dataIndex: 'fileName',
+      key: 'deploymentTime',
+      dataIndex: 'deploymentTime',
+      hideInSearch: true,
+    },
+    {
+      title: intl.formatMessage({
+        id: 'sys.base.status',
+      }),
+      key: 'suspendState',
+      dataIndex: 'suspendState',
       hideInSearch: true,
     },
     {
@@ -79,49 +86,27 @@ const RoleManage: React.FC = () => {
           key="edit"
           authorword="system:post:edit"
           onClick={() => {
-            setId(recored.postId)
-            history.push(`/process/create?processId=${recored.postId}`)
+            setId(recored.id)
+            history.push(`/process/create?processId=${recored.id}`)
           }}
         />,
         <MenuDelteButton
           authorword="system:post:remove"
-          onClick={() => delteRecored(recored.postId)}
+          onClick={() => delteRecored(recored.id)}
           key="delete"
         />,
       ],
     },
   ]
 
-  const getList = async (param: postParamProps) => {
+  const getList = async (param: processListParamProps) => {
     // console.log(param)
-    // setParams(param)
     const { rows, total } = await getProcessList(param)
     return {
       data: rows,
       total,
     }
   }
-
-  // // 批量删除
-  // const multipleDelete = async () => {
-  //   console.log(selectedRowKeys)
-  //   if (selectedRowKeys.length) {
-  //     await deletePost(selectedRowKeys.join(','))
-  //     message.success(
-  //       intl.formatMessage({
-  //         id: 'pages.form.delete',
-  //       }),
-  //     )
-  //     actionRef.current?.reload()
-  //     setSelectedRowKeys([])
-  //   } else {
-  //     message.warning(
-  //       intl.formatMessage({
-  //         id: 'pages.table.oneDataDelete',
-  //       }),
-  //     )
-  //   }
-  // }
 
   // 新增
   const submit = () => {
@@ -131,9 +116,9 @@ const RoleManage: React.FC = () => {
 
   return (
     <>
-      <MenuProTable<postListProps>
+      <MenuProTable<processListProps>
         request={getList}
-        rowKey="postId"
+        rowKey="id"
         columns={columns}
         actionRef={actionRef}
         // headerTitle={

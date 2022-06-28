@@ -123,4 +123,5 @@ export default {
   'sys.process.processKey': '流程标识',
   'sys.process.processVsion': '流程版本',
   'sys.process.fileName': '文件名',
+  'sys.process.createTime': '部署时间',
 }
