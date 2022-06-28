@@ -128,7 +128,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             name="serverName"
             rules={[
               {
-                required: true,
+                required: false,
                 message: `${intl.formatMessage({
                   id: 'pages.form.select',
                 })}${intl.formatMessage({

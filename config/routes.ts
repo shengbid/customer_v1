@@ -114,7 +114,6 @@
           {
             path: '/sys/dict/type',
             name: '字典类型管理',
-            access: 'hasMenu',
             icon: 'SettingOutlined',
             component: './sysManage/dict/dictKey',
           },
