@@ -252,6 +252,24 @@
         ],
       },
       {
+        path: '/customerManage',
+        name: '客户管理',
+        access: 'hasMenu',
+        icon: 'DesktopOutlined',
+        routes: [
+          {
+            path: '/customerManage',
+            redirect: '/customerManage/loan',
+          },
+          {
+            path: '/customerManage/loan',
+            name: '借款客户管理',
+            access: 'hasMenu',
+            component: './customerManage/loan',
+          },
+        ],
+      },
+      {
         path: '/personal/center',
         name: '个人中心',
         icon: 'UserOutlined',

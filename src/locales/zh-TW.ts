@@ -3,6 +3,7 @@ import globalHeader from './zh-TW/globalHeader'
 import menu from './zh-TW/menu'
 import settingDrawer from './zh-TW/settingDrawer'
 import sysManage from './zh-TW/sysManage'
+import customer from './zh-TW/customer'
 
 export default {
   'navBar.lang': '語言',
@@ -15,4 +16,5 @@ export default {
   ...settingDrawer,
   ...component,
   ...sysManage,
+  ...customer,
 }
