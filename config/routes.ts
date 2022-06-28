@@ -79,7 +79,7 @@
           {
             path: '/sys/role/user',
             name: '角色用户管理',
-            access: 'hasMenu',
+            // access: 'hasMenu',
             icon: 'SettingOutlined',
             component: './sysManage/role/user',
           },
