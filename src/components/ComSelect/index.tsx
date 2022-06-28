@@ -14,6 +14,7 @@ export interface iconSelectProps {
   onChange?: (value: any) => void
   getDictData?: (value: any) => void
   labelInValue?: boolean
+  allowClear?: boolean
 }
 // 数据字典
 const DictSelect: React.FC<iconSelectProps> = (props) => {
@@ -29,6 +30,7 @@ const DictSelect: React.FC<iconSelectProps> = (props) => {
     type,
     getDictData,
     labelInValue = false,
+    allowClear = true,
   } = props
 
   const getList = async () => {
@@ -77,7 +79,7 @@ const DictSelect: React.FC<iconSelectProps> = (props) => {
     <Select
       placeholder={place}
       // showSearch
-      allowClear
+      allowClear={allowClear}
       labelInValue={labelInValue}
       value={value}
       onChange={onChange}

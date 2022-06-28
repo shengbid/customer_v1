@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Button, Form, Input, InputNumber, message, Spin } from 'antd'
+import { Modal, Button, Form, Input, message, Spin, Row, Col } from 'antd'
 import type { addModalProps } from '@/services/types'
-import { addPost, postDetail } from '@/services'
+import { postDetail } from '@/services'
 import DictSelect from '@/components/ComSelect'
 import { useIntl } from 'umi'
-
-const { TextArea } = Input
 
 const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel, info }) => {
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
@@ -36,9 +34,10 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
   }, [modalVisible])
 
   const handleOk = async (values: any) => {
+    console.log(values)
     setConfirmLoading(true)
     try {
-      await addPost(values)
+      // await addPost(values)
       setConfirmLoading(false)
     } catch (error) {
       setConfirmLoading(false)
@@ -61,11 +60,11 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
   return (
     <Modal
       title={`${text}${intl.formatMessage({
-        id: 'sys.post.name',
+        id: 'customer.loan.company',
       })}`}
       maskClosable={false}
       destroyOnClose
-      width={600}
+      width={800}
       visible={modalVisible}
       footer={false}
       onCancel={cancel}
@@ -73,110 +72,144 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
       <Spin spinning={spinning}>
         <Form
           name="basic"
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 18 }}
-          initialValues={{ status: '0' }}
+          // labelCol={{ span: 6 }}
+          // wrapperCol={{ span: 18 }}
+          initialValues={{ code: '1' }}
           onFinish={handleOk}
           form={form}
           autoComplete="off"
+          layout="vertical"
         >
+          <h3 style={{ fontWeight: 'bold' }}>
+            {intl.formatMessage({
+              id: 'customer.loan.baseInfo',
+            })}
+          </h3>
           <Form.Item label="id" name="postId" style={{ display: 'none' }}>
             <Input />
           </Form.Item>
-          <Form.Item
-            label={intl.formatMessage({
-              id: 'sys.post.postName',
-            })}
-            name="postName"
-            rules={[
-              {
-                required: true,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.input',
-                })}${intl.formatMessage({
-                  id: 'sys.post.postName',
-                })}`,
-              },
-            ]}
-          >
-            <Input maxLength={50} />
-          </Form.Item>
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item
+                label={intl.formatMessage({
+                  id: 'customer.loan.register',
+                })}
+                name="postName"
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.select',
+                    })}${intl.formatMessage({
+                      id: 'customer.loan.register',
+                    })}`,
+                  },
+                ]}
+              >
+                <DictSelect authorword="company_register" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label={intl.formatMessage({
+                  id: 'customer.loan.companyName',
+                })}
+                name="postCode"
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.input',
+                    })}${intl.formatMessage({
+                      id: 'customer.loan.companyName',
+                    })}`,
+                  },
+                ]}
+              >
+                <Input maxLength={150} />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item
+                label={intl.formatMessage({
+                  id: 'customer.loan.companyShort',
+                })}
+                name="postSort"
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.input',
+                    })}${intl.formatMessage({
+                      id: 'customer.loan.companyShort',
+                    })}`,
+                  },
+                ]}
+              >
+                <Input maxLength={50} />
+              </Form.Item>
+            </Col>
+          </Row>
 
-          <Form.Item
-            label={intl.formatMessage({
-              id: 'sys.post.postCode',
+          <h3 style={{ fontWeight: 'bold' }}>
+            {intl.formatMessage({
+              id: 'customer.loan.accountInfo',
             })}
-            name="postCode"
-            rules={[
-              {
-                required: true,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.input',
-                })}${intl.formatMessage({
-                  id: 'sys.post.postCode',
-                })}`,
-              },
-            ]}
-          >
-            <Input maxLength={50} />
-          </Form.Item>
+          </h3>
 
-          <Form.Item
-            label={intl.formatMessage({
-              id: 'sys.post.postSort',
-            })}
-            name="postSort"
-            rules={[
-              {
-                required: true,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.input',
-                })}${intl.formatMessage({
-                  id: 'sys.post.postSort',
-                })}`,
-              },
-            ]}
-          >
-            <InputNumber style={{ width: '100%' }} min={1} max={30} />
-          </Form.Item>
-
-          <Form.Item
-            label={intl.formatMessage({
-              id: 'sys.base.status',
-            })}
-            name="status"
-            rules={[
-              {
-                required: true,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.select',
-                })}${intl.formatMessage({
-                  id: 'sys.base.status',
-                })}`,
-              },
-            ]}
-          >
-            <DictSelect authorword="sys_normal_disable" type="radio" />
-          </Form.Item>
-
-          <Form.Item
-            label={intl.formatMessage({
-              id: 'pages.form.remark',
-            })}
-            name="remark"
-            rules={[
-              {
-                required: false,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.input',
-                })}${intl.formatMessage({
-                  id: 'pages.form.remark',
-                })}`,
-              },
-            ]}
-          >
-            <TextArea autoSize={{ minRows: 3, maxRows: 5 }} maxLength={500} />
-          </Form.Item>
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item
+                label={intl.formatMessage({
+                  id: 'customer.loan.accountName',
+                })}
+                name="accountName"
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.input',
+                    })}${intl.formatMessage({
+                      id: 'customer.loan.accountName',
+                    })}`,
+                  },
+                ]}
+              >
+                <Input maxLength={50} />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label={intl.formatMessage({
+                  id: 'customer.loan.phone',
+                })}
+              >
+                <Input.Group compact>
+                  <Form.Item name="code" style={{ width: '30%' }}>
+                    <DictSelect authorword="phone_code" allowClear={false} />
+                  </Form.Item>
+                  <Form.Item
+                    name="phone"
+                    style={{ width: '70%' }}
+                    rules={[
+                      {
+                        required: true,
+                        message: `${intl.formatMessage({
+                          id: 'pages.form.input',
+                        })}${intl.formatMessage({
+                          id: 'customer.loan.phone',
+                        })}`,
+                      },
+                    ]}
+                  >
+                    <Input maxLength={50} />
+                  </Form.Item>
+                </Input.Group>
+              </Form.Item>
+            </Col>
+          </Row>
 
           <div className="modal-btns">
             <Button type="primary" htmlType="submit" loading={confirmLoading}>
