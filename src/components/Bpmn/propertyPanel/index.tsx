@@ -19,7 +19,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
   const [isTask, setIsTask] = useState<boolean>(false) // 是否是任务节点
   const [isUserTask, setIsUserTask] = useState<boolean>(false) // 是否展示节点处理人
   // const [isStart, setIsStart] = useState<boolean>(false) // 表单设置
-  // const [isSequenceFlow, setIsSequenceFlow] = useState<boolean>(true) // 条件流转
+  const [isSequenceFlow, setSequenceFlow] = useState<boolean>(true) // 条件流转
   const [isGateway, setIsGateway] = useState<boolean>(false) // 执行监听
   const [formList, setFormList] = useState<any>([]) // 流程表单
   const [element, setElement] = useState<any>() // 当前选中的元素
@@ -251,6 +251,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
         ...businessObject,
         ...businessObject?.$attrs,
         targetNamespace: businessObject?.$parent?.targetNamespace, // 命名空间
+        conditionExpression: businessObject?.conditionExpression?.body, // 流转条件的表达式
         name: businessObject?.name,
         button: extensionElements,
         busNodeType,
@@ -268,6 +269,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
       const type = currentElement?.type
       setIsUserTask(type && type === 'bpmn:UserTask')
       setIsServiceTask(type && type === 'bpmn:ServiceTask')
+      setSequenceFlow(type && type === 'bpmn:SequenceFlow')
       // setIsStart(type && type === 'bpmn:StartEvent')
       setIsGateway(type && type.includes('Gateway'))
       setIsTask(type && type.includes('Task'))
@@ -495,8 +497,29 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
       return
     }
     const modeling = bpmnModeler.get('modeling')
+    console.log(bpmnModeler, modeling.resizeShape, modeling.updateProperties)
     const definitions = rootElement?.businessObject?.$parent
-    modeling.updateModdleProperties(rootElement, definitions, { ...properties })
+    modeling.updateProperties(rootElement, definitions, { ...properties })
+  }
+
+  // 条件分支设置
+  const updateConditionExpression = (value: string) => {
+    if (!element) return
+    const { businessObject } = element
+    const bpmnFactory = bpmnModeler.get('bpmnFactory')
+    const conditionOrConditionExpression = elementHelper.createElement(
+      'bpmn:FormalExpression',
+      {
+        body: value,
+      },
+      businessObject,
+      bpmnFactory,
+    )
+
+    const command = cmdHelper.updateBusinessObject(element, businessObject, {
+      conditionExpression: conditionOrConditionExpression,
+    })
+    executeCommand(command)
   }
 
   // form表单值变化
@@ -543,7 +566,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
         // updateFormalExpression(item, changedValues[item])
       } else if (item === 'conditionExpression') {
         //  条件分支设置
-        // updateConditionExpression(changedValues[item])
+        updateConditionExpression(changedValues[item])
       } else if (item === 'targetNamespace') {
         // 命名空间
         updateDefinitions({ [item]: changedValues[item] })
@@ -774,13 +797,13 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
             </>
           )}
 
-          {/* {isSequenceFlow && (
+          {isSequenceFlow && (
             <Panel header="流转条件" key="6">
               <Form.Item label="表达式" name="conditionExpression">
                 <Input placeholder="请输入表达式" />
               </Form.Item>
             </Panel>
-          )} */}
+          )}
 
           {!isGateway && (
             <Panel header="执行监听" key="7">

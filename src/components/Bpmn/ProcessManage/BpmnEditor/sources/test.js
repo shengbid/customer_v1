@@ -1,12 +1,21 @@
 export default function getDefaultXml() {
   const diagramXML = `<?xml version="1.0" encoding="UTF-8"?>
-  <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:activiti="http://activiti.org/bpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.chinacsci.com">
-    <process id="due_diligence" name="尽职调查" isExecutable="true">
-      <startEvent id="Event_0vmrjpl" name="开始">
-        <outgoing>Flow_1wzoseh</outgoing>
+  <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.activiti.org/test">
+    <process id="contract_signature" name="合同用印申请" isExecutable="true">
+      <startEvent id="startevent1" name="开始节点">
+        <outgoing>Flow_1f9e7ri</outgoing>
       </startEvent>
-      <sequenceFlow id="Flow_1wzoseh" sourceRef="Event_0vmrjpl" targetRef="Activity_1hl9wil" />
-      <userTask id="Activity_1hl9wil" name="尽职调查" activiti:formKey="projectInitiatedForm" activiti:candidateUsers="1,3">
+      <userTask id="usertask9" name="法务岗审核" activiti:formKey="contractSignatureForm" activiti:candidateGroups="10009">
+        <extensionElements>
+          <activiti:button name="通过" code="taskComplete" />
+          <activiti:button name="驳回" code="jumpFlow" />
+          <activiti:button name="转办" code="turnToDoFlow" />
+          <activiti:button name="沟通" code="communicateFlow" />
+        </extensionElements>
+        <incoming>Flow_1f9e7ri</incoming>
+        <outgoing>Flow_18lp7ad</outgoing>
+      </userTask>
+      <userTask id="usertask10" name="上传用印审批文件" activiti:formKey="contractLetterInfoForm">
         <extensionElements>
           <activiti:button name="通过" code="taskComplete" />
           <activiti:button name="驳回" code="jumpFlow" />
@@ -14,98 +23,89 @@ export default function getDefaultXml() {
           <activiti:button name="沟通" code="communicateFlow" />
           <activiti:taskListener delegateExpression="\${projectManagerListener}" event="create" />
         </extensionElements>
-        <incoming>Flow_1wzoseh</incoming>
-        <outgoing>Flow_1jsukir</outgoing>
+        <incoming>Flow_1e1cm76</incoming>
       </userTask>
-      <userTask id="Activity_06dx0yv" name="项目报告" activiti:formKey="projectInitiatedForm">
-        <extensionElements>
-          <activiti:button name="通过" code="taskComplete" />
-          <activiti:button name="驳回" code="jumpFlow" />
-          <activiti:button name="转办" code="turnToDoFlow" />
-          <activiti:button name="沟通" code="communicateFlow" />
-          <activiti:taskListener delegateExpression="\${projectMemberListener}" event="create" />
-        </extensionElements>
-        <incoming>Flow_1jsukir</incoming>
-        <outgoing>Flow_1w4zr91</outgoing>
-      </userTask>
-      <sequenceFlow id="Flow_1jsukir" sourceRef="Activity_1hl9wil" targetRef="Activity_06dx0yv" />
-      <sequenceFlow id="Flow_003t7di" sourceRef="Activity_0pflgxw" targetRef="Event_1o9tll5">
-        <extensionElements>
-          <activiti:executionListener delegateExpression="\${projectDueDiligenceCompleteListener}" event="take" />
-        </extensionElements>
-      </sequenceFlow>
-      <endEvent id="Event_1o9tll5" name="结束">
-        <incoming>Flow_003t7di</incoming>
+      <endEvent id="endevent1" name="合同/出函阶段结束">
+        <extensionElements />
+        <incoming>Flow_0uwy7xd</incoming>
       </endEvent>
-      <userTask id="Activity_1niltyq" name="业务部负责人审批（业务部负责人）" activiti:formKey="projectInitiatedForm" activiti:candidateGroups="2,13">
-        <extensionElements>
-          <activiti:button name="通过" code="taskComplete" />
-          <activiti:button name="驳回" code="jumpFlow" />
-          <activiti:button name="转办" code="turnToDoFlow" />
-          <activiti:button name="沟通" code="communicateFlow" />
-        </extensionElements>
-        <incoming>Flow_1w4zr91</incoming>
-        <outgoing>Flow_03wpzhw</outgoing>
-      </userTask>
-      <sequenceFlow id="Flow_1w4zr91" sourceRef="Activity_06dx0yv" targetRef="Activity_1niltyq" />
-      <userTask id="Activity_0pflgxw" name="业务分管领导审批（业务分管领导）" activiti:formKey="projectInitiatedForm" activiti:candidateGroups="2">
-        <extensionElements>
-          <activiti:button name="通过" code="taskComplete" />
-          <activiti:button name="驳回" code="jumpFlow" />
-          <activiti:button name="转办" code="turnToDoFlow" />
-          <activiti:button name="沟通" code="communicateFlow" />
-          <activiti:busNodeType name="签约节点" code="1" />
-        </extensionElements>
-        <incoming>Flow_03wpzhw</incoming>
-        <outgoing>Flow_003t7di</outgoing>
-      </userTask>
-      <sequenceFlow id="Flow_03wpzhw" sourceRef="Activity_1niltyq" targetRef="Activity_0pflgxw" />
+      <sequenceFlow id="flow9" name="" sourceRef="usertask10" targetRef="endevent1">
+        <extensionElements />
+      </sequenceFlow>
+      <sequenceFlow id="Flow_18lp7ad" sourceRef="usertask9" targetRef="Gateway_0gffbux" />
+      <exclusiveGateway id="Gateway_0gffbux" name="是否有征信函">
+        <incoming>Flow_18lp7ad</incoming>
+        <outgoing>Flow_0uwy7xd</outgoing>
+        <outgoing>Flow_1e1cm76</outgoing>
+      </exclusiveGateway>
+      <sequenceFlow id="Flow_0uwy7xd" name="无增信函" sourceRef="Gateway_0gffbux" targetRef="endevent1">
+        <conditionExpression xsi:type="tFormalExpression">\${
+          haveContractCredit == 2
+        }</conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="Flow_1e1cm76" name="有增信函" sourceRef="Gateway_0gffbux" targetRef="usertask10">
+        <conditionExpression xsi:type="tFormalExpression">\${
+          haveContractCredit == 1
+        }</conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="Flow_1f9e7ri" sourceRef="startevent1" targetRef="usertask9" />
     </process>
-    <bpmndi:BPMNDiagram id="BPMNDiagram_due_diligence">
-      <bpmndi:BPMNPlane id="BPMNPlane_due_diligence" bpmnElement="due_diligence">
-        <bpmndi:BPMNEdge id="Flow_03wpzhw_di" bpmnElement="Flow_03wpzhw">
-          <omgdi:waypoint x="410" y="500" />
-          <omgdi:waypoint x="410" y="540" />
+    <bpmndi:BPMNDiagram id="BPMNDiagram_contract_signature">
+      <bpmndi:BPMNPlane id="BPMNPlane_contract_signature" bpmnElement="contract_signature">
+        <bpmndi:BPMNEdge id="Flow_1f9e7ri_di" bpmnElement="Flow_1f9e7ri">
+          <omgdi:waypoint x="570" y="117" />
+          <omgdi:waypoint x="570" y="172" />
         </bpmndi:BPMNEdge>
-        <bpmndi:BPMNEdge id="Flow_1w4zr91_di" bpmnElement="Flow_1w4zr91">
-          <omgdi:waypoint x="410" y="380" />
-          <omgdi:waypoint x="410" y="420" />
-        </bpmndi:BPMNEdge>
-        <bpmndi:BPMNEdge id="Flow_003t7di_di" bpmnElement="Flow_003t7di">
-          <omgdi:waypoint x="410" y="620" />
-          <omgdi:waypoint x="410" y="682" />
-        </bpmndi:BPMNEdge>
-        <bpmndi:BPMNEdge id="Flow_1jsukir_di" bpmnElement="Flow_1jsukir">
-          <omgdi:waypoint x="410" y="258" />
-          <omgdi:waypoint x="410" y="300" />
-        </bpmndi:BPMNEdge>
-        <bpmndi:BPMNEdge id="Flow_1wzoseh_di" bpmnElement="Flow_1wzoseh">
-          <omgdi:waypoint x="410" y="128" />
-          <omgdi:waypoint x="410" y="178" />
-        </bpmndi:BPMNEdge>
-        <bpmndi:BPMNShape id="Event_0vmrjpl_di" bpmnElement="Event_0vmrjpl">
-          <omgdc:Bounds x="392" y="92" width="36" height="36" />
+        <bpmndi:BPMNEdge id="Flow_1e1cm76_di" bpmnElement="Flow_1e1cm76">
+          <omgdi:waypoint x="545" y="280" />
+          <omgdi:waypoint x="460" y="280" />
+          <omgdi:waypoint x="460" y="362" />
           <bpmndi:BPMNLabel>
-            <omgdc:Bounds x="398" y="68" width="23" height="14" />
+            <omgdc:Bounds x="408" y="311" width="44" height="14" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_0uwy7xd_di" bpmnElement="Flow_0uwy7xd">
+          <omgdi:waypoint x="595" y="280" />
+          <omgdi:waypoint x="690" y="280" />
+          <omgdi:waypoint x="690" y="372" />
+          <bpmndi:BPMNLabel>
+            <omgdc:Bounds x="698" y="311" width="44" height="14" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_18lp7ad_di" bpmnElement="Flow_18lp7ad">
+          <omgdi:waypoint x="570" y="227" />
+          <omgdi:waypoint x="570" y="255" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="BPMNEdge_flow9" bpmnElement="flow9">
+          <omgdi:waypoint x="512" y="390" />
+          <omgdi:waypoint x="672" y="390" />
+          <bpmndi:BPMNLabel>
+            <omgdc:Bounds x="636" y="683" width="11" height="14" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNShape id="BPMNShape_startevent1" bpmnElement="startevent1">
+          <omgdc:Bounds x="552" y="82" width="35" height="35" />
+          <bpmndi:BPMNLabel>
+            <omgdc:Bounds x="549" y="58" width="43" height="14" />
           </bpmndi:BPMNLabel>
         </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Activity_15ya6tl_di" bpmnElement="Activity_1hl9wil">
-          <omgdc:Bounds x="360" y="178" width="100" height="80" />
+        <bpmndi:BPMNShape id="BPMNShape_usertask9" bpmnElement="usertask9">
+          <omgdc:Bounds x="517" y="172" width="105" height="55" />
         </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Activity_06dx0yv_di" bpmnElement="Activity_06dx0yv">
-          <omgdc:Bounds x="360" y="300" width="100" height="80" />
+        <bpmndi:BPMNShape id="BPMNShape_usertask10" bpmnElement="usertask10">
+          <omgdc:Bounds x="407" y="362" width="105" height="55" />
         </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Event_1o9tll5_di" bpmnElement="Event_1o9tll5">
-          <omgdc:Bounds x="392" y="682" width="36" height="36" />
+        <bpmndi:BPMNShape id="BPMNShape_endevent1" bpmnElement="endevent1">
+          <omgdc:Bounds x="672" y="372" width="35" height="35" />
           <bpmndi:BPMNLabel>
-            <omgdc:Bounds x="399" y="725" width="22" height="14" />
+            <omgdc:Bounds x="657" y="416" width="66" height="27" />
           </bpmndi:BPMNLabel>
         </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Activity_1niltyq_di" bpmnElement="Activity_1niltyq">
-          <omgdc:Bounds x="360" y="420" width="100" height="80" />
-        </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Activity_0pflgxw_di" bpmnElement="Activity_0pflgxw">
-          <omgdc:Bounds x="360" y="540" width="100" height="80" />
+        <bpmndi:BPMNShape id="Gateway_1g3u4hs_di" bpmnElement="Gateway_0gffbux" isMarkerVisible="true">
+          <omgdc:Bounds x="545" y="255" width="50" height="50" />
+          <bpmndi:BPMNLabel>
+            <omgdc:Bounds x="537" y="313" width="66" height="14" />
+          </bpmndi:BPMNLabel>
         </bpmndi:BPMNShape>
       </bpmndi:BPMNPlane>
     </bpmndi:BPMNDiagram>

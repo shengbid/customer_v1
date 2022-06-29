@@ -15,6 +15,7 @@ export async function getProcessList(params: roleParamProps) {
 export async function addProcess(data: any) {
   return request(`${url}/addDeployment`, {
     method: 'post',
+    dataType: 'json',
     data,
   })
 }
