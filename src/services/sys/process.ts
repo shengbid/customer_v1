@@ -1,6 +1,13 @@
 import { request } from 'umi'
+import { extend } from 'umi-request'
 import type { roleParamProps, roleListProps } from '@/services/types'
 import { paramsToPageParams } from '@/utils/base'
+
+const extendRequest = extend({
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+})
 
 const url = '/activiti/processDefinition'
 
@@ -13,7 +20,7 @@ export async function getProcessList(params: roleParamProps) {
 
 /** 新建流程 */
 export async function addProcess(data: any) {
-  return request(`${url}/addDeployment`, {
+  return extendRequest(`${url}/addDeployment`, {
     method: 'post',
     dataType: 'json',
     data,
