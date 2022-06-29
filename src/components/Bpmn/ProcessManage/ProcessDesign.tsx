@@ -219,10 +219,11 @@ const ProcessDesign: React.FC = () => {
     })
     setLoading(false)
     await addProcess({
-      fileName: `${bpmnModeler.getDefinitions().rootElements[0].name}`,
+      // fileName: `${bpmnModeler.getDefinitions().rootElements[0].name}`,
       stringBPMN: bpmnXml,
     })
     message.success('部署成功!')
+    setIsModalVisible(false)
   }
 
   // 切换tab

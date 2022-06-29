@@ -53,7 +53,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
   const [panelValue, setForm] = useState({
     id: '1231321321', // 定义key
     name: '', // 名称
-    targetNamespace: '', // 命名空间
+    // targetNamespace: '', // 命名空间,修改方法有问题,暂时写死
     taskPriority: '', // 任务级别
     jobPriority: '', // 工作级别
     historyTimeToLive: '', // 保留时间
@@ -250,7 +250,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
       setForm({
         ...businessObject,
         ...businessObject?.$attrs,
-        targetNamespace: businessObject?.$parent?.targetNamespace, // 命名空间
+        // targetNamespace: businessObject?.$parent?.targetNamespace, // 命名空间
         conditionExpression: businessObject?.conditionExpression?.body, // 流转条件的表达式
         name: businessObject?.name,
         button: extensionElements,
@@ -491,16 +491,6 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
     }
     modeling.resizeShape(element || rootElement, bounds)
   }
-  // 命名空间
-  const updateDefinitions = (properties: any) => {
-    if (!rootElement) {
-      return
-    }
-    const modeling = bpmnModeler.get('modeling')
-    console.log(bpmnModeler, modeling.resizeShape, modeling.updateProperties)
-    const definitions = rootElement?.businessObject?.$parent
-    modeling.updateProperties(rootElement, definitions, { ...properties })
-  }
 
   // 条件分支设置
   const updateConditionExpression = (value: string) => {
@@ -569,7 +559,7 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
         updateConditionExpression(changedValues[item])
       } else if (item === 'targetNamespace') {
         // 命名空间
-        updateDefinitions({ [item]: changedValues[item] })
+        // updateDefinitions(changedValues[item])
       } else if (item === 'busNodeType') {
         const select: any[] = [
           {
@@ -628,9 +618,9 @@ const PropertyPanel: React.FC<{ bpmnModeler: any }> = ({ bpmnModeler }) => {
             </Form.Item>
             {isRootElement && (
               <>
-                <Form.Item label="命名空间" name="targetNamespace">
+                {/* <Form.Item label="命名空间" name="targetNamespace">
                   <Input placeholder="请输入命名空间" />
-                </Form.Item>
+                </Form.Item> */}
                 <Form.Item label="任务级别" name="taskPriority">
                   <Input placeholder="请输入任务级别" />
                 </Form.Item>
