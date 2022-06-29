@@ -12,7 +12,7 @@ import EditingTools from './BpmnEditor/EditingTools'
 import BpmnModeler from './BpmnEditor/CustomModeler'
 // import BpmnModeler from './BpmnEditor/Modeler'
 import CustomTranslate from './BpmnEditor/CustomModeler/CustomTranslate/customTranslate'
-import getDefaultXml from './BpmnEditor/sources/xml' // 初始文件
+import getDefaultXml from './BpmnEditor/sources/leave' // 初始文件
 import styles from './index.less'
 import lintModule from 'bpmn-js-bpmnlint'
 // import fileDrop from 'file-drops'
@@ -200,7 +200,7 @@ const ProcessDesign: React.FC = () => {
     }
     if (errorNum > 0) {
       message.error('该流程图存在错误节点，请检查流程图！')
-      return
+      // return
     }
     if (warningNum > 0) {
       message.error(`存在${warningNum}个警告`)
