@@ -1,17 +1,25 @@
 import React, { useState } from 'react'
 import { Modal, Button, message } from 'antd'
 import type { addModalProps } from '@/services/types'
-// import { addPost, postDetail } from '@/services'
+import { addProcessFile } from '@/services'
 import UploadAndDrop from '@/components/ComUpload/uploadAndDrag'
 import { useIntl } from 'umi'
 
 const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel }) => {
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
+  const [uploadFile, setUploadFile] = useState<any>([])
   const intl = useIntl()
 
   const handleOk = async () => {
     setConfirmLoading(true)
     try {
+      if (uploadFile?.length) {
+        const formData = new FormData()
+        formData.append('file', uploadFile[0])
+        await addProcessFile(formData)
+      } else {
+        message.error('请选择需要部署的流程文件！')
+      }
       setConfirmLoading(false)
     } catch (error) {
       setConfirmLoading(false)
@@ -27,6 +35,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
   const changeFile = (value: any) => {
     console.log(value)
+    setUploadFile(value)
   }
 
   const footer = [

@@ -214,14 +214,13 @@ const ProcessDesign: React.FC = () => {
     let bpmnXml = ''
     // let svgXml = ''
     bpmnModeler.saveXML({ format: true }, (err: any, xml: any) => {
-      console.log(xml)
       bpmnXml = xml
     })
+    const formData = new FormData()
+    formData.append('stringBPMN', bpmnXml)
+    console.log(bpmnXml)
     setLoading(false)
-    await addProcess({
-      // fileName: `${bpmnModeler.getDefinitions().rootElements[0].name}`,
-      stringBPMN: bpmnXml,
-    })
+    await addProcess(formData)
     message.success('部署成功!')
     setIsModalVisible(false)
   }
