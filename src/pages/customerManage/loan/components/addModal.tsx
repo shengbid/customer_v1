@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Modal, Button, Form, Input, message, Spin, Row, Col } from 'antd'
 import type { addModalProps } from '@/services/types'
-import { postDetail } from '@/services'
+import { addLoanCustomer } from '@/services'
 import DictSelect from '@/components/ComSelect'
 import { useIntl } from 'umi'
 import { REGS } from '@/utils/reg'
 
 const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel, info }) => {
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
-  const [spinning, setSpinning] = useState<boolean>(false)
+  const [spinning] = useState<boolean>(false)
   const [form] = Form.useForm()
   const intl = useIntl()
   const text = info
@@ -19,26 +19,26 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
         id: 'pages.btn.add',
       })
 
-  const getDetail = async () => {
-    setSpinning(true)
-    const { data } = await postDetail(info)
-    setSpinning(false)
-    if (data) {
-      form.setFieldsValue({ ...data })
-    }
-  }
+  // const getDetail = async () => {
+  //   setSpinning(true)
+  //   const { data } = await postDetail(info)
+  //   setSpinning(false)
+  //   if (data) {
+  //     form.setFieldsValue({ ...data })
+  //   }
+  // }
 
-  useEffect(() => {
-    if (modalVisible && info) {
-      getDetail()
-    }
-  }, [modalVisible])
+  // useEffect(() => {
+  //   if (modalVisible && info) {
+  //     getDetail()
+  //   }
+  // }, [modalVisible])
 
   const handleOk = async (values: any) => {
     console.log(values)
     setConfirmLoading(true)
     try {
-      // await addPost(values)
+      await addLoanCustomer(values)
       setConfirmLoading(false)
     } catch (error) {
       setConfirmLoading(false)
@@ -84,7 +84,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
               id: 'customer.loan.baseInfo',
             })}
           </h3>
-          <Form.Item label="id" name="postId" style={{ display: 'none' }}>
+          <Form.Item label="id" name="id" style={{ display: 'none' }}>
             <Input />
           </Form.Item>
           <Row gutter={24}>
@@ -93,7 +93,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                 label={intl.formatMessage({
                   id: 'customer.loan.register',
                 })}
-                name="postName"
+                name="registerAddr"
                 rules={[
                   {
                     required: true,
@@ -113,7 +113,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                 label={intl.formatMessage({
                   id: 'customer.loan.companyName',
                 })}
-                name="postCode"
+                name="fullName"
                 rules={[
                   {
                     required: true,
@@ -135,7 +135,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                 label={intl.formatMessage({
                   id: 'customer.loan.companyShort',
                 })}
-                name="postSort"
+                name="shortName"
                 rules={[
                   {
                     required: true,
@@ -164,7 +164,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                 label={intl.formatMessage({
                   id: 'customer.loan.accountName',
                 })}
-                name="accountName"
+                name="userName"
                 rules={[
                   {
                     required: true,
@@ -186,11 +186,11 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                 })}
               >
                 <Input.Group compact>
-                  <Form.Item name="code" style={{ width: '30%' }}>
+                  <Form.Item name="phoneArea" style={{ width: '30%' }}>
                     <DictSelect authorword="phone_code" allowClear={false} />
                   </Form.Item>
                   <Form.Item
-                    name="phone"
+                    name="phoneNumber"
                     style={{ width: '70%' }}
                     rules={[
                       {
