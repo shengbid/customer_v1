@@ -2,25 +2,27 @@ import React, { useState, useRef } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
 import type { processListProps, processListParamProps } from '@/services/types'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import { message, Button } from 'antd'
-import { getProcessList, deletePost } from '@/services'
+import { message, Button, Typography, Modal } from 'antd'
+import { getProcessList, deleteProcess } from '@/services'
 // import ExportFile from '@/components/ComUpload/exportFile'
 import AddModal from './components/addModal'
 import { useIntl, history } from 'umi'
-import { CloudUploadOutlined } from '@ant-design/icons'
+import { CloudUploadOutlined, FileImageOutlined } from '@ant-design/icons'
+import ViewBpmn from '@/components/Bpmn/ViewBpmn'
 
 const { MenuEditButton, MenuDelteButton } = MenuProTable
+const { Link } = Typography
 
 const RoleManage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
-  // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-  const [id, setId] = useState<any>()
+  const [info, setInfo] = useState<any>()
   const intl = useIntl()
   const actionRef = useRef<ActionType>()
+  const [svgVisible, setSvgVisible] = useState<boolean>(false)
 
   // 删除
-  const delteRecored = async (ids: number | string) => {
-    await deletePost(ids)
+  const delteRecored = async (ids: string) => {
+    await deleteProcess(ids)
     message.success(
       intl.formatMessage({
         id: 'pages.form.delete',
@@ -78,21 +80,36 @@ const RoleManage: React.FC = () => {
       title: intl.formatMessage({
         id: 'pages.table.option',
       }),
-      width: 150,
+      width: 220,
       key: 'option',
       valueType: 'option',
       render: (_, recored) => [
+        <Link
+          key="picture"
+          onClick={async () => {
+            setInfo({
+              deploymentId: recored.deploymentId,
+              resourceName: recored.resourceName,
+            })
+
+            setSvgVisible(true)
+          }}
+        >
+          <FileImageOutlined style={{ marginRight: 3 }} />
+          流程图
+        </Link>,
         <MenuEditButton
           key="edit"
           authorword="system:post:edit"
           onClick={() => {
-            setId(recored.id)
-            history.push(`/process/create?processId=${recored.id}`)
+            history.push(
+              `/process/create?deploymentId=${recored.deploymentId}&resourceName=${recored.resourceName}`,
+            )
           }}
         />,
         <MenuDelteButton
           authorword="system:post:remove"
-          onClick={() => delteRecored(recored.id)}
+          onClick={() => delteRecored(recored.deploymentId)}
           key="delete"
         />,
       ],
@@ -141,27 +158,33 @@ const RoleManage: React.FC = () => {
           >
             部署流程文件
           </Button>,
-          // <MenuMultiDelButton
-          //   authorword="system:post:remove"
-          //   key="delete"
-          //   onClick={multipleDelete}
-          // />,
         ]}
         tableAlertRender={false}
-        // rowSelection={{
-        //   selectedRowKeys,
-        //   onChange: (value) => {
-        //     setSelectedRowKeys(value)
-        //   },
-        // }}
       />
 
       <AddModal
         modalVisible={modalVisible}
         handleSubmit={submit}
-        info={id}
+        info={{}}
         handleCancel={() => setModalVisible(false)}
       />
+
+      {/* 查看流程图弹窗 */}
+      {svgVisible && (
+        <Modal
+          title={`查看流程图`}
+          maskClosable={false}
+          destroyOnClose
+          width={'65%'}
+          visible={svgVisible}
+          footer={false}
+          onCancel={() => {
+            setSvgVisible(false)
+          }}
+        >
+          <ViewBpmn info={info} />
+        </Modal>
+      )}
     </>
   )
 }

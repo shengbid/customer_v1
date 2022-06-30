@@ -12,7 +12,7 @@ import EditingTools from './BpmnEditor/EditingTools'
 import BpmnModeler from './BpmnEditor/CustomModeler'
 // import BpmnModeler from './BpmnEditor/Modeler'
 import CustomTranslate from './BpmnEditor/CustomModeler/CustomTranslate/customTranslate'
-import getDefaultXml from './BpmnEditor/sources/test' // 初始文件
+import getDefaultXml from './BpmnEditor/sources/xml' // 初始文件
 import styles from './index.less'
 import lintModule from 'bpmn-js-bpmnlint'
 // import fileDrop from 'file-drops'
@@ -20,8 +20,9 @@ import * as bpmnlintConfig from './packed-config' // 流程检查
 // 引入右侧表单
 import PropertyPanel from '../propertyPanel'
 import SourceXml from './BpmnEditor/SourceXml'
-import { addProcess } from '@/services'
+import { addProcess, processDetail } from '@/services'
 import DictSelect from '@/components/ComSelect'
+import type { getdetailProps } from '@/services/types'
 
 // 以下为bpmn工作流绘图工具的样式
 import 'bpmn-js/dist/assets/diagram-js.css' // 左边工具栏以及编辑节点的样式
@@ -35,7 +36,7 @@ const customTranslate = {
 }
 const { TabPane } = Tabs
 
-const ProcessDesign: React.FC = () => {
+const ProcessDesign: React.FC<{ query: getdetailProps }> = ({ query }) => {
   const [scale, setScale] = useState<number>(1)
   const [loading, setLoading] = useState<boolean>(false)
   const [svgVisible, setSvgVisible] = useState<boolean>(false)
@@ -79,6 +80,13 @@ const ProcessDesign: React.FC = () => {
     })
   }
 
+  // 获取流程详情
+  const getDetail = async (bpmnModelers: any) => {
+    const diagramXML = await processDetail(query)
+    // console.log(1, diagramXML)
+    renderDiagram(diagramXML, bpmnModelers)
+  }
+
   useEffect(() => {
     const bpmnModelers: any = new (BpmnModeler as any)({
       container: modelerRef.current,
@@ -104,8 +112,12 @@ const ProcessDesign: React.FC = () => {
       width: '100%',
     })
     setBpmnModeler(bpmnModelers)
-    const diagramXML = getDefaultXml()
-    renderDiagram(diagramXML, bpmnModelers)
+    if (query.deploymentId) {
+      getDetail(bpmnModelers)
+    } else {
+      const diagramXML = getDefaultXml()
+      renderDiagram(diagramXML, bpmnModelers)
+    }
 
     // bpmnModelers.on('linting.toggle', function (event: any) {
     //   const active = event.active

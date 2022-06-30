@@ -1,6 +1,6 @@
 import { request } from 'umi'
 // import { extend } from 'umi-request'
-import type { roleParamProps, roleListProps } from '@/services/types'
+import type { processListParamProps, processListProps, getdetailProps } from '@/services/types'
 import { paramsToPageParams } from '@/utils/base'
 
 // const extendRequest = extend({
@@ -12,8 +12,8 @@ import { paramsToPageParams } from '@/utils/base'
 const url = '/activiti/processDefinition'
 
 /** 获取流程列表 */
-export async function getProcessList(params: roleParamProps) {
-  return request<{ rows: roleListProps[]; total: number }>(`${url}/list`, {
+export async function getProcessList(params: processListParamProps) {
+  return request<{ rows: processListProps[]; total: number }>(`${url}/list`, {
     params: paramsToPageParams(params),
   })
 }
@@ -28,8 +28,28 @@ export async function addProcess(data: any) {
 
 /** 部署流程文件 */
 export async function addProcessFile(data: any) {
-  return request(`${url}/addDeployment`, {
+  return request(`${url}/uploadStreamAndDeployment`, {
     method: 'post',
     data,
+  })
+}
+
+/** 删除流程 */
+export async function deleteProcess(deploymentId: string) {
+  return request(`${url}/remove/${deploymentId}`, {
+    method: 'delete',
+  })
+}
+/** 修改流程 */
+export async function editProcess(data: getdetailProps) {
+  return request(`${url}/ModifyDefinition`, {
+    method: 'put',
+    data,
+  })
+}
+/** 获取流程详情 */
+export async function processDetail(params: getdetailProps) {
+  return request(`${url}/getDefinitionXML`, {
+    params,
   })
 }
