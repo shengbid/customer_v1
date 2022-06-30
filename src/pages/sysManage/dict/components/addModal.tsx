@@ -166,7 +166,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
             name="remark"
             rules={[
               {
-                required: true,
+                required: false,
                 message: `${intl.formatMessage({
                   id: 'pages.form.input',
                 })}${intl.formatMessage({
