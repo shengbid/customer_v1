@@ -13,7 +13,7 @@ export interface customerListProps {
   shortName?: string
   code?: string
   createTime?: string
-  status?: string
+  status: string
 }
 
 // 借款客户详情

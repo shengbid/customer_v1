@@ -17,6 +17,7 @@ const RoleManage: React.FC = () => {
   const [id, setId] = useState<any>()
   const intl = useIntl()
   const actionRef = useRef<ActionType>()
+  const [statusData, setStatusData] = useState<any>([])
 
   // 删除
   const delteRecored = async (ids: number | string) => {
@@ -63,7 +64,14 @@ const RoleManage: React.FC = () => {
         if (type === 'form') {
           return null
         }
-        return <DictSelect authorword="sys_normal_disable" />
+        return (
+          <DictSelect
+            authorword="credit_status"
+            getDictData={(data: any) => {
+              setStatusData(data)
+            }}
+          />
+        )
       },
     },
     {
@@ -73,6 +81,7 @@ const RoleManage: React.FC = () => {
       key: 'status',
       dataIndex: 'status',
       hideInSearch: true,
+      render: (_, recored) => statusData[recored.status],
     },
     {
       title: intl.formatMessage({

@@ -4,7 +4,7 @@ import type { addModalProps } from '@/services/types'
 import { addLoanCustomer } from '@/services'
 import DictSelect from '@/components/ComSelect'
 import { useIntl } from 'umi'
-import { REGS } from '@/utils/reg'
+import { REGS, accountReg } from '@/utils/reg'
 
 const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel, info }) => {
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
@@ -174,6 +174,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                       id: 'customer.loan.accountName',
                     })}`,
                   },
+                  accountReg,
                 ]}
               >
                 <Input maxLength={50} />
