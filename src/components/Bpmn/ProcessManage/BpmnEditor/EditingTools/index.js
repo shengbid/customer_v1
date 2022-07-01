@@ -41,6 +41,7 @@ class EditingTools extends Component {
               }}
               className={styles.openFile}
               type="file"
+              accept=".bpmn"
               onChange={onOpenFIle}
             />
             <button type="button" title="打开BPMN文件" onClick={this.handleOpen}>

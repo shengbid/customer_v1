@@ -137,39 +137,6 @@ const ProcessDesign: React.FC<{ query: getdetailProps }> = ({ query }) => {
     }
   }, [])
 
-  /**
-   * 下载xml/svg
-   *  @param  type  类型  svg / xml
-   *  @param  data  数据
-   *  @param  name  文件名称
-   */
-  const download = (type: string, data: any, na?: string) => {
-    let dataTrack = ''
-    const a = document.createElement('a')
-
-    switch (type) {
-      case 'xml':
-        dataTrack = 'bpmn'
-        break
-      case 'svg':
-        dataTrack = 'svg'
-        break
-      default:
-        break
-    }
-
-    const name = na || `diagram.${dataTrack}`
-
-    a.setAttribute('href', `data:application/bpmn20-xmlcharset=UTF-8,${encodeURIComponent(data)}`)
-    a.setAttribute('target', '_blank')
-    a.setAttribute('dataTrack', `diagram:download-${dataTrack}`)
-    a.setAttribute('download', name)
-
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-  }
-
   // 导入 xml 文件
   const handleOpenFile = (e: any) => {
     if (e.target.files.length > 0) {
@@ -258,6 +225,39 @@ const ProcessDesign: React.FC<{ query: getdetailProps }> = ({ query }) => {
     bpmnModeler.get('commandStack').undo()
   }
 
+  /**
+   * 下载xml/svg
+   *  @param  type  类型  svg / xml
+   *  @param  data  数据
+   *  @param  name  文件名称
+   */
+  const download = (type: string, data: any, na?: string) => {
+    let dataTrack = ''
+    const a = document.createElement('a')
+
+    switch (type) {
+      case 'xml':
+        dataTrack = 'bpmn'
+        break
+      case 'svg':
+        dataTrack = 'svg'
+        break
+      default:
+        break
+    }
+
+    const name = na || `diagram.${dataTrack}`
+
+    a.setAttribute('href', `data:application/bpmn20-xmlcharset=UTF-8,${encodeURIComponent(data)}`)
+    a.setAttribute('target', '_blank')
+    a.setAttribute('dataTrack', `diagram:download-${dataTrack}`)
+    a.setAttribute('download', name)
+
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+  }
+
   // 下载 流程图片
   // const handleDownloadSvg = () => {
   //   bpmnModeler.saveSVG({ format: true }, (err: any, data: any) => {
@@ -268,7 +268,7 @@ const ProcessDesign: React.FC<{ query: getdetailProps }> = ({ query }) => {
   // 下载 XML 格式
   const handleDownloadXml = () => {
     bpmnModeler.saveXML({ format: true }, (err: any, data: any) => {
-      download('xml', data)
+      download('xml', data, `${bpmnModeler.getDefinitions().rootElements[0].name}.bpmn`)
     })
   }
 
