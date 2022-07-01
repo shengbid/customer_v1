@@ -3,7 +3,7 @@ import type { loginProps, userRoleProps, userProps, phoneCodeProps } from '@/ser
 
 /** 登录 */
 export async function login(data: loginProps) {
-  return request('/auth/login', {
+  return request('/auth/cus/login', {
     method: 'POST',
     data,
   })

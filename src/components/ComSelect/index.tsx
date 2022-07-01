@@ -3,6 +3,7 @@ import { Select, Radio } from 'antd'
 import type { dictListProps } from '@/services/types'
 import { getDictSelectList } from '@/services'
 import { useIntl } from 'umi'
+import type { SizeType } from 'antd/lib/config-provider/SizeContext'
 
 const { Option } = Select
 
@@ -15,6 +16,7 @@ export interface iconSelectProps {
   getDictData?: (value: any) => void
   labelInValue?: boolean
   allowClear?: boolean
+  size?: SizeType
 }
 // 数据字典
 const DictSelect: React.FC<iconSelectProps> = (props) => {
@@ -29,6 +31,7 @@ const DictSelect: React.FC<iconSelectProps> = (props) => {
     authorword,
     type,
     getDictData,
+    size,
     labelInValue = false,
     allowClear = true,
   } = props
@@ -82,6 +85,7 @@ const DictSelect: React.FC<iconSelectProps> = (props) => {
       allowClear={allowClear}
       labelInValue={labelInValue}
       value={value}
+      size={size}
       onChange={onChange}
       style={{ width: '100%' }}
     >

@@ -132,6 +132,7 @@ const Login: React.FC = () => {
           form={form}
           initialValues={{
             autoLogin: true,
+            phoneArea: '1',
           }}
           // actions={[
           //   <span key="text">其他登录方式</span>,
@@ -247,8 +248,7 @@ const Login: React.FC = () => {
             <>
               <Input.Group>
                 <Form.Item name="phoneArea" style={{ width: '30%', display: 'inline-block' }}>
-                  {/* <Input size="large" /> */}
-                  <DictSelect authorword="phone_code" allowClear={false} />
+                  <DictSelect size="large" authorword="phone_code" allowClear={false} />
                 </Form.Item>
                 <Form.Item
                   style={{ width: '70%', display: 'inline-block' }}

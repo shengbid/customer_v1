@@ -73,7 +73,7 @@ export async function getInitialState(): Promise<{
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
-  // console.log(initialState?.currentUser)
+  // console.log(initialState)
   return {
     logo: <img src={logo} alt="" />,
     rightContentRender: () => <RightContent />,
