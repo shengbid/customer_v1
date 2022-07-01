@@ -67,7 +67,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
       onCancel={handleCancel}
     >
       <div>
-        <UploadAndDrop key="export" onChange={changeFile} />
+        <UploadAndDrop accept=".bpmn, .zip" onChange={changeFile} />
       </div>
     </Modal>
   )
