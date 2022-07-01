@@ -31,7 +31,7 @@ export async function getPhoneCaptcha(data: phoneCodeProps) {
 
 /** 获取登录信息 */
 export async function queryCurrentUser() {
-  return request<userRoleProps>('/system/user/getInfo')
+  return request<userRoleProps>('/cus/user/getInfo')
 }
 
 /** 获取个人信息 */

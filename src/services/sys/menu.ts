@@ -4,7 +4,7 @@ const url = '/system/menu'
 
 /** 获取菜单列表 */
 export async function getMenuList(params: menuParamProps) {
-  return request<{ data: any[] }>('/getRouters', {
+  return request<{ data: any[] }>('/cus/user/getRouters', {
     params,
   })
 }
