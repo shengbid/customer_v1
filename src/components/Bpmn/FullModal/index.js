@@ -14,7 +14,7 @@ class FullModal extends Component {
         title={title}
         visible={visible}
         onCancel={onCancel}
-        width={'calc(100% - 20px)'}
+        width={'65%'}
         // height={'calc(100% - 100px)'}
         footer={null}
         className={styles.fullModal}
