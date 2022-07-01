@@ -10,6 +10,7 @@ import Cookies from 'js-cookie'
 import logo from '@/assets/home/logo.jpg'
 import { handleMenuData } from '@/utils/base'
 import { phoneReg } from '@/utils/reg'
+import DictSelect from '@/components/ComSelect'
 
 import styles from './index.less'
 
@@ -244,28 +245,36 @@ const Login: React.FC = () => {
           )}
           {type === 'phone' && (
             <>
-              <ProFormText
-                fieldProps={{
-                  size: 'large',
-                  autoComplete: 'off',
-                  prefix: <MobileOutlined className={styles.prefixIcon} />,
-                }}
-                name="phone"
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.phone',
-                })}
-                rules={[
-                  {
-                    required: true,
-                    message: `${intl.formatMessage({
-                      id: 'pages.form.input',
-                    })}${intl.formatMessage({
+              <Input.Group>
+                <Form.Item name="phoneArea" style={{ width: '30%', display: 'inline-block' }}>
+                  {/* <Input size="large" /> */}
+                  <DictSelect authorword="phone_code" allowClear={false} />
+                </Form.Item>
+                <Form.Item
+                  style={{ width: '70%', display: 'inline-block' }}
+                  name="phone"
+                  rules={[
+                    {
+                      required: true,
+                      message: `${intl.formatMessage({
+                        id: 'pages.form.input',
+                      })}${intl.formatMessage({
+                        id: 'pages.login.phone',
+                      })}`,
+                    },
+                    phoneReg,
+                  ]}
+                >
+                  <Input
+                    size="large"
+                    placeholder={intl.formatMessage({
                       id: 'pages.login.phone',
-                    })}`,
-                  },
-                  phoneReg,
-                ]}
-              />
+                    })}
+                    autoComplete="off"
+                    prefix={<MobileOutlined className={styles.prefixIcon} />}
+                  />
+                </Form.Item>
+              </Input.Group>
               <ProFormCaptcha
                 fieldProps={{
                   size: 'large',
