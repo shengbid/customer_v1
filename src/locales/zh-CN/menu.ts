@@ -1,6 +1,6 @@
 export default {
   'menu.login': '登录',
-  'menu.title': '吉祥科创',
+  'menu.title': '吉祥科创客户端',
   'menu.register': '注册',
   'menu.home': '首页',
   'menu.领导驾驶舱': '领导驾驶舱',
