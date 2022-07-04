@@ -58,4 +58,10 @@ export default {
   'pages.login.user': '账号/手机号码',
   'pages.login.password': '密码',
   'pages.login.phone': '手机号',
+  'pages.login.valitTilte': '安全验证',
+  'pages.login.editPass': '修改密码',
+  'pages.login.newPass': '新密码',
+  'pages.login.confirmPass': '确认密码',
+  'pages.login.confirmPasstip': '确认密码与新密码不一致',
+  'pages.login.editPassSuccess': '修改成功,请重新登录',
 }
