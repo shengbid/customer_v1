@@ -43,9 +43,9 @@ export async function queryUserCenter(data?: userProps) {
 }
 
 /** 修改密码 */
-export async function updatePassWord(params: { oldPassword: string; newPassword: string }) {
-  return request('/system/user/profile/updatePwd', {
+export async function updatePassWord(data: { oldPassword: string; newPassword: string }) {
+  return request('/cus/user/resetPwd', {
     method: 'put',
-    params,
+    data,
   })
 }

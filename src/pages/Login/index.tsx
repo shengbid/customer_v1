@@ -1,15 +1,22 @@
 import { LockOutlined, MobileOutlined, UserOutlined, SecurityScanOutlined } from '@ant-design/icons'
-import { Alert, message, Tabs, Row, Col, Modal, Input, Form } from 'antd'
+import { Alert, message, Tabs, Row, Col, Modal, Input, Form, Button } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { ProFormCaptcha, ProFormText, LoginForm } from '@ant-design/pro-form'
 import { history, useModel, SelectLang, useIntl } from 'umi'
 import Footer from '@/components/Footer'
-import { login, getAuthorRoutes, queryCurrentUser, getCaptcha, getPhoneCaptcha } from '@/services'
+import {
+  login,
+  getAuthorRoutes,
+  queryCurrentUser,
+  getCaptcha,
+  getPhoneCaptcha,
+  updatePassWord,
+} from '@/services'
 import type { loginProps, LoginResult } from '@/services/types'
 import Cookies from 'js-cookie'
 import logo from '@/assets/home/logo.jpg'
 import { handleMenuData } from '@/utils/base'
-import { phoneReg } from '@/utils/reg'
+import { phoneReg, passwordReg } from '@/utils/reg'
 import DictSelect from '@/components/ComSelect'
 
 import styles from './index.less'
@@ -34,8 +41,11 @@ const Login: React.FC = () => {
   const [captchaUid, setCaptchaUid] = useState<string>('')
   const [phoneCode, setPhoneCode] = useState<string>('')
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [passModalVisible, setPassModalVisible] = useState<boolean>(false)
+  const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const { setInitialState } = useModel('@@initialState')
   const [form] = Form.useForm()
+  const [passform] = Form.useForm()
 
   const intl = useIntl()
 
@@ -73,7 +83,7 @@ const Login: React.FC = () => {
     const { user, roles, permissions } = await queryCurrentUser()
     const { data } = await getAuthorRoutes()
     if (user) {
-      await setInitialState((s) => ({
+      await setInitialState((s: any) => ({
         ...s,
         menus: handleMenuData(data),
         currentUser: { ...user, permissionRoles: roles, permissions },
@@ -88,6 +98,11 @@ const Login: React.FC = () => {
         Reflect.set(values, 'username', values.phone)
       }
       const { data } = await login({ ...values, uuid: captchaUid, loginType: type })
+      if (data.passwordFlag) {
+        // 首次登录修改密码
+        setPassModalVisible(true)
+        return
+      }
       if (data.access_token) {
         Cookies.set('token', data.access_token)
       }
@@ -117,6 +132,28 @@ const Login: React.FC = () => {
       )
     }
   }
+
+  // 修改密码
+  const handlePass = async (values: any) => {
+    setConfirmLoading(true)
+    try {
+      await updatePassWord({
+        userName: form.getFieldValue('username'),
+        oldPassword: 123456,
+        ...values,
+      })
+      message.success(
+        intl.formatMessage({
+          id: 'pages.login.editPassSuccess',
+        }),
+      )
+      setConfirmLoading(false)
+      setPassModalVisible(false)
+    } catch (error) {
+      setConfirmLoading(false)
+    }
+  }
+
   const { status, type: loginType } = userLoginState
 
   return (
@@ -351,7 +388,9 @@ const Login: React.FC = () => {
       <Footer />
 
       <Modal
-        title="安全验证"
+        title={intl.formatMessage({
+          id: 'pages.login.valitTilte',
+        })}
         visible={isModalVisible}
         onOk={handleOk}
         cancelButtonProps={{ style: { display: 'none' } }}
@@ -367,7 +406,9 @@ const Login: React.FC = () => {
           </Col>
           <Col span={16}>
             <Input
-              placeholder="输入验证码"
+              placeholder={intl.formatMessage({
+                id: 'pages.login.code',
+              })}
               value={phoneCode}
               onChange={(e) => {
                 setPhoneCode(e.target.value)
@@ -377,6 +418,84 @@ const Login: React.FC = () => {
             />
           </Col>
         </Row>
+      </Modal>
+
+      <Modal
+        title={intl.formatMessage({
+          id: 'pages.login.editPass',
+        })}
+        visible={passModalVisible}
+        footer={false}
+        onCancel={() => {
+          setPassModalVisible(false)
+        }}
+      >
+        <Form
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 18 }}
+          onFinish={handlePass}
+          form={passform}
+          autoComplete="off"
+        >
+          <Form.Item
+            label={intl.formatMessage({
+              id: 'pages.login.newPass',
+            })}
+            name="newPassword"
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'pages.login.newPass',
+                })}`,
+              },
+              passwordReg,
+            ]}
+          >
+            <Input maxLength={50} />
+          </Form.Item>
+          <Form.Item
+            label={intl.formatMessage({
+              id: 'pages.login.confirmPass',
+            })}
+            name="confirmPassword"
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'pages.login.confirmPass',
+                })}`,
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('newPassword') === value) {
+                    return Promise.resolve()
+                  }
+                  return Promise.reject(
+                    new Error(
+                      intl.formatMessage({
+                        id: 'pages.login.confirmPasstip',
+                      }),
+                    ),
+                  )
+                },
+              }),
+            ]}
+          >
+            <Input maxLength={50} />
+          </Form.Item>
+          <div className="modal-btns">
+            <Button type="primary" htmlType="submit" loading={confirmLoading}>
+              {intl.formatMessage({
+                id: 'pages.btn.confirm',
+              })}
+            </Button>
+          </div>
+        </Form>
       </Modal>
     </div>
   )
