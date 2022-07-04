@@ -10,7 +10,7 @@ export async function getDictSelectList(key: string) {
 
 /** 获取登录权限菜单 */
 export async function getAuthorRoutes() {
-  return request<{ data: any[] }>(`${Url}/menu/getRouters`)
+  return request<{ data: any[] }>(`/cus/user/getRouters`)
 }
 
 /** 下载模板 */
