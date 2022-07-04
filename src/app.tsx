@@ -78,10 +78,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     logo: <img src={logo} alt="" />,
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
-    // waterMarkProps: {
-    //   zIndex: 9,
-    //   content: 'nickName',
-    // },
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history
@@ -101,24 +97,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     // 增加一个 loading 的状态
     childrenRender: (children) => {
       if (initialState?.loading) return <PageLoading />
-      return (
-        <>
-          {children}
-          {/* {!props.location?.pathname?.includes('/login') && (
-            <SettingDrawer
-              disableUrlParams
-              enableDarkTheme
-              settings={initialState?.settings}
-              onSettingChange={(settings) => {
-                setInitialState((preInitialState) => ({
-                  ...preInitialState,
-                  settings,
-                }))
-              }}
-            />
-          )} */}
-        </>
-      )
+      return <>{children}</>
     },
     ...initialState?.settings,
   }

@@ -8,11 +8,11 @@ const Settings: LayoutSettings & {
   // 拂晓蓝
   primaryColor: '#1890ff',
   layout: 'mix',
-  contentWidth: 'Fluid',
+  contentWidth: 'Fixed',
   fixedHeader: true,
   fixSiderbar: true,
   colorWeak: false,
-  splitMenus: true,
+  // splitMenus: true,
   title: '供应链系统',
   pwa: false,
   iconfontUrl: '',
