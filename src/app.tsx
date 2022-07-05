@@ -52,7 +52,7 @@ export async function getInitialState(): Promise<{
   }
   // 如果不是登录页面，执行
   if (
-    history.location.pathname !== loginPath &&
+    history.location.pathname.indexOf(loginPath) < 0 &&
     !signRoute.includes(location.pathname) &&
     history.location.pathname !== '/'
   ) {
