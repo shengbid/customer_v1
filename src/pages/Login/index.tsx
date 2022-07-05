@@ -138,8 +138,8 @@ const Login: React.FC = () => {
     setConfirmLoading(true)
     try {
       await updatePassWord({
-        userName: form.getFieldValue('username'),
-        oldPassword: 123456,
+        userName: form.getFieldValue('username') || form.getFieldValue('phone'),
+        // oldPassword: form.getFieldValue('password'),
         ...values,
       })
       message.success(
