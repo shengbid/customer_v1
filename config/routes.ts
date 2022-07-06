@@ -23,6 +23,7 @@
     menu: {
       flatMenu: true,
     },
+    layout: false,
     routes: [
       {
         path: '/',
