@@ -38,7 +38,7 @@
       {
         path: '/leaderPage',
         name: '领导驾驶舱',
-        access: 'hasMenu',
+        // access: 'hasMenu',
         icon: 'DesktopOutlined',
         routes: [
           {
@@ -48,7 +48,7 @@
           {
             path: '/leaderPage/onlineManage',
             name: '在线经营贷',
-            access: 'hasMenu',
+            // access: 'hasMenu',
             component: './leaderPage/onlineManage',
           },
         ],
