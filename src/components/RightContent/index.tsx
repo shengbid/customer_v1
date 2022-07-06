@@ -14,10 +14,10 @@ const GlobalHeaderRight: React.FC = () => {
   //   return null
   // }
 
-  const { navTheme, layout } = defaultSettings
+  const { navTheme } = defaultSettings
   let className = styles.right
 
-  if ((navTheme === 'dark' && layout === 'top') || layout === 'mix') {
+  if (navTheme === 'dark') {
     className = `${styles.right}  ${styles.dark}`
   }
   return (
