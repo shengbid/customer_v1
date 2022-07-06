@@ -5,7 +5,7 @@ import Footer from '@/components/Footer'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import MyHeader from './components/Header'
 // import Menu from './components/ComMenu'
-import { PageLoading, ProLayout } from '@ant-design/pro-layout'
+import { ProLayout } from '@ant-design/pro-layout'
 import { useModel, history, Link } from 'umi'
 
 const { Header, Content } = Layout
@@ -61,10 +61,10 @@ const BaseLayout: React.FC = (props: any) => {
             )}
             collapsedButtonRender={false}
             // 增加一个 loading 的状态
-            childrenRender={(childrens: any) => {
-              if (initialState?.loading) return <PageLoading />
-              return <>{childrens}</>
-            }}
+            // childrenRender={(childrens: any) => {
+            //   if (initialState?.loading) return <PageLoading />
+            //   return <>{childrens}</>
+            // }}
           >
             <Content className={styles.rightcontent}>
               <BackTop />
