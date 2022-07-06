@@ -1,5 +1,6 @@
 import * as Icon from '@ant-design/icons'
 import React from 'react'
+import staticRoutes from 'config/staticRoute'
 
 // 处理菜单数据
 export const handleMenuData = (data: any[]) => {
@@ -18,5 +19,5 @@ export const handleMenuData = (data: any[]) => {
     })
     return arr
   }
-  return render(data)
+  return render(data.concat(staticRoutes))
 }
