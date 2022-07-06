@@ -1,17 +1,21 @@
-import { DefaultFooter } from '@ant-design/pro-layout'
 import { useIntl } from 'umi'
+import styles from './index.less'
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear()
   const intl = useIntl()
 
   return (
-    <DefaultFooter
-      copyright={`copyright@${currentYear} ${intl.formatMessage({
-        id: 'component.footer.copyright',
-      })}`}
-      links={[]}
-    />
+    <div className={styles.footer}>
+      <div className={styles.main}>
+        <div className={styles.copyright}>
+          copyright@{currentYear}
+          {intl.formatMessage({
+            id: 'component.footer.copyright',
+          })}
+        </div>
+      </div>
+    </div>
   )
 }
 
