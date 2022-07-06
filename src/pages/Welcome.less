@@ -1,8 +1,15 @@
-@import (reference) '~antd/es/style/themes/index';
-
-.pre {
-  margin: 12px 0;
-  padding: 12px 20px;
-  background: @input-bg;
-  box-shadow: @card-shadow;
+.welcome {
+  display: flex;
+  flex-wrap: wrap;
+  padding: @common-padding;
+  background-color: @content-color;
+  .item {
+    width: 456px;
+    height: 170px;
+    margin-bottom: @cotent-padding;
+    background-color: #f1f3ff;
+    &:nth-child(odd) {
+      margin-right: @cotent-padding;
+    }
+  }
 }

@@ -1,17 +1,15 @@
 import React from 'react'
-import { PageContainer } from '@ant-design/pro-layout'
-import { Card } from 'antd'
+import styles from './Welcome.less'
 
 const Welcome: React.FC = () => {
   return (
-    <PageContainer>
-      <Card>wellcome</Card>
-      {/* <iframe
-        width="100%"
-        height="600"
-        src="https://demo.docusign.net/Signing/?insession=1&ti=994d1b5734a44d81b5807cd0611807bb"
-      /> */}
-    </PageContainer>
+    <div className={styles.welcome}>
+      <div className={styles.item}>1</div>
+      <div className={styles.item}>2</div>
+      <div className={styles.item}>3</div>
+      <div className={styles.item}>4</div>
+      <div className={styles.item}>5</div>
+    </div>
   )
 }
 
