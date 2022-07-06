@@ -1,7 +1,6 @@
-import React from 'react'
 import { isEmpty } from 'lodash'
 import { parse } from 'querystring'
-import * as Icon from '@ant-design/icons'
+
 import { history } from 'umi'
 import { stringify } from 'querystring'
 import moment from 'moment'
@@ -222,25 +221,6 @@ export const handleOptionData = ({ data, value, label, valueType = 'number' }: o
   return arr
 }
 
-// 处理菜单数据
-export const handleMenuData = (data: any[]) => {
-  const render = (datas: any[]) => {
-    const arr: any[] = []
-    datas.map((item) => {
-      const obj = {
-        path: item.path,
-        name: item.title,
-        icon: item.icon && Icon[item.icon] ? React.createElement(Icon[item.icon]) : item.icon,
-      }
-      if (item.children) {
-        obj.routes = render(item.children)
-      }
-      arr.push(obj)
-    })
-    return arr
-  }
-  return render(data)
-}
 // 树形数据变为同级数据
 export const treeDataToFlat = (data: any[]) => {
   if (!data) return []
