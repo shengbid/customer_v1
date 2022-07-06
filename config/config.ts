@@ -28,6 +28,9 @@ export default defineConfig({
     // default true, when it is true, will use `navigator.language` overwrite default
     baseNavigator: true,
   },
+  alias: {
+    config: '/config/',
+  },
   define: {
     URL_PREFIX: '/api',
   },
@@ -49,7 +52,10 @@ export default defineConfig({
     'common-color': '#1890ff', // 项目主题色
     'border-color': '#f0f2f5', // 边框颜色
     'info-color': '#909195', // 提示文字颜色
-    'common-padding': '24px', // 页面padding
+    'common-padding': '30px', // 页面padding
+    'cotent-padding': '16px', // 页面padding
+    'back-color': '#f2f5fa', // 页面背景色
+    'content-color': '#fff', // 内容背景色
   },
   // esbuild is father build tools
   // https://umijs.org/plugins/plugin-esbuild

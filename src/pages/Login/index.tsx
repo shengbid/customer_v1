@@ -15,7 +15,7 @@ import {
 import type { loginProps, LoginResult } from '@/services/types'
 import Cookies from 'js-cookie'
 import logo from '@/assets/home/logo.jpg'
-import { handleMenuData } from '@/utils/base'
+import { handleMenuData } from '@/utils/menu'
 import { phoneReg, passwordReg } from '@/utils/reg'
 import DictSelect from '@/components/ComSelect'
 
