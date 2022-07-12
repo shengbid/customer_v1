@@ -8,7 +8,7 @@ import MyHeader from './components/Header'
 import { ProLayout } from '@ant-design/pro-layout'
 import { useModel, history, Link } from 'umi'
 
-const { Header, Content } = Layout
+const { Content } = Layout
 
 const loginPath = '/login'
 const signRoute = ['/sign', '/complete']
@@ -22,9 +22,9 @@ const BaseLayout: React.FC = (props: any) => {
   return (
     <div className={styles.contanier}>
       <Layout>
-        <Header className={styles.header}>
+        <div className={styles.header}>
           <MyHeader />
-        </Header>
+        </div>
         <Layout className={styles.sider}>
           <ProLayout
             menuHeaderRender={false}
