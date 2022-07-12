@@ -18,6 +18,7 @@ import logo from '@/assets/home/logo.jpg'
 import { handleMenuData } from '@/utils/menu'
 import { phoneReg, passwordReg } from '@/utils/reg'
 import DictSelect from '@/components/ComSelect'
+import ForgetPass from './components/forgetPass'
 
 import styles from './index.less'
 
@@ -42,6 +43,7 @@ const Login: React.FC = () => {
   const [phoneCode, setPhoneCode] = useState<string>('')
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [passModalVisible, setPassModalVisible] = useState<boolean>(false)
+  const [forgetModalVisible, setForgetModalVisible] = useState<boolean>(false)
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const { setInitialState } = useModel('@@initialState')
   const [form] = Form.useForm()
@@ -152,6 +154,11 @@ const Login: React.FC = () => {
     } catch (error) {
       setConfirmLoading(false)
     }
+  }
+
+  // 忘记密码
+  const handleForget = () => {
+    setForgetModalVisible(false)
   }
 
   const { status, type: loginType } = userLoginState
@@ -377,6 +384,7 @@ const Login: React.FC = () => {
               style={{
                 float: 'right',
               }}
+              onClick={() => setForgetModalVisible(true)}
             >
               {intl.formatMessage({
                 id: 'pages.login.forgetPass',
@@ -497,6 +505,13 @@ const Login: React.FC = () => {
           </div>
         </Form>
       </Modal>
+
+      {/* 忘记密码 */}
+      <ForgetPass
+        modalVisible={forgetModalVisible}
+        handleCancel={() => setForgetModalVisible(false)}
+        handleSubmit={handleForget}
+      />
     </div>
   )
 }

@@ -49,3 +49,18 @@ export async function updatePassWord(data: { oldPassword: string; newPassword: s
     data,
   })
 }
+
+interface forgetProps {
+  phone: string
+  phoneCode: string
+  newPassword: string
+  code?: string
+  uuid?: string
+}
+/** 忘记密码 */
+export async function forgetPassWord(data: forgetProps) {
+  return request('/cus/user/resetPwd', {
+    method: 'put',
+    data,
+  })
+}
