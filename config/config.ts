@@ -53,7 +53,8 @@ export default defineConfig({
     'border-color': '#f0f2f5', // 边框颜色
     'info-color': '#909195', // 提示文字颜色
     'common-padding': '30px', // 页面padding
-    'cotent-padding': '16px', // 页面padding
+    'content-padding': '16px', // 页面padding
+    'gap-padding': '12px', // 间隙padding
     'back-color': '#f2f5fa', // 页面背景色
     'content-color': '#fff', // 内容背景色
   },

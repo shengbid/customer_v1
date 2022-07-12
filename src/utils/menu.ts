@@ -19,5 +19,6 @@ export const handleMenuData = (data: any[]) => {
     })
     return arr
   }
-  return render(data.concat(staticRoutes))
+  return render([...staticRoutes, ...data])
+  // return render(data)
 }
