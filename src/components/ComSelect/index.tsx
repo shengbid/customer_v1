@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Select, Radio } from 'antd'
+import { Select, Radio, Checkbox } from 'antd'
 import type { dictListProps } from '@/services/types'
 import { getDictSelectList } from '@/services'
 import { useIntl } from 'umi'
 import type { SizeType } from 'antd/lib/config-provider/SizeContext'
+import { handleOptionData } from '@/utils/base'
 
 const { Option } = Select
 
@@ -63,6 +64,15 @@ const DictSelect: React.FC<iconSelectProps> = (props) => {
           )
         })}
       </Radio.Group>
+    )
+  }
+  if (type === 'checkbox') {
+    return (
+      <Checkbox.Group
+        onChange={onChange}
+        value={value}
+        options={handleOptionData({ data: dictList, value: 'dictValue', label: 'dictLabel' })}
+      />
     )
   }
 
