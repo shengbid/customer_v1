@@ -15,4 +15,3 @@ export * from './sys/timedTask' // 定时任务
 
 export * from './docusin/index' // docusign
 export * from './sys/process' // 流程管理
-export * from './customer/loan' // 客户管理

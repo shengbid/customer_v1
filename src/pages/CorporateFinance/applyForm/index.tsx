@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, MutableRefObject } from 'react'
 import { Button, Steps } from 'antd'
 import StepOne from './components/stepOne'
 import StepTwo from './components/stepTwo'
@@ -7,26 +7,29 @@ import styles from './index.less'
 
 const { Step } = Steps
 
-const steps = [
-  {
-    title: '步骤一',
-    content: <StepOne />,
-    description: '上传企业信息',
-  },
-  {
-    title: '步骤二',
-    content: <StepTwo />,
-    description: '上传企业运营文件',
-  },
-  {
-    title: '步骤三',
-    content: <StepThree />,
-    description: '上传法人、实控人、联系人信息',
-  },
-]
-
 const ApplyForm: React.FC = () => {
   const [current, setCurrent] = useState(0)
+  const creditOneRef: MutableRefObject<any> = useRef({})
+  const creditTwoRef: MutableRefObject<any> = useRef({})
+  const creditThreeRef: MutableRefObject<any> = useRef({})
+
+  const steps = [
+    {
+      title: '步骤一',
+      content: <StepOne ref={creditOneRef} />,
+      description: '上传企业信息',
+    },
+    {
+      title: '步骤二',
+      content: <StepTwo ref={creditTwoRef} />,
+      description: '上传企业运营文件',
+    },
+    {
+      title: '步骤三',
+      content: <StepThree ref={creditThreeRef} />,
+      description: '上传法人、实控人、联系人信息',
+    },
+  ]
 
   const next = () => {
     setCurrent(current + 1)
