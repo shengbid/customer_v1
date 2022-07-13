@@ -83,3 +83,30 @@ export const accountReg = {
   message: RegText.account,
   pattern: REGS.ACCOUNT_REG,
 }
+
+// 金额千分位展示正则
+export const numToThousandReg = (value: number | string, unit: string = '') => {
+  if (value || value === 0) {
+    let amount = `${value}`.match(/\d*(\.\d{0,2})?/)[0]
+    if (value < 0) {
+      amount = `${-value}`.match(/\d*(\.\d{0,2})?/)[0]
+    }
+    let dot = ''
+    let number = amount
+    if (amount.indexOf('.') > -1) {
+      dot = `.${amount.split('.')[1]}`
+      number = amount.split('.')[0]
+    }
+
+    if (value < 0) {
+      return `-${number}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + dot
+    }
+    return `${unit}${number}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + dot
+  }
+  return ''
+}
+
+// 金额千分位转数字展示正则
+export const thousandToNumReg = (value: string) => {
+  return value.replace(/\￥\s?|(,*)/g, '')
+}
