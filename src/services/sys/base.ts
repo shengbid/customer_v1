@@ -14,9 +14,8 @@ export async function getAuthorRoutes() {
 }
 
 /** 下载模板 */
-export async function downloadFile(url: string) {
-  const modelUrl = url.indexOf('/') > -1 ? url : `${Url}/${url}`
-  return request(`${modelUrl}/importTemplate`, {
+export async function downloadFile() {
+  return request(`/importTemplate`, {
     responseType: 'blob',
     method: 'post',
   })

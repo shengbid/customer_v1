@@ -31,6 +31,7 @@ export default {
   'pages.modal.updateRule': '上传文件大小不能超过20M',
   'pages.form.input': '请输入',
   'pages.form.select': '请选择',
+  'pages.form.upload': '请上传',
   'pages.form.edit': '修改成功',
   'pages.form.add': '新增成功',
   'pages.form.delete': '删除成功',

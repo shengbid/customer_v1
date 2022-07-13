@@ -13,7 +13,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons'
 
 const { TextArea } = Input
 
-const StepOne = (ref: any) => {
+const StepOne = ({}, ref: any) => {
   const intl = useIntl()
   const [form] = Form.useForm()
   const [tableForm] = Form.useForm()
@@ -97,20 +97,9 @@ const StepOne = (ref: any) => {
         autoComplete="off"
       >
         <Form.Item
-          name="companyName"
           label={intl.formatMessage({
             id: 'credit.apply.companyName',
           })}
-          rules={[
-            {
-              required: true,
-              message: `${intl.formatMessage({
-                id: 'pages.form.input',
-              })}${intl.formatMessage({
-                id: 'credit.apply.companyName',
-              })}`,
-            },
-          ]}
         >
           <span>{currentUser?.userName}</span>
         </Form.Item>
@@ -173,6 +162,9 @@ const StepOne = (ref: any) => {
             editable={{
               form: tableForm,
               editableKeys,
+              onValuesChange: (record, recordList) => {
+                setDataSource(recordList)
+              },
               onChange: setEditableRowKeys,
             }}
           />

@@ -4,14 +4,19 @@ import StepOne from './components/stepOne'
 import StepTwo from './components/stepTwo'
 import StepThree from './components/stepThree'
 import styles from './index.less'
+import { addCredit } from '@/services'
+import { useModel } from 'umi'
 
 const { Step } = Steps
 
 const ApplyForm: React.FC = () => {
-  const [current, setCurrent] = useState(0)
+  const [current, setCurrent] = useState(2)
+  const [businessType, setBusinessType] = useState(['1'])
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
   const creditThreeRef: MutableRefObject<any> = useRef({})
+  const { initialState } = useModel('@@initialState')
+  const { currentUser } = initialState || {}
 
   const steps = [
     {
@@ -21,7 +26,7 @@ const ApplyForm: React.FC = () => {
     },
     {
       title: '步骤二',
-      content: <StepTwo ref={creditTwoRef} />,
+      content: <StepTwo type={businessType} ref={creditTwoRef} />,
       description: '上传企业运营文件',
     },
     {
@@ -31,7 +36,23 @@ const ApplyForm: React.FC = () => {
     },
   ]
 
-  const next = () => {
+  const next = async () => {
+    // switch (current) {
+    //   case 0:
+    //     const { form, tableForm, dataSource } = creditOneRef.current.getOneStepData()
+    //     await form.validateFields()
+    //     await tableForm.validateFields()
+    //     const data = form.getFieldsValue()
+    //     setBusinessType(data.business)
+    //     console.log(data, dataSource)
+    //     break
+    //   case 1:
+    //     break
+
+    //   default:
+    //     break
+    // }
+    setBusinessType(['1', '2'])
     setCurrent(current + 1)
   }
 
@@ -40,7 +61,9 @@ const ApplyForm: React.FC = () => {
   }
 
   // 提交
-  const submit = () => {}
+  const submit = async () => {
+    await addCredit({ enterpriseCreditname: currentUser?.userName })
+  }
 
   return (
     <div className={styles.box}>

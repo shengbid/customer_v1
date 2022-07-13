@@ -9,7 +9,7 @@ const ComCard: React.FC<comcardprops> = (props: any) => {
   const { title } = props
 
   return (
-    <Card title={title} bordered={false}>
+    <Card title={title} bordered={false} style={{ marginBottom: 12 }}>
       {props.children}
     </Card>
   )
