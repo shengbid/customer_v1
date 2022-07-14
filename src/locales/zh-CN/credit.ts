@@ -40,4 +40,8 @@ export default {
   'credit.apply.duty': '职务',
   'credit.apply.financeAdmin': '财务负责人',
   'credit.apply.financeAdminName': '财务负责人姓名',
+  'credit.apply.idType': '身份证件类型',
+  'credit.apply.idFront': '证件正面',
+  'credit.apply.idReverse': '证件反面',
+  'credit.apply.idNo': '证件号码',
 }

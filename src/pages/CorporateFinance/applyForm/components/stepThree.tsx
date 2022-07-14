@@ -1,10 +1,7 @@
 import { useImperativeHandle, forwardRef, useState } from 'react'
-import ComCard from '@/components/ComPage/ComCard'
-import { Form, Input } from 'antd'
-import { useIntl } from 'umi'
-import DictSelect from '@/components/ComSelect'
-import { phoneReg } from '@/utils/reg'
-import RequiredLabel from '@/components/RequiredLabel'
+
+import { Form } from 'antd'
+import LegalPerson from './legalPerson'
 import RealPersonInfo from './realPersonInfo'
 import MetalPersonInfo from './metaInfo'
 import MainPrincipal from './principal'
@@ -12,7 +9,6 @@ import FinancePrincipal from './financePrincipal'
 
 const StepThree = ({}, ref: any) => {
   const [form] = Form.useForm()
-  const intl = useIntl()
   const [maritalStatus, setMaritalStatus] = useState<string>('2') // 婚姻状态
 
   useImperativeHandle(ref, () => ({
@@ -31,101 +27,8 @@ const StepThree = ({}, ref: any) => {
       form={form}
       autoComplete="off"
     >
-      <ComCard
-        title={intl.formatMessage({
-          id: 'credit.apply.legalPersonInfo',
-        })}
-      >
-        <Form.Item
-          name="legalName"
-          label={intl.formatMessage({
-            id: 'credit.apply.legalName',
-          })}
-          rules={[
-            {
-              required: true,
-              message: `${intl.formatMessage({
-                id: 'pages.form.input',
-              })}${intl.formatMessage({
-                id: 'credit.apply.legalName',
-              })}`,
-            },
-          ]}
-        >
-          <Input maxLength={50} />
-        </Form.Item>
-
-        <Form.Item
-          label={
-            <RequiredLabel
-              label={intl.formatMessage({
-                id: 'credit.apply.phone',
-              })}
-            />
-          }
-        >
-          <Form.Item
-            name="phoneArea"
-            style={{ display: 'inline-block', marginBottom: 0, width: '30%' }}
-          >
-            <DictSelect authorword="phone_code" allowClear={false} />
-          </Form.Item>
-          <Form.Item
-            name="phone"
-            style={{ display: 'inline-block', marginBottom: 0, width: '70%' }}
-            rules={[
-              {
-                required: true,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.input',
-                })}${intl.formatMessage({
-                  id: 'credit.apply.phone',
-                })}`,
-              },
-              phoneReg,
-            ]}
-          >
-            <Input maxLength={50} />
-          </Form.Item>
-        </Form.Item>
-
-        <Form.Item
-          name="maritalStatus"
-          label={intl.formatMessage({
-            id: 'credit.apply.maritalStatus',
-          })}
-          rules={[
-            {
-              required: true,
-              message: `${intl.formatMessage({
-                id: 'pages.form.select',
-              })}${intl.formatMessage({
-                id: 'credit.apply.maritalStatus',
-              })}`,
-            },
-          ]}
-        >
-          <DictSelect authorword="credit_status" />
-        </Form.Item>
-        <Form.Item
-          name="address"
-          label={intl.formatMessage({
-            id: 'credit.apply.address',
-          })}
-          rules={[
-            {
-              required: true,
-              message: `${intl.formatMessage({
-                id: 'pages.form.input',
-              })}${intl.formatMessage({
-                id: 'credit.apply.address',
-              })}`,
-            },
-          ]}
-        >
-          <Input maxLength={50} />
-        </Form.Item>
-      </ComCard>
+      {/* 法人信息 */}
+      <LegalPerson />
       {/* 实控人信息 */}
       <RealPersonInfo changeRealMarital={setMaritalStatus} />
       {/* 实控人配偶信息 */}

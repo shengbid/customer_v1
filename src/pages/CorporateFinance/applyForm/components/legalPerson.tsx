@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import { useIntl } from 'umi'
-import ComCard from '@/components/ComPage/ComCard'
+import { Form, Input, Row, Col } from 'antd'
 import DictSelect from '@/components/ComSelect'
 import { phoneReg, idCardReg } from '@/utils/reg'
 import RequiredLabel from '@/components/RequiredLabel'
-import { Form, Input, Row, Col } from 'antd'
-import ComUpload from '@/components/ComUpload'
+import ComCard from '@/components/ComPage/ComCard'
+import { useIntl } from 'umi'
 import UploadImage from '@/components/ComUpload/uploadImage'
 
-// 实控人配偶信息
-const MetalPersonInfo: React.FC = () => {
+// 法人信息
+const LegalPerson: React.FC = () => {
   const intl = useIntl()
   const [idType, setIdTyp] = useState<number>(1)
 
@@ -17,7 +16,7 @@ const MetalPersonInfo: React.FC = () => {
   return (
     <ComCard
       title={intl.formatMessage({
-        id: 'credit.apply.metalInfo',
+        id: 'credit.apply.legalPersonInfo',
       })}
     >
       <Row gutter={gutter}>
@@ -66,7 +65,6 @@ const MetalPersonInfo: React.FC = () => {
           </Form.Item>
         </Col>
       </Row>
-
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
@@ -111,13 +109,12 @@ const MetalPersonInfo: React.FC = () => {
           )}
         </Col>
       </Row>
-
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
-            name="metalName"
+            name="legalName"
             label={intl.formatMessage({
-              id: 'credit.apply.metalName',
+              id: 'credit.apply.legalName',
             })}
             rules={[
               {
@@ -125,7 +122,7 @@ const MetalPersonInfo: React.FC = () => {
                 message: `${intl.formatMessage({
                   id: 'pages.form.input',
                 })}${intl.formatMessage({
-                  id: 'credit.apply.metalName',
+                  id: 'credit.apply.legalName',
                 })}`,
               },
             ]}
@@ -169,27 +166,50 @@ const MetalPersonInfo: React.FC = () => {
           </Form.Item>
         </Col>
       </Row>
-
-      <Form.Item
-        name="metalCreditReport"
-        label={intl.formatMessage({
-          id: 'credit.apply.metalCreditReport',
-        })}
-        rules={[
-          {
-            required: true,
-            message: `${intl.formatMessage({
-              id: 'pages.form.select',
-            })}${intl.formatMessage({
-              id: 'credit.apply.metalCreditReport',
-            })}`,
-          },
-        ]}
-      >
-        <ComUpload limit={1} />
-      </Form.Item>
+      <Row gutter={gutter}>
+        <Col span={12}>
+          <Form.Item
+            name="maritalStatus"
+            label={intl.formatMessage({
+              id: 'credit.apply.maritalStatus',
+            })}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.select',
+                })}${intl.formatMessage({
+                  id: 'credit.apply.maritalStatus',
+                })}`,
+              },
+            ]}
+          >
+            <DictSelect authorword="credit_status" />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            name="address"
+            label={intl.formatMessage({
+              id: 'credit.apply.address',
+            })}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.input',
+                })}${intl.formatMessage({
+                  id: 'credit.apply.address',
+                })}`,
+              },
+            ]}
+          >
+            <Input maxLength={50} />
+          </Form.Item>
+        </Col>
+      </Row>
     </ComCard>
   )
 }
 
-export default MetalPersonInfo
+export default LegalPerson
