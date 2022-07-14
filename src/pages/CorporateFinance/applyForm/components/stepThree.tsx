@@ -1,4 +1,4 @@
-import { useImperativeHandle, forwardRef } from 'react'
+import { useImperativeHandle, forwardRef, useState } from 'react'
 import ComCard from '@/components/ComPage/ComCard'
 import { Form, Input } from 'antd'
 import { useIntl } from 'umi'
@@ -13,6 +13,7 @@ import FinancePrincipal from './financePrincipal'
 const StepThree = ({}, ref: any) => {
   const [form] = Form.useForm()
   const intl = useIntl()
+  const [maritalStatus, setMaritalStatus] = useState<string>('2') // 婚姻状态
 
   useImperativeHandle(ref, () => ({
     // getOneStepData 就是暴露给父组件的方法
@@ -126,9 +127,9 @@ const StepThree = ({}, ref: any) => {
         </Form.Item>
       </ComCard>
       {/* 实控人信息 */}
-      <RealPersonInfo />
+      <RealPersonInfo changeRealMarital={setMaritalStatus} />
       {/* 实控人配偶信息 */}
-      <MetalPersonInfo />
+      {Number(maritalStatus) === 1 && <MetalPersonInfo />}
       {/* 主要负责人信息 */}
       <MainPrincipal />
       {/* 财务负责人信息 */}

@@ -7,8 +7,11 @@ import RequiredLabel from '@/components/RequiredLabel'
 import { Form, Input } from 'antd'
 import ComUpload from '@/components/ComUpload'
 
+interface reralProps {
+  changeRealMarital: (value: string) => void
+}
 // 实控人信息
-const RealPersonInfo: React.FC = () => {
+const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
   const intl = useIntl()
 
   return (
@@ -86,7 +89,7 @@ const RealPersonInfo: React.FC = () => {
           },
         ]}
       >
-        <DictSelect authorword="credit_status" />
+        <DictSelect authorword="credit_status" onChange={changeRealMarital} />
       </Form.Item>
       <Form.Item
         name="addressStatus"
@@ -158,7 +161,7 @@ const RealPersonInfo: React.FC = () => {
           },
         ]}
       >
-        <ComUpload />
+        <ComUpload limit={1} />
       </Form.Item>
       <Form.Item
         name="owerCertificate"

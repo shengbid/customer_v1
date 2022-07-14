@@ -86,7 +86,7 @@ const MetalPersonInfo: React.FC = () => {
           },
         ]}
       >
-        <ComUpload />
+        <ComUpload limit={1} />
       </Form.Item>
     </ComCard>
   )
