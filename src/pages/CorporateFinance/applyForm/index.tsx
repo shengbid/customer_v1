@@ -6,6 +6,9 @@ import StepThree from './components/stepThree'
 import styles from './index.less'
 import { addCredit } from '@/services'
 import { useModel } from 'umi'
+import Processing from './results/processing'
+import Reject from './results/reject'
+import Success from './results/success'
 
 const { Step } = Steps
 
@@ -17,6 +20,7 @@ const ApplyForm: React.FC = () => {
   const creditThreeRef: MutableRefObject<any> = useRef({})
   const { initialState } = useModel('@@initialState')
   const { currentUser } = initialState || {}
+  const [status] = useState<number>(0)
 
   const steps = [
     {
@@ -68,33 +72,40 @@ const ApplyForm: React.FC = () => {
   return (
     <div className={styles.box}>
       <div className={styles.title}>企业授信申请</div>
-      <div className={styles.step}>
-        <Steps current={current} style={{ width: '97%' }}>
-          {steps.map((item) => (
-            <Step key={item.title} title={item.title} description={item.description} />
-          ))}
-        </Steps>
-      </div>
-      <div className={styles.content}>
-        <div>{steps[current].content}</div>
-      </div>
-      <div className="applyBtn">
-        {current > 0 && (
-          <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-            上一步
-          </Button>
-        )}
-        {current < steps.length - 1 && (
-          <Button type="primary" onClick={() => next()}>
-            下一步
-          </Button>
-        )}
-        {current === steps.length - 1 && (
-          <Button type="primary" onClick={submit}>
-            提交
-          </Button>
-        )}
-      </div>
+      {status === 0 && (
+        <>
+          <div className={styles.step}>
+            <Steps current={current} style={{ width: '97%' }}>
+              {steps.map((item) => (
+                <Step key={item.title} title={item.title} description={item.description} />
+              ))}
+            </Steps>
+          </div>
+          <div className={styles.content}>
+            <div>{steps[current].content}</div>
+          </div>
+          <div className="applyBtn">
+            {current > 0 && (
+              <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                上一步
+              </Button>
+            )}
+            {current < steps.length - 1 && (
+              <Button type="primary" onClick={() => next()}>
+                下一步
+              </Button>
+            )}
+            {current === steps.length - 1 && (
+              <Button type="primary" onClick={submit}>
+                提交
+              </Button>
+            )}
+          </div>
+        </>
+      )}
+      {status === 1 && <Processing />}
+      {status === 2 && <Reject />}
+      {status === 3 && <Success />}
     </div>
   )
 }
