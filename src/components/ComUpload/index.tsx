@@ -41,8 +41,7 @@ const ComUpload: React.FC<comuploadProps> = ({
       if (value && value.length) {
         value.forEach((item: any) => {
           const newItem = item
-          if (!item.url) {
-            newItem.url = item.fileUrl
+          if (!item.uid) {
             newItem.uid = item.fileId ? item.fileId : Math.floor(Math.random() * 1000)
           }
           newValues.push(newItem)
@@ -94,6 +93,7 @@ const ComUpload: React.FC<comuploadProps> = ({
             if (item.response) {
               newItem = {
                 ...item.response.data,
+                url: `${item.response.data.prefix}${item.response.data.fileUrl}`,
               }
             }
             return newItem
@@ -136,12 +136,11 @@ const ComUpload: React.FC<comuploadProps> = ({
   // 文件下载
   const onPreview = (file: any) => {
     // console.log(file)
-    let { prefix, url } = file
+    let { url } = file
     if (file.response) {
-      url = file.response?.url
-      prefix = file.response?.prefix
+      url = `${file.response?.prefix}${file.response?.fileUrl}`
     }
-    window.open(`${prefix}${url}`)
+    window.open(`${url}`)
   }
 
   return (

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Upload, Modal, message } from 'antd'
+import { Upload, Modal, message, notification } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { useIntl } from 'umi'
+import { loginOut } from '@/utils/base'
+import Cookies from 'js-cookie'
 
 export type comuploadProps = {
   value?: any
@@ -22,19 +24,20 @@ const ImageUpload: React.FC<comuploadProps> = ({
   const [previewVisible, setPreviewVisible] = useState<boolean>(false)
   const [previewTitle, setPreviewTitle] = useState<string>('')
   const [previewImage, setPreviewImage] = useState<string>('')
-  const [originFiles, setOriginFiles] = useState<any>([])
+  // const [originFiles, setOriginFiles] = useState<any>([])
 
   const intl = useIntl()
 
   // 获取上传图片的base64地址
-  const getBase64 = (file: any, uid: string) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = () => resolve({ uid, url: reader.result })
-      reader.onerror = (error) => reject(error)
-    })
-  }
+  // const getBase64 = (file: any, uid: string) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader()
+  //     reader.readAsDataURL(file)
+  //     reader.onload = () => resolve({ uid, url: reader.result })
+  //     reader.onerror = (error) => reject(error)
+  //   })
+  // }
+  const action = `${URL_PREFIX}/file/upload`
 
   useEffect(() => {
     // 展示传入的文件数据
@@ -44,19 +47,16 @@ const ImageUpload: React.FC<comuploadProps> = ({
       if (value && value.length) {
         value.forEach((item: any) => {
           const newItem = item
-          if (!item.url) {
-            newItem.name = item.fileName
-            newItem.url = item.fileUrl
-            newItem.uid = item.uid ? item.uid : Math.floor(Math.random() * 1000)
+          if (!item.uid) {
+            newItem.uid = item.fileId ? item.fileId : Math.floor(Math.random() * 1000)
           }
           newValues.push(newItem)
         })
       } else if (value?.fileName) {
         // 文件对象
         newValues.push({
-          name: value.fileName,
-          url: value.url ? value.url : value.fileUrl,
-          uid: value.uid ? value.uid : Math.floor(Math.random() * 1000),
+          ...value,
+          uid: value.fileId ? value.fileId : Math.floor(Math.random() * 1000),
         })
       }
       // console.log(1, value)
@@ -64,28 +64,26 @@ const ImageUpload: React.FC<comuploadProps> = ({
     }
   }, [value])
 
-  const action = `/api/upload/file`
-
   // 文件上传
   const changeFile = async ({ file, fileList }: any) => {
     if (file.status !== 'uploading') {
       console.log(6, file, fileList, files)
       // 上传错误处理
-      // if (file.response && file.response.responseCode === 'B00001') {
-      //   loginOut()
-      //   notification.warning({
-      //     key: 'error',
-      //     message: file.response.responseMsg
-      //   })
-      //   return
-      // }
-      // if (file.response && file.response.responseCode !== '000000') {
-      //   notification.warning({
-      //     key: 'error',
-      //     message: file.response.responseMsg
-      //   })
-      //   return
-      // }
+      if (file.response && file.response.code === 401) {
+        loginOut()
+        notification.warning({
+          key: 'error',
+          message: file.response.msg,
+        })
+        return
+      }
+      if (file.response && file.response.code !== 200) {
+        notification.warning({
+          key: 'error',
+          message: file.response.msg,
+        })
+        return
+      }
 
       // 多文件上传,等待最后一个文件上传后再改变值
       let isFinish = true
@@ -94,25 +92,24 @@ const ImageUpload: React.FC<comuploadProps> = ({
           isFinish = false
         }
       })
-      if (file.response) {
-        const arr = originFiles
-        arr.push(getBase64(file.originFileObj, file.uid))
-        setOriginFiles(arr)
-      }
+      // if (file.response) {
+      //   const arr = originFiles
+      //   arr.push(getBase64(file.originFileObj, file.uid))
+      //   setOriginFiles(arr)
+      // }
 
       // 新增才处理,删除不处理
       if (isFinish) {
         if (fileList.length >= files.length) {
-          const datas = await Promise.all(originFiles)
-          console.log(2, datas)
+          // const datas = await Promise.all(originFiles)
+          // console.log(2, datas)
           // 需要改变fileList的值,否则status的状态不会改变
           fileList = fileList.map((item: any) => {
             let newItem = { ...item }
             if (item.response) {
               newItem = {
-                fileName: item.name,
-                fileUrl: item.response.data.fileUrl,
-                url: datas.find((ss) => ss.uid === item.uid)?.url,
+                ...item.response.data,
+                url: `${item.response.data.prefix}${item.response.data.fileUrl}`,
               }
             }
             return newItem
@@ -135,8 +132,12 @@ const ImageUpload: React.FC<comuploadProps> = ({
 
   // 预览图片
   const handlePreview = async (file: any) => {
-    setPreviewTitle(file.fileName)
-    setPreviewImage(file.url)
+    let { url } = file
+    if (file.response) {
+      url = `${file.response?.prefix}${file.response?.fileUrl}`
+    }
+    setPreviewTitle(file.name)
+    setPreviewImage(`${url}`)
     setPreviewVisible(true)
   }
 
@@ -158,6 +159,9 @@ const ImageUpload: React.FC<comuploadProps> = ({
         onChange={changeFile}
         fileList={files}
         accept="image/*"
+        headers={{
+          Authorization: Cookies.get('token'),
+        }}
         onPreview={handlePreview}
         beforeUpload={checkFileSize}
       >
@@ -166,6 +170,7 @@ const ImageUpload: React.FC<comuploadProps> = ({
       <Modal
         visible={previewVisible}
         title={previewTitle}
+        width={'60%'}
         footer={null}
         onCancel={() => setPreviewVisible(false)}
       >
