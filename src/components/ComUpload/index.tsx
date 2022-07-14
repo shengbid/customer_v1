@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Upload, message } from 'antd'
+import { Button, Upload, message, notification } from 'antd'
 import {
   UploadOutlined,
   FileTextOutlined,
@@ -11,6 +11,8 @@ import {
   FileWordOutlined,
 } from '@ant-design/icons'
 import { useIntl } from 'umi'
+import Cookies from 'js-cookie'
+import { loginOut } from '@/utils/base'
 
 export type comuploadProps = {
   value?: any
@@ -40,30 +42,43 @@ const ComUpload: React.FC<comuploadProps> = ({
         value.forEach((item: any) => {
           const newItem = item
           if (!item.url) {
-            newItem.name = item.fileName
             newItem.url = item.fileUrl
-            newItem.uid = item.id ? item.id : Math.floor(Math.random() * 1000)
+            newItem.uid = item.fileId ? item.fileId : Math.floor(Math.random() * 1000)
           }
           newValues.push(newItem)
         })
       } else if (value?.fileName) {
         // 文件对象
         newValues.push({
-          name: value.fileName,
-          url: value.fileUrl,
-          uid: value.id ? value.id : Math.floor(Math.random() * 1000),
+          ...value,
+          uid: value.fileId ? value.fileId : Math.floor(Math.random() * 1000),
         })
       }
       setFiles(newValues)
     }
   }, [value])
 
-  const action = `${URL_PREFIX}/upload/file`
+  const action = `${URL_PREFIX}/file/upload`
 
   // 文件上传
   const changeFile = ({ file, fileList }: any) => {
     console.log(6, file, fileList)
     if (file.status !== 'uploading') {
+      if (file.response && file.response.code === 401) {
+        loginOut()
+        notification.warning({
+          key: 'error',
+          message: file.response.msg,
+        })
+        return
+      }
+      if (file.response && file.response.code !== 200) {
+        notification.warning({
+          key: 'error',
+          message: file.response.msg,
+        })
+        return
+      }
       // 多文件上传,所有文件上传完成后改变值
       let isFinish = true
       fileList.some((item: any) => {
@@ -78,8 +93,7 @@ const ComUpload: React.FC<comuploadProps> = ({
             let newItem = { ...item }
             if (item.response) {
               newItem = {
-                fileName: item.name,
-                fileUrl: item.response.data.fileUrl,
+                ...item.response.data,
               }
             }
             return newItem
@@ -119,6 +133,16 @@ const ComUpload: React.FC<comuploadProps> = ({
     }
     return true
   }
+  // 文件下载
+  const onPreview = (file: any) => {
+    // console.log(file)
+    let { prefix, url } = file
+    if (file.response) {
+      url = file.response?.url
+      prefix = file.response?.prefix
+    }
+    window.open(`${prefix}${url}`)
+  }
 
   return (
     <Upload
@@ -127,6 +151,10 @@ const ComUpload: React.FC<comuploadProps> = ({
       multiple={multiple}
       iconRender={iconRender}
       maxCount={limit}
+      onPreview={onPreview}
+      headers={{
+        Authorization: Cookies.get('token'),
+      }}
       onChange={changeFile}
       fileList={files}
       beforeUpload={checkFileSize}
