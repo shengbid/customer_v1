@@ -14,7 +14,7 @@ interface reralProps {
 // 实控人信息
 const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
   const intl = useIntl()
-  const [idType, setIdTyp] = useState<number>(1)
+  const [idType, setIdTyp] = useState<string>('xgsfz')
 
   const gutter = 10
   return (
@@ -41,10 +41,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
               },
             ]}
           >
-            <DictSelect
-              authorword="credit_status"
-              onChange={(val: string) => setIdTyp(Number(val))}
-            />
+            <DictSelect authorword="sfzlx" onChange={(val: string) => setIdTyp(val)} />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -92,7 +89,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
           </Form.Item>
         </Col>
         <Col span={12}>
-          {idType !== 3 && (
+          {idType !== 'hz' && (
             <Form.Item
               name="idReverse"
               label={intl.formatMessage({
@@ -191,7 +188,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
               },
             ]}
           >
-            <DictSelect authorword="credit_status" onChange={changeRealMarital} />
+            <DictSelect authorword="hyqk" onChange={changeRealMarital} />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -211,7 +208,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
               },
             ]}
           >
-            <DictSelect authorword="credit_status" />
+            <DictSelect authorword="zfqk" />
           </Form.Item>
         </Col>
       </Row>

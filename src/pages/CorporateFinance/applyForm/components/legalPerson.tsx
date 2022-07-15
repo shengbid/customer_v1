@@ -10,7 +10,7 @@ import UploadImage from '@/components/ComUpload/uploadImage'
 // 法人信息
 const LegalPerson: React.FC = () => {
   const intl = useIntl()
-  const [idType, setIdTyp] = useState<number>(1)
+  const [idType, setIdTyp] = useState<string>('xgsfz')
 
   const gutter = 10
   return (
@@ -37,10 +37,7 @@ const LegalPerson: React.FC = () => {
               },
             ]}
           >
-            <DictSelect
-              authorword="credit_status"
-              onChange={(val: string) => setIdTyp(Number(val))}
-            />
+            <DictSelect authorword="sfzlx" onChange={(val: string) => setIdTyp(val)} />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -87,7 +84,7 @@ const LegalPerson: React.FC = () => {
           </Form.Item>
         </Col>
         <Col span={12}>
-          {idType !== 3 && (
+          {idType !== 'hz' && (
             <Form.Item
               name="idReverse"
               label={intl.formatMessage({
