@@ -41,7 +41,9 @@ const ComUpload: React.FC<comuploadProps> = ({
       if (value && value.length) {
         value.forEach((item: any) => {
           const newItem = item
-          if (!item.uid) {
+          if (!item.url) {
+            newItem.url = `${item.pictureDomain}${item.fileUrl}`
+            newItem.name = item.fileName
             newItem.uid = item.fileId ? item.fileId : Math.floor(Math.random() * 1000)
           }
           newValues.push(newItem)
@@ -50,9 +52,12 @@ const ComUpload: React.FC<comuploadProps> = ({
         // 文件对象
         newValues.push({
           ...value,
+          url: `${value.pictureDomain}${value.fileUrl}`,
+          name: value.fileName,
           uid: value.fileId ? value.fileId : Math.floor(Math.random() * 1000),
         })
       }
+      console.log(newValues)
       setFiles(newValues)
     }
   }, [value])
@@ -93,6 +98,8 @@ const ComUpload: React.FC<comuploadProps> = ({
             if (item.response) {
               newItem = {
                 ...item.response.data,
+                fileName: item.response.data.name,
+                pictureDomain: item.response.data.prefix,
                 url: `${item.response.data.prefix}${item.response.data.fileUrl}`,
               }
             }
