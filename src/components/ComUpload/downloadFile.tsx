@@ -1,25 +1,29 @@
 import React, { useState } from 'react'
 import { Button, notification } from 'antd'
-import { downloadFile } from '@/services'
+import { downloadTemplate } from '@/services'
 import { loginOut } from '@/utils/base'
 import FileSaver from 'file-saver'
 import { useIntl } from 'umi'
 
 export interface exportProps {
+  templateId: string
   title?: string
-  url?: string
 }
 
 // 下载模板
-const DownloadFile: React.FC<exportProps> = ({ title = '' }) => {
+const DownloadFile: React.FC<exportProps> = ({ title = '', templateId }) => {
   const intl = useIntl()
   const [loading, setLoading] = useState<boolean>(false)
 
   // 下载模板
   const download = async () => {
     setLoading(true)
-    const res = await downloadFile()
+    const res = await downloadTemplate(templateId)
     setLoading(false)
+    // if (data) {
+    //   const fileUrl = `${data.pictureDomain}${data.fileUrl}`
+    //   FileSaver.saveAs(fileUrl, `${title}${intl.formatMessage({ id: 'pages.table.model' })}`)
+    // }
     if (res && res.size) {
       if (res.type === 'application/json') {
         // 如果接口报错,抛出错误
