@@ -12,7 +12,7 @@ export interface iconSelectProps {
   placeholder?: string
   type?: string // 类型 deflaut下拉 radio  checkbox
   authorword: string
-  value?: string
+  value?: any
   onChange?: (value: any) => void
   getDictData?: (value: any) => void
   labelInValue?: boolean

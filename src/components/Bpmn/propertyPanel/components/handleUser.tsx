@@ -13,9 +13,7 @@ const HandleUser: React.FC<handleAssigneeProps> = ({ handleAssignee }) => {
 
   const getList = async () => {
     const { rows } = await getRoleList({ pageNum: 1, pageSize: 20 })
-    setRoleList(
-      handleOptionData({ data: rows, value: 'roleId', label: 'roleName', valueType: 'string' }),
-    )
+    setRoleList(handleOptionData({ data: rows, value: 'roleId', label: 'roleName' }))
   }
 
   useEffect(() => {
