@@ -21,6 +21,7 @@ const StepOne = ({}, ref: any) => {
   const { currentUser } = initialState || {}
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([2022, 2021])
   const [dataSource, setDataSource] = useState<companyBusinessProps[]>([])
+  const [busType, setBusType] = useState<string[]>(['B2C'])
 
   useEffect(() => {
     const year = moment().year()
@@ -31,7 +32,7 @@ const StepOne = ({}, ref: any) => {
 
   useImperativeHandle(ref, () => ({
     // getOneStepData 就是暴露给父组件的方法
-    getOneStepData: () => {
+    getStepData: () => {
       return { form, tableForm, dataSource } // 将表格form实例与表格元素导出
     },
   }))
@@ -46,17 +47,17 @@ const StepOne = ({}, ref: any) => {
     {
       title: (
         <span>
-          B2B/BBC营业额（万元）
-          <Tooltip title="B2B/BBC营业额（万元）">
+          B2C营业额（万元）
+          <Tooltip title="B2C营业额（万元）">
             <QuestionCircleOutlined />
           </Tooltip>
         </span>
       ),
-      dataIndex: 'businessVolume',
+      dataIndex: 'btocQuota',
       formItemProps: {
         rules: [
           {
-            required: true,
+            required: busType.includes('B2C') ? true : false,
             message: '此项为必填项',
           },
         ],
@@ -67,17 +68,17 @@ const StepOne = ({}, ref: any) => {
     {
       title: (
         <span>
-          B2C营业额（万元）
-          <Tooltip title="B2C营业额（万元）">
+          B2B/BBC营业额（万元）
+          <Tooltip title="B2B/BBC营业额（万元）">
             <QuestionCircleOutlined />
           </Tooltip>
         </span>
       ),
-      dataIndex: 'businessVolume2',
+      dataIndex: 'btobQuota',
       formItemProps: {
         rules: [
           {
-            required: true,
+            required: busType.includes('B2B') ? true : false,
             message: '此项为必填项',
           },
         ],
@@ -92,19 +93,26 @@ const StepOne = ({}, ref: any) => {
         name="basic"
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 18 }}
-        initialValues={{ phoneArea: '1' }}
+        initialValues={{ phoneArea: '1', enterpriseName: currentUser?.fullName }}
         form={form}
         autoComplete="off"
       >
+        <Form.Item label="enterpriseName" name="enterpriseName" style={{ display: 'none' }}>
+          <Input />
+        </Form.Item>
+        <Form.Item label="id" name="id" style={{ display: 'none' }}>
+          <Input />
+        </Form.Item>
         <Form.Item
           label={intl.formatMessage({
             id: 'credit.apply.companyName',
           })}
         >
-          <span>{currentUser?.userName}</span>
+          <span>{currentUser?.fullName}</span>
         </Form.Item>
+
         <Form.Item
-          name="business"
+          name="businessType"
           label={intl.formatMessage({
             id: 'credit.apply.business',
           })}
@@ -119,10 +127,10 @@ const StepOne = ({}, ref: any) => {
             },
           ]}
         >
-          <DictSelect authorword="credit_status" type="checkbox" />
+          <DictSelect authorword="zyyw" type="checkbox" onChange={setBusType} />
         </Form.Item>
         <Form.Item
-          name="type"
+          name="sellProduct"
           label={intl.formatMessage({
             id: 'credit.apply.type',
           })}
@@ -170,7 +178,7 @@ const StepOne = ({}, ref: any) => {
           />
         </Form.Item>
         <Form.Item
-          name="debt"
+          name="enterpriseDebt"
           label={intl.formatMessage({
             id: 'credit.apply.debt',
           })}
@@ -188,7 +196,7 @@ const StepOne = ({}, ref: any) => {
           <TextArea maxLength={1000} autoSize={{ minRows: 3, maxRows: 5 }} />
         </Form.Item>
         <Form.Item
-          name="amount"
+          name="applyQuota"
           label={intl.formatMessage({
             id: 'credit.apply.amount',
           })}

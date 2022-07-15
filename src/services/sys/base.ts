@@ -20,6 +20,20 @@ export async function downloadFile() {
     method: 'post',
   })
 }
+// 获取模板文件
+export async function getTemplate(templateId: string) {
+  return request<{ data: any }>(`/system/templateManage/get/template`, {
+    params: { templateId },
+  })
+}
+// 下载模板管理上传的文件
+export async function downloadTemplate(templateId: string) {
+  return request(`/file/download`, {
+    params: { templateId },
+    responseType: 'blob',
+    method: 'post',
+  })
+}
 
 /** 导出模板 */
 export async function exportFile(url: string, data: any, all: boolean) {

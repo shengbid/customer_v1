@@ -209,7 +209,7 @@ interface optionProps {
   label: string
   valueType?: string
 }
-export const handleOptionData = ({ data, value, label, valueType = 'number' }: optionProps) => {
+export const handleOptionData = ({ data, value, label, valueType = 'string' }: optionProps) => {
   const arr: any[] = []
   data.map((item) => {
     const obj = {

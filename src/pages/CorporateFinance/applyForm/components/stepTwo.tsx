@@ -1,6 +1,6 @@
 import { useImperativeHandle, forwardRef } from 'react'
 import ComCard from '@/components/ComPage/ComCard'
-import { Form } from 'antd'
+import { Form, Input } from 'antd'
 import { useIntl } from 'umi'
 import ComUpload from '@/components/ComUpload'
 import DownloadFile from '@/components/ComUpload/downloadFile'
@@ -15,7 +15,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
 
   useImperativeHandle(ref, () => ({
     // getOneStepData 就是暴露给父组件的方法
-    getOneStepData: () => {
+    getStepData: () => {
       return { form }
     },
   }))
@@ -33,8 +33,11 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
           id: 'credit.apply.companyBaseInfo',
         })}
       >
+        <Form.Item label="creditId" name="creditId" style={{ display: 'none' }}>
+          <Input />
+        </Form.Item>
         <Form.Item
-          name="accountStatement"
+          name="lszh"
           label={intl.formatMessage({
             id: 'credit.apply.accountStatement',
           })}
@@ -52,7 +55,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
           <ComUpload />
         </Form.Item>
         <Form.Item
-          name="cargoList"
+          name="hwqd"
           label={intl.formatMessage({
             id: 'credit.apply.cargoList',
           })}
@@ -70,7 +73,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
           <ComUpload />
         </Form.Item>
         <Form.Item
-          name="purchaseList"
+          name="cgqd"
           label={intl.formatMessage({
             id: 'credit.apply.purchaseList',
           })}
@@ -97,7 +100,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
           }
         >
           <Form.Item
-            name="supplierList"
+            name="gysqd"
             style={{ display: 'inline-block', marginBottom: 0 }}
             rules={[
               {
@@ -112,11 +115,65 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
           >
             <ComUpload />
           </Form.Item>
-          <DownloadFile />
+          <DownloadFile templateId="eOIa0c2I6R0NC5MeHR3" />
         </Form.Item>
       </ComCard>
 
-      {type.includes('1') && (
+      {type.includes('B2B') && (
+        <ComCard
+          title={intl.formatMessage({
+            id: 'credit.apply.B2BInfo',
+          })}
+        >
+          <Form.Item
+            label={
+              <RequiredLabel
+                label={intl.formatMessage({
+                  id: 'credit.apply.cooperateClient',
+                })}
+              />
+            }
+          >
+            <Form.Item
+              name="sdqd"
+              style={{ display: 'inline-block', marginBottom: 0 }}
+              rules={[
+                {
+                  required: true,
+                  message: `${intl.formatMessage({
+                    id: 'pages.form.upload',
+                  })}${intl.formatMessage({
+                    id: 'credit.apply.cooperateClient',
+                  })}`,
+                },
+              ]}
+            >
+              <ComUpload />
+            </Form.Item>
+            <DownloadFile templateId="JnytKoM7y8est0jDVjc" />
+          </Form.Item>
+          <Form.Item
+            name="xykhqd"
+            label={intl.formatMessage({
+              id: 'credit.apply.b2bSaleList',
+            })}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.upload',
+                })}${intl.formatMessage({
+                  id: 'credit.apply.b2bSaleList',
+                })}`,
+              },
+            ]}
+          >
+            <ComUpload />
+          </Form.Item>
+        </ComCard>
+      )}
+
+      {type.includes('B2C') && (
         <ComCard
           title={intl.formatMessage({
             id: 'credit.apply.b2cInfo',
@@ -132,7 +189,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
             }
           >
             <Form.Item
-              name="actualOperater"
+              name="jyrsm"
               style={{ display: 'inline-block', marginBottom: 0 }}
               rules={[
                 {
@@ -147,7 +204,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
             >
               <ComUpload />
             </Form.Item>
-            <DownloadFile />
+            <DownloadFile templateId="Dn1IyZvubOpjcYpgWzY" />
           </Form.Item>
           <Form.Item
             name="saleList"
@@ -168,7 +225,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
             <ComUpload />
           </Form.Item>
           <Form.Item
-            name="platformReceivables"
+            name="skjt"
             label={intl.formatMessage({
               id: 'credit.apply.platformReceivables',
             })}
@@ -179,60 +236,6 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
                   id: 'pages.form.upload',
                 })}${intl.formatMessage({
                   id: 'credit.apply.platformReceivables',
-                })}`,
-              },
-            ]}
-          >
-            <ComUpload />
-          </Form.Item>
-        </ComCard>
-      )}
-
-      {type.includes('2') && (
-        <ComCard
-          title={intl.formatMessage({
-            id: 'credit.apply.B2BInfo',
-          })}
-        >
-          <Form.Item
-            label={
-              <RequiredLabel
-                label={intl.formatMessage({
-                  id: 'credit.apply.cooperateClient',
-                })}
-              />
-            }
-          >
-            <Form.Item
-              name="cooperateClient"
-              style={{ display: 'inline-block', marginBottom: 0 }}
-              rules={[
-                {
-                  required: true,
-                  message: `${intl.formatMessage({
-                    id: 'pages.form.upload',
-                  })}${intl.formatMessage({
-                    id: 'credit.apply.cooperateClient',
-                  })}`,
-                },
-              ]}
-            >
-              <ComUpload />
-            </Form.Item>
-            <DownloadFile />
-          </Form.Item>
-          <Form.Item
-            name="b2bSaleList"
-            label={intl.formatMessage({
-              id: 'credit.apply.b2bSaleList',
-            })}
-            rules={[
-              {
-                required: true,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.upload',
-                })}${intl.formatMessage({
-                  id: 'credit.apply.b2bSaleList',
                 })}`,
               },
             ]}

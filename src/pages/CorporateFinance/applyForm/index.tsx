@@ -4,8 +4,7 @@ import StepOne from './components/stepOne'
 import StepTwo from './components/stepTwo'
 import StepThree from './components/stepThree'
 import styles from './index.less'
-import { addCredit } from '@/services'
-import { useModel } from 'umi'
+import { addCreditOne, addCreditTwo } from '@/services'
 import Processing from './results/processing'
 import Reject from './results/reject'
 import Success from './results/success'
@@ -13,14 +12,13 @@ import Success from './results/success'
 const { Step } = Steps
 
 const ApplyForm: React.FC = () => {
-  const [current, setCurrent] = useState(2)
+  const [current, setCurrent] = useState(0)
   const [businessType, setBusinessType] = useState(['1'])
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
   const creditThreeRef: MutableRefObject<any> = useRef({})
-  const { initialState } = useModel('@@initialState')
-  const { currentUser } = initialState || {}
   const [status] = useState<number>(0)
+  const [btnLoading, setBtnLoading] = useState<boolean>(false)
 
   const steps = [
     {
@@ -41,22 +39,45 @@ const ApplyForm: React.FC = () => {
   ]
 
   const next = async () => {
-    // switch (current) {
-    //   case 0:
-    //     const { form, tableForm, dataSource } = creditOneRef.current.getOneStepData()
-    //     await form.validateFields()
-    //     await tableForm.validateFields()
-    //     const data = form.getFieldsValue()
-    //     setBusinessType(data.business)
-    //     console.log(data, dataSource)
-    //     break
-    //   case 1:
-    //     break
-
-    //   default:
-    //     break
-    // }
-    setBusinessType(['1', '2'])
+    switch (current) {
+      case 0:
+        const { form, tableForm, dataSource } = creditOneRef.current.getStepData()
+        await form.validateFields()
+        await tableForm.validateFields()
+        const data = form.getFieldsValue()
+        setBusinessType(data.businessType)
+        setBtnLoading(true)
+        try {
+          await addCreditOne({
+            cusEnterpriseInfo: { ...data, businessType: 'B2C' },
+            businessDetailsList: dataSource,
+          })
+        } catch (error) {
+          setBtnLoading(false)
+          return
+        }
+        setBtnLoading(false)
+        console.log(data, dataSource)
+        break
+      case 1:
+        const two = creditTwoRef.current.getStepData()
+        await two.form.validateFields()
+        const twoData = two.form.getFieldsValue()
+        setBtnLoading(true)
+        try {
+          await addCreditTwo({
+            ...twoData,
+            businessType,
+          })
+        } catch (error) {
+          setBtnLoading(false)
+          return
+        }
+        setBtnLoading(false)
+      default:
+        break
+    }
+    // setBusinessType(['1', '2'])
     setCurrent(current + 1)
   }
 
@@ -65,9 +86,7 @@ const ApplyForm: React.FC = () => {
   }
 
   // 提交
-  const submit = async () => {
-    await addCredit({ enterpriseCreditname: currentUser?.userName })
-  }
+  const submit = async () => {}
 
   return (
     <div className={styles.box}>
@@ -91,7 +110,7 @@ const ApplyForm: React.FC = () => {
               </Button>
             )}
             {current < steps.length - 1 && (
-              <Button type="primary" onClick={() => next()}>
+              <Button type="primary" loading={btnLoading} onClick={() => next()}>
                 下一步
               </Button>
             )}

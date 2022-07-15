@@ -9,11 +9,11 @@ import FinancePrincipal from './financePrincipal'
 
 const StepThree = ({}, ref: any) => {
   const [form] = Form.useForm()
-  const [maritalStatus, setMaritalStatus] = useState<string>('2') // 婚姻状态
+  const [maritalStatus, setMaritalStatus] = useState<string>('ds') // 婚姻状态
 
   useImperativeHandle(ref, () => ({
     // getOneStepData 就是暴露给父组件的方法
-    getOneStepData: () => {
+    getStepData: () => {
       return {} // 将表格form实例与表格元素导出
     },
   }))
@@ -32,7 +32,7 @@ const StepThree = ({}, ref: any) => {
       {/* 实控人信息 */}
       <RealPersonInfo changeRealMarital={setMaritalStatus} />
       {/* 实控人配偶信息 */}
-      {Number(maritalStatus) === 1 && <MetalPersonInfo />}
+      {maritalStatus === 'yh' && <MetalPersonInfo />}
       {/* 主要负责人信息 */}
       <MainPrincipal />
       {/* 财务负责人信息 */}

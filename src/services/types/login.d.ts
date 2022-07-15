@@ -22,6 +22,7 @@ export interface LoginResult {
 
 export interface userProps {
   userName: string
+  fullName: string
   nickName?: string
   phonenumber?: string
   email?: string
