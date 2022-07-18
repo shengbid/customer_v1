@@ -128,7 +128,7 @@ const StepOne = ({}, ref: any) => {
             },
           ]}
         >
-          <DictSelect authorword="zyyw" type="checkbox" onChange={setBusType} />
+          <DictSelect authorword="cus_zyyw" type="checkbox" onChange={setBusType} />
         </Form.Item>
         <Form.Item
           name="sellProduct"

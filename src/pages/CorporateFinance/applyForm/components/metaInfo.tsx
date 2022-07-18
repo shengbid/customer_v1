@@ -41,7 +41,7 @@ const MetalPersonInfo: React.FC = () => {
               },
             ]}
           >
-            <DictSelect authorword="sfzlx" onChange={(val: string) => setIdTyp(val)} />
+            <DictSelect authorword="cus_sfzlx" onChange={(val: string) => setIdTyp(val)} />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -106,7 +106,7 @@ const MetalPersonInfo: React.FC = () => {
                 },
               ]}
             >
-              <UploadImage />
+              <UploadImage limit={1} />
             </Form.Item>
           )}
         </Col>
@@ -175,6 +175,10 @@ const MetalPersonInfo: React.FC = () => {
         label={intl.formatMessage({
           id: 'credit.apply.metalCreditReport',
         })}
+        wrapperCol={{
+          span: 18,
+        }}
+        labelCol={{ span: 4 }}
         rules={[
           {
             required: true,

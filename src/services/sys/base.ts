@@ -31,7 +31,8 @@ export async function downloadTemplate(templateId: string) {
   return request(`/file/download`, {
     params: { templateId },
     responseType: 'blob',
-    method: 'post',
+    getResponse: true,
+    // method: 'post',
   })
 }
 

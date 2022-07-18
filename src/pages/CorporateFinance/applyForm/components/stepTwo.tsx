@@ -136,7 +136,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
             }
           >
             <Form.Item
-              name="sdqd"
+              name="xykhqd"
               style={{ display: 'inline-block', marginBottom: 0 }}
               rules={[
                 {

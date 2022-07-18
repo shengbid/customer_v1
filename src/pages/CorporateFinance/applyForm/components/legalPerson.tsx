@@ -40,7 +40,7 @@ const LegalPerson: React.FC = () => {
               },
             ]}
           >
-            <DictSelect authorword="sfzlx" onChange={(val: string) => setIdTyp(val)} />
+            <DictSelect authorword="cus_sfzlx" onChange={(val: string) => setIdTyp(val)} />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -104,7 +104,7 @@ const LegalPerson: React.FC = () => {
                 },
               ]}
             >
-              <UploadImage />
+              <UploadImage limit={1} />
             </Form.Item>
           )}
         </Col>
@@ -184,7 +184,7 @@ const LegalPerson: React.FC = () => {
               },
             ]}
           >
-            <DictSelect authorword="credit_status" />
+            <DictSelect authorword="hyqk" />
           </Form.Item>
         </Col>
         <Col span={12}>

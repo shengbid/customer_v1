@@ -44,7 +44,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
               },
             ]}
           >
-            <DictSelect authorword="sfzlx" onChange={(val: string) => setIdTyp(val)} />
+            <DictSelect authorword="cus_sfzlx" onChange={(val: string) => setIdTyp(val)} />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -109,7 +109,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
                 },
               ]}
             >
-              <UploadImage />
+              <UploadImage limit={1} />
             </Form.Item>
           )}
         </Col>
@@ -270,7 +270,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
             })}
             rules={[
               {
-                required: true,
+                required: false,
                 message: `${intl.formatMessage({
                   id: 'pages.form.upload',
                 })}${intl.formatMessage({
@@ -290,7 +290,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
             })}
             rules={[
               {
-                required: true,
+                required: false,
                 message: `${intl.formatMessage({
                   id: 'pages.form.upload',
                 })}${intl.formatMessage({
@@ -309,6 +309,10 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
         label={intl.formatMessage({
           id: 'credit.apply.address',
         })}
+        wrapperCol={{
+          span: 19,
+        }}
+        labelCol={{ span: 3 }}
         rules={[
           {
             required: true,
