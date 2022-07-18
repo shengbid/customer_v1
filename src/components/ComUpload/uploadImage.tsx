@@ -47,7 +47,9 @@ const ImageUpload: React.FC<comuploadProps> = ({
       if (value && value.length) {
         value.forEach((item: any) => {
           const newItem = item
-          if (!item.uid) {
+          if (!item.url) {
+            newItem.url = `${item.pictureDomain}${item.fileUrl}`
+            newItem.name = item.fileName
             newItem.uid = item.fileId ? item.fileId : Math.floor(Math.random() * 1000)
           }
           newValues.push(newItem)
@@ -56,10 +58,12 @@ const ImageUpload: React.FC<comuploadProps> = ({
         // 文件对象
         newValues.push({
           ...value,
+          url: `${value.pictureDomain}${value.fileUrl}`,
+          name: value.fileName,
           uid: value.fileId ? value.fileId : Math.floor(Math.random() * 1000),
         })
       }
-      // console.log(1, value)
+      // console.log(newValues)
       setFiles(newValues)
     }
   }, [value])
@@ -67,7 +71,7 @@ const ImageUpload: React.FC<comuploadProps> = ({
   // 文件上传
   const changeFile = async ({ file, fileList }: any) => {
     if (file.status !== 'uploading') {
-      console.log(6, file, fileList, files)
+      console.log(6, file, fileList)
       // 上传错误处理
       if (file.response && file.response.code === 401) {
         loginOut()
@@ -109,6 +113,8 @@ const ImageUpload: React.FC<comuploadProps> = ({
             if (item.response) {
               newItem = {
                 ...item.response.data,
+                fileName: item.response.data.name,
+                pictureDomain: item.response.data.prefix,
                 url: `${item.response.data.prefix}${item.response.data.fileUrl}`,
               }
             }

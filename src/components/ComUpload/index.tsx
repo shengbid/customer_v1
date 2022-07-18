@@ -13,6 +13,7 @@ import {
 import { useIntl } from 'umi'
 import Cookies from 'js-cookie'
 import { loginOut } from '@/utils/base'
+// import FileSaver from 'file-saver'
 
 export type comuploadProps = {
   value?: any
@@ -57,7 +58,7 @@ const ComUpload: React.FC<comuploadProps> = ({
           uid: value.fileId ? value.fileId : Math.floor(Math.random() * 1000),
         })
       }
-      console.log(newValues)
+      // console.log(newValues)
       setFiles(newValues)
     }
   }, [value])
@@ -144,10 +145,12 @@ const ComUpload: React.FC<comuploadProps> = ({
   const onPreview = (file: any) => {
     // console.log(file)
     let { url } = file
+    // const { name } = file
     if (file.response) {
       url = `${file.response?.prefix}${file.response?.fileUrl}`
     }
     window.open(`${url}`)
+    // FileSaver.saveAs(url, name)
   }
 
   return (
