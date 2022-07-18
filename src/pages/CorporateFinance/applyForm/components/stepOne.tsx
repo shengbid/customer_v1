@@ -47,13 +47,13 @@ const StepOne = ({}, ref: any) => {
     {
       title: (
         <span>
-          B2C营业额（万元）
-          <Tooltip title="B2C营业额（万元）">
+          B2B营业额（万元）
+          <Tooltip title="B2B/BBC营业额（万元）">
             <QuestionCircleOutlined />
           </Tooltip>
         </span>
       ),
-      dataIndex: 'btocQuota',
+      dataIndex: 'btobQuota',
       formItemProps: {
         rules: [
           {
@@ -68,13 +68,13 @@ const StepOne = ({}, ref: any) => {
     {
       title: (
         <span>
-          B2B/BBC营业额（万元）
-          <Tooltip title="B2B/BBC营业额（万元）">
+          B2C/BBC营业额（万元）
+          <Tooltip title="B2C营业额（万元）">
             <QuestionCircleOutlined />
           </Tooltip>
         </span>
       ),
-      dataIndex: 'btobQuota',
+      dataIndex: 'btocQuota',
       formItemProps: {
         rules: [
           {
@@ -96,6 +96,7 @@ const StepOne = ({}, ref: any) => {
         initialValues={{ phoneArea: '1', enterpriseName: currentUser?.fullName }}
         form={form}
         autoComplete="off"
+        scrollToFirstError
       >
         <Form.Item label="enterpriseName" name="enterpriseName" style={{ display: 'none' }}>
           <Input />
@@ -112,7 +113,7 @@ const StepOne = ({}, ref: any) => {
         </Form.Item>
 
         <Form.Item
-          name="businessType"
+          name="businessTypeList"
           label={intl.formatMessage({
             id: 'credit.apply.business',
           })}

@@ -16,8 +16,11 @@ const MetalPersonInfo: React.FC = () => {
         id: 'credit.apply.financeAdmin',
       })}
     >
+      <Form.Item label="identity" name="identity" style={{ display: 'none' }}>
+        <Input />
+      </Form.Item>
       <Form.Item
-        name="financeAdminName"
+        name="name"
         label={intl.formatMessage({
           id: 'credit.apply.financeAdminName',
         })}
@@ -70,7 +73,7 @@ const MetalPersonInfo: React.FC = () => {
           <DictSelect authorword="phone_code" allowClear={false} />
         </Form.Item>
         <Form.Item
-          name="phone"
+          name="phoneNumber"
           style={{ display: 'inline-block', marginBottom: 0, width: '70%' }}
           rules={[
             {

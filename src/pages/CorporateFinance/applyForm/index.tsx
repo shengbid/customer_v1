@@ -4,21 +4,23 @@ import StepOne from './components/stepOne'
 import StepTwo from './components/stepTwo'
 import StepThree from './components/stepThree'
 import styles from './index.less'
-import { addCreditOne, addCreditTwo } from '@/services'
+import { addCreditOne, addCreditTwo, addCreditThree } from '@/services'
 import Processing from './results/processing'
 import Reject from './results/reject'
 import Success from './results/success'
+import { isEmpty } from 'lodash'
 
 const { Step } = Steps
 
 const ApplyForm: React.FC = () => {
-  const [current, setCurrent] = useState(0)
-  const [businessType, setBusinessType] = useState(['1'])
+  const [current, setCurrent] = useState(2)
+  const [businessType, setBusinessType] = useState(['B2B', 'B2C'])
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
   const creditThreeRef: MutableRefObject<any> = useRef({})
   const [status] = useState<number>(0)
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
+  const [subLoading, setSubLoading] = useState<boolean>(false)
 
   const steps = [
     {
@@ -67,7 +69,7 @@ const ApplyForm: React.FC = () => {
         try {
           await addCreditTwo({
             ...twoData,
-            businessType,
+            businessTypeList: businessType,
           })
         } catch (error) {
           setBtnLoading(false)
@@ -86,7 +88,45 @@ const ApplyForm: React.FC = () => {
   }
 
   // 提交
-  const submit = async () => {}
+  const submit = async () => {
+    const { form, realform, marform, mainform, finaneform } = creditThreeRef.current.getStepData()
+    await form.validateFields()
+    await realform.validateFields()
+    await marform.validateFields()
+    await mainform.validateFields()
+    await finaneform.validateFields()
+    setSubLoading(true)
+    const item1 = form.getFieldsValue()
+    item1.frontFileName = item1.idFront[0].fileName
+    item1.frontFileUrl = item1.idFront[0].fileUrl
+    item1.pictureDomain = item1.idFront[0].pictureDomain
+    if (!isEmpty(item1.idReverse)) {
+      item1.backFileName = item1.idReverse[0].fileName
+      item1.backFileUrl = item1.idReverse[0].fileUrl
+    }
+    const item2 = realform.getFieldsValue()
+    item2.frontFileName = item2.idFront[0].fileName
+    item2.frontFileUrl = item2.idFront[0].fileUrl
+    item2.pictureDomain = item2.idFront[0].pictureDomain
+    if (!isEmpty(item2.idReverse)) {
+      item2.backFileName = item2.idReverse[0].fileName
+      item2.backFileUrl = item2.idReverse[0].fileUrl
+    }
+    const item3 = marform.getFieldsValue()
+    if (!isEmpty(item3.idReverse)) {
+      item3.backFileName = item3.idReverse[0].fileName
+      item3.backFileUrl = item3.idReverse[0].fileUrl
+    }
+    item3.frontFileName = item3.idFront[0].fileName
+    item3.frontFileUrl = item3.idFront[0].fileUrl
+    item3.pictureDomain = item3.idFront[0].pictureDomain
+
+    const item4 = mainform.getFieldsValue()
+    const item5 = finaneform.getFieldsValue()
+
+    await addCreditThree([item1, item2, item3, item4, item5])
+    setSubLoading(false)
+  }
 
   return (
     <div className={styles.box}>
@@ -115,7 +155,7 @@ const ApplyForm: React.FC = () => {
               </Button>
             )}
             {current === steps.length - 1 && (
-              <Button type="primary" onClick={submit}>
+              <Button type="primary" loading={subLoading} onClick={submit}>
                 提交
               </Button>
             )}

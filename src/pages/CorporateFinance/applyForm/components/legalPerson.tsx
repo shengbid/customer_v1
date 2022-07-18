@@ -19,10 +19,13 @@ const LegalPerson: React.FC = () => {
         id: 'credit.apply.legalPersonInfo',
       })}
     >
+      <Form.Item label="identity" name="identity" style={{ display: 'none' }}>
+        <Input />
+      </Form.Item>
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
-            name="idType"
+            name="identityType"
             label={intl.formatMessage({
               id: 'credit.apply.idType',
             })}
@@ -42,7 +45,7 @@ const LegalPerson: React.FC = () => {
         </Col>
         <Col span={12}>
           <Form.Item
-            name="idNo"
+            name="identityNumber"
             label={intl.formatMessage({
               id: 'credit.apply.idNo',
             })}
@@ -109,7 +112,7 @@ const LegalPerson: React.FC = () => {
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
-            name="legalName"
+            name="name"
             label={intl.formatMessage({
               id: 'credit.apply.legalName',
             })}
@@ -144,7 +147,7 @@ const LegalPerson: React.FC = () => {
               <DictSelect authorword="phone_code" allowClear={false} />
             </Form.Item>
             <Form.Item
-              name="phone"
+              name="phoneNumber"
               style={{ display: 'inline-block', marginBottom: 0, width: '70%' }}
               rules={[
                 {
@@ -166,7 +169,7 @@ const LegalPerson: React.FC = () => {
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
-            name="maritalStatus"
+            name="marriageStatus"
             label={intl.formatMessage({
               id: 'credit.apply.maritalStatus',
             })}
@@ -186,7 +189,7 @@ const LegalPerson: React.FC = () => {
         </Col>
         <Col span={12}>
           <Form.Item
-            name="address"
+            name="houseStatus"
             label={intl.formatMessage({
               id: 'credit.apply.address',
             })}

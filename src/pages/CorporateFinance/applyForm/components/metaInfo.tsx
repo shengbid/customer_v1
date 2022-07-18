@@ -20,10 +20,13 @@ const MetalPersonInfo: React.FC = () => {
         id: 'credit.apply.metalInfo',
       })}
     >
+      <Form.Item label="identity" name="identity" style={{ display: 'none' }}>
+        <Input />
+      </Form.Item>
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
-            name="idType"
+            name="identityType"
             label={intl.formatMessage({
               id: 'credit.apply.idType',
             })}
@@ -43,7 +46,7 @@ const MetalPersonInfo: React.FC = () => {
         </Col>
         <Col span={12}>
           <Form.Item
-            name="idNo"
+            name="identityNumber"
             label={intl.formatMessage({
               id: 'credit.apply.idNo',
             })}
@@ -112,7 +115,7 @@ const MetalPersonInfo: React.FC = () => {
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
-            name="metalName"
+            name="name"
             label={intl.formatMessage({
               id: 'credit.apply.metalName',
             })}
@@ -147,7 +150,7 @@ const MetalPersonInfo: React.FC = () => {
               <DictSelect authorword="phone_code" allowClear={false} />
             </Form.Item>
             <Form.Item
-              name="phone"
+              name="phoneNumber"
               style={{ display: 'inline-block', marginBottom: 0, width: '70%' }}
               rules={[
                 {
@@ -168,7 +171,7 @@ const MetalPersonInfo: React.FC = () => {
       </Row>
 
       <Form.Item
-        name="metalCreditReport"
+        name="creditReport"
         label={intl.formatMessage({
           id: 'credit.apply.metalCreditReport',
         })}

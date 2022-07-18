@@ -8,36 +8,87 @@ import MainPrincipal from './principal'
 import FinancePrincipal from './financePrincipal'
 
 const StepThree = ({}, ref: any) => {
-  const [form] = Form.useForm()
   const [maritalStatus, setMaritalStatus] = useState<string>('ds') // 婚姻状态
+  const [form] = Form.useForm()
+  const [realform] = Form.useForm()
+  const [marform] = Form.useForm()
+  const [mainform] = Form.useForm()
+  const [finaneform] = Form.useForm()
 
   useImperativeHandle(ref, () => ({
     // getOneStepData 就是暴露给父组件的方法
     getStepData: () => {
-      return {} // 将表格form实例与表格元素导出
+      return { form, realform, marform, mainform, finaneform } // 将表格form实例导出
     },
   }))
 
   return (
-    <Form
-      name="basic"
-      labelCol={{ span: 6 }}
-      wrapperCol={{ span: 16 }}
-      initialValues={{ phoneArea: '1' }}
-      form={form}
-      autoComplete="off"
-    >
-      {/* 法人信息 */}
-      <LegalPerson />
-      {/* 实控人信息 */}
-      <RealPersonInfo changeRealMarital={setMaritalStatus} />
-      {/* 实控人配偶信息 */}
-      {maritalStatus === 'yh' && <MetalPersonInfo />}
-      {/* 主要负责人信息 */}
-      <MainPrincipal />
-      {/* 财务负责人信息 */}
-      <FinancePrincipal />
-    </Form>
+    <>
+      <Form
+        name="basic"
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ phoneArea: '1', identity: 'qyfr' }}
+        form={form}
+        autoComplete="off"
+        scrollToFirstError={{
+          behavior: (a) => {
+            console.log(a)
+          },
+        }}
+      >
+        {/* 法人信息 */}
+        <LegalPerson />
+      </Form>
+      <Form
+        name="basic"
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ phoneArea: '1', identity: 'skr' }}
+        form={realform}
+        autoComplete="off"
+        scrollToFirstError
+      >
+        {/* 实控人信息 */}
+        <RealPersonInfo changeRealMarital={setMaritalStatus} />
+      </Form>
+      <Form
+        name="basic"
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ phoneArea: '1', identity: 'skrpo' }}
+        form={marform}
+        autoComplete="off"
+        scrollToFirstError
+      >
+        {/* 实控人配偶信息 */}
+        {maritalStatus === 'yh' && <MetalPersonInfo />}
+      </Form>
+      <Form
+        name="basic"
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ phoneArea: '1', identity: 'zyfzr' }}
+        form={mainform}
+        autoComplete="off"
+        scrollToFirstError
+      >
+        {/* 主要负责人信息 */}
+        <MainPrincipal />
+      </Form>
+      <Form
+        name="basic"
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ phoneArea: '1', identity: 'cwfzr' }}
+        form={finaneform}
+        autoComplete="off"
+        scrollToFirstError
+      >
+        {/* 财务负责人信息 */}
+        <FinancePrincipal />
+      </Form>
+    </>
   )
 }
 

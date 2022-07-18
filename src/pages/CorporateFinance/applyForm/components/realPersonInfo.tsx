@@ -23,10 +23,13 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
         id: 'credit.apply.RealPersonInfo',
       })}
     >
+      <Form.Item label="identity" name="identity" style={{ display: 'none' }}>
+        <Input />
+      </Form.Item>
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
-            name="idType"
+            name="identityType"
             label={intl.formatMessage({
               id: 'credit.apply.idType',
             })}
@@ -46,7 +49,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
         </Col>
         <Col span={12}>
           <Form.Item
-            name="idNo"
+            name="identityNumber"
             label={intl.formatMessage({
               id: 'credit.apply.idNo',
             })}
@@ -115,7 +118,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
-            name="RealName"
+            name="name"
             label={intl.formatMessage({
               id: 'credit.apply.RealName',
             })}
@@ -150,7 +153,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
               <DictSelect authorword="phone_code" allowClear={false} />
             </Form.Item>
             <Form.Item
-              name="phone"
+              name="phoneNumber"
               style={{ display: 'inline-block', marginBottom: 0, width: '70%' }}
               rules={[
                 {
@@ -173,7 +176,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
-            name="maritalStatus"
+            name="marriageStatus"
             label={intl.formatMessage({
               id: 'credit.apply.maritalStatus',
             })}
@@ -193,7 +196,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
         </Col>
         <Col span={12}>
           <Form.Item
-            name="addressStatus"
+            name="houseStatus"
             label={intl.formatMessage({
               id: 'credit.apply.addressStatus',
             })}
@@ -216,7 +219,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
-            name="realPeriod"
+            name="workYear"
             label={intl.formatMessage({
               id: 'credit.apply.realPeriod',
             })}
@@ -238,7 +241,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
         </Col>
         <Col span={12}>
           <Form.Item
-            name="realCrediReport"
+            name="spouseCreditReport"
             label={intl.formatMessage({
               id: 'credit.apply.realCrediReport',
             })}
@@ -261,7 +264,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item
-            name="owerCertificate"
+            name="houseLicense"
             label={intl.formatMessage({
               id: 'credit.apply.owerCertificate',
             })}
@@ -281,7 +284,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
         </Col>
         <Col span={12}>
           <Form.Item
-            name="drivingLicense"
+            name="driveLicense"
             label={intl.formatMessage({
               id: 'credit.apply.drivingLicense',
             })}
@@ -302,7 +305,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
       </Row>
 
       <Form.Item
-        name="address"
+        name="houseAddr"
         label={intl.formatMessage({
           id: 'credit.apply.address',
         })}

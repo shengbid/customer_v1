@@ -27,6 +27,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
       initialValues={{ phoneArea: '1' }}
       form={form}
       autoComplete="off"
+      scrollToFirstError
     >
       <ComCard
         title={intl.formatMessage({
@@ -150,10 +151,10 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
             >
               <ComUpload />
             </Form.Item>
-            <DownloadFile templateId="JnytKoM7y8est0jDVjc" />
+            <DownloadFile templateId="4IjAsqinzus91Msi9ln" />
           </Form.Item>
           <Form.Item
-            name="xykhqd"
+            name="btobSdqd"
             label={intl.formatMessage({
               id: 'credit.apply.b2bSaleList',
             })}
@@ -207,7 +208,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
             <DownloadFile templateId="Dn1IyZvubOpjcYpgWzY" />
           </Form.Item>
           <Form.Item
-            name="saleList"
+            name="btocSdqd"
             label={intl.formatMessage({
               id: 'credit.apply.saleList',
             })}
