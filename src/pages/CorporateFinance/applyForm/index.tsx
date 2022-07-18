@@ -1,14 +1,15 @@
-import React, { useState, useRef, MutableRefObject } from 'react'
-import { Button, Steps } from 'antd'
+import React, { useState, useEffect, useRef, MutableRefObject } from 'react'
+import { Button, Steps, message } from 'antd'
 import StepOne from './components/stepOne'
 import StepTwo from './components/stepTwo'
 import StepThree from './components/stepThree'
 import styles from './index.less'
-import { addCreditOne, addCreditTwo, addCreditThree } from '@/services'
+import { addCreditOne, addCreditTwo, addCreditThree, getCreditDetail } from '@/services'
 import Processing from './results/processing'
 import Reject from './results/reject'
 import Success from './results/success'
 import { isEmpty } from 'lodash'
+import { useIntl } from 'umi'
 
 const { Step } = Steps
 
@@ -21,22 +22,44 @@ const ApplyForm: React.FC = () => {
   const [status] = useState<number>(0)
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
   const [subLoading, setSubLoading] = useState<boolean>(false)
+  const intl = useIntl()
+
+  // 获取详情
+  const getDetail = async () => {
+    await getCreditDetail()
+  }
+
+  useEffect(() => {
+    getDetail()
+  }, [])
 
   const steps = [
     {
-      title: '步骤一',
+      title: intl.formatMessage({
+        id: 'credit.stepOne',
+      }),
       content: <StepOne ref={creditOneRef} />,
-      description: '上传企业信息',
+      description: intl.formatMessage({
+        id: 'credit.upcompany',
+      }),
     },
     {
-      title: '步骤二',
+      title: intl.formatMessage({
+        id: 'credit.stepTwo',
+      }),
       content: <StepTwo type={businessType} ref={creditTwoRef} />,
-      description: '上传企业运营文件',
+      description: intl.formatMessage({
+        id: 'credit.upcompanyfile',
+      }),
     },
     {
-      title: '步骤三',
+      title: intl.formatMessage({
+        id: 'credit.stepThree',
+      }),
       content: <StepThree ref={creditThreeRef} />,
-      description: '上传法人、实控人、联系人信息',
+      description: intl.formatMessage({
+        id: 'credit.upperson',
+      }),
     },
   ]
 
@@ -59,7 +82,6 @@ const ApplyForm: React.FC = () => {
           return
         }
         setBtnLoading(false)
-        console.log(data, dataSource)
         break
       case 1:
         const two = creditTwoRef.current.getStepData()
@@ -112,6 +134,11 @@ const ApplyForm: React.FC = () => {
       item2.backFileName = item2.idReverse[0].fileName
       item2.backFileUrl = item2.idReverse[0].fileUrl
     }
+    // 文件转成字符串
+    item2.spouseCreditReport = JSON.stringify(item2.spouseCreditReport)
+    item2.houseLicense = JSON.stringify(item2.houseLicense)
+    item2.driveLicense = JSON.stringify(item2.driveLicense)
+
     const item3 = marform.getFieldsValue()
     if (!isEmpty(item3.idReverse)) {
       item3.backFileName = item3.idReverse[0].fileName
@@ -121,16 +148,32 @@ const ApplyForm: React.FC = () => {
     item3.frontFileUrl = item3.idFront[0].fileUrl
     item3.pictureDomain = item3.idFront[0].pictureDomain
 
+    item3.creditReport = JSON.stringify(item2.creditReport)
+
     const item4 = mainform.getFieldsValue()
     const item5 = finaneform.getFieldsValue()
 
-    await addCreditThree([item1, item2, item3, item4, item5])
+    try {
+      await addCreditThree({ cusEnterprisePersonInfoList: [item1, item2, item3, item4, item5] })
+    } catch (error) {
+      setSubLoading(false)
+      return
+    }
+    message.success(
+      intl.formatMessage({
+        id: 'pages.form.success',
+      }),
+    )
     setSubLoading(false)
   }
 
   return (
     <div className={styles.box}>
-      <div className={styles.title}>企业授信申请</div>
+      <div className={styles.title}>
+        {intl.formatMessage({
+          id: 'credit.cusApply',
+        })}
+      </div>
       {status === 0 && (
         <>
           <div className={styles.step}>
@@ -146,17 +189,23 @@ const ApplyForm: React.FC = () => {
           <div className="applyBtn">
             {current > 0 && (
               <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                上一步
+                {intl.formatMessage({
+                  id: 'credit.pre',
+                })}
               </Button>
             )}
             {current < steps.length - 1 && (
               <Button type="primary" loading={btnLoading} onClick={() => next()}>
-                下一步
+                {intl.formatMessage({
+                  id: 'credit.next',
+                })}
               </Button>
             )}
             {current === steps.length - 1 && (
               <Button type="primary" loading={subLoading} onClick={submit}>
-                提交
+                {intl.formatMessage({
+                  id: 'pages.btn.submit',
+                })}
               </Button>
             )}
           </div>

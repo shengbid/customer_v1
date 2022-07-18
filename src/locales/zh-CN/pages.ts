@@ -11,6 +11,7 @@ export default {
   'pages.btn.add': '新增',
   'pages.btn.batchDelete': '批量删除',
   'pages.btn.save': '保存',
+  'pages.btn.submit': '提交',
   'pages.btn.edit': '修改',
   'pages.btn.delete': '删除',
   'pages.btn.detail': '详情',
