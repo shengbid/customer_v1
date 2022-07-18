@@ -11,7 +11,7 @@ export interface exportProps {
 }
 
 // 下载模板
-const DownloadFile: React.FC<exportProps> = ({ title = '', templateId }) => {
+const DownloadFile: React.FC<exportProps> = ({ templateId }) => {
   const intl = useIntl()
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -20,15 +20,14 @@ const DownloadFile: React.FC<exportProps> = ({ title = '', templateId }) => {
     setLoading(true)
     const res = await downloadTemplate(templateId)
     setLoading(false)
-    // if (data) {
-    //   const fileUrl = `${data.pictureDomain}${data.fileUrl}`
-    //   FileSaver.saveAs(fileUrl, `${title}${intl.formatMessage({ id: 'pages.table.model' })}`)
-    // }
-    if (res && res.size) {
-      if (res.type === 'application/json') {
+    // console.log(res)
+    const file = res.response.headers.get('content-disposition')
+    const fileName = file?.split('attachment;filename=')[1]
+    if (res.data && res.data.size) {
+      if (res.data.type === 'application/json') {
         // 如果接口报错,抛出错误
         const reader: any = new FileReader()
-        reader.readAsText(res, 'utf-8')
+        reader.readAsText(res.data, 'utf-8')
         reader.onload = function () {
           const response = JSON.parse(reader.result)
           if (response && response.code === 401) {
@@ -48,7 +47,7 @@ const DownloadFile: React.FC<exportProps> = ({ title = '', templateId }) => {
           }
         }
       } else {
-        FileSaver.saveAs(res, `${title}${intl.formatMessage({ id: 'pages.table.model' })}`)
+        FileSaver.saveAs(res.data, fileName)
       }
       // FileSaver.saveAs(res, title)
     }
