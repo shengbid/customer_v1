@@ -3,8 +3,7 @@ import { Result } from 'antd'
 import { SmileOutlined } from '@ant-design/icons'
 
 // 授信申请中
-const Processing: React.FC = () => {
-  const time = '2022-09-09 18:00:00'
+const Processing: React.FC<{ time: string }> = ({ time }) => {
   const style = { background: '#fff' }
 
   const title = (

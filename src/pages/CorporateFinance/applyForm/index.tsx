@@ -24,6 +24,7 @@ const ApplyForm: React.FC = () => {
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
   const [subLoading, setSubLoading] = useState<boolean>(false)
   const [id, setId] = useState<number>()
+  const [createTime, setCreateTime] = useState<number>()
   const intl = useIntl()
 
   // 获取详情
@@ -37,6 +38,7 @@ const ApplyForm: React.FC = () => {
     }
     if (data.auditStatus) {
       setStatus(Number(data.auditStatus))
+      setCreateTime(data.updateTime)
     }
     if (data.id) {
       setId(data.id)
@@ -198,6 +200,7 @@ const ApplyForm: React.FC = () => {
       }),
     )
     setSubLoading(false)
+    getDetail()
   }
 
   return (
@@ -244,7 +247,7 @@ const ApplyForm: React.FC = () => {
           </div>
         </>
       )}
-      {status === 2 && <Processing />}
+      {status === 2 && <Processing time={createTime} />}
       {status === 3 && <Reject />}
       {status === 1 && <Success />}
     </div>
