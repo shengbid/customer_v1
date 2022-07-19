@@ -13,7 +13,8 @@ import {
 import { useIntl } from 'umi'
 import Cookies from 'js-cookie'
 import { loginOut } from '@/utils/base'
-// import FileSaver from 'file-saver'
+import { downFile } from '@/services'
+import FileSaver from 'file-saver'
 
 export type comuploadProps = {
   value?: any
@@ -142,15 +143,44 @@ const ComUpload: React.FC<comuploadProps> = ({
     return true
   }
   // 文件下载
-  const onPreview = (file: any) => {
+  const onPreview = async (file: any) => {
     // console.log(file)
-    let { url } = file
-    // const { name } = file
+    let { fileUrl } = file
+    const { name } = file
     if (file.response) {
-      url = `${file.response?.prefix}${file.response?.fileUrl}`
+      fileUrl = `${file.response?.fileUrl}`
     }
-    window.open(`${url}`)
-    // FileSaver.saveAs(url, name)
+    // window.open(`${url}`)
+    const res = await downFile({ name, fileUrl })
+    const headerName = res.response.headers.get('content-disposition')
+    const fileName = decodeURI(headerName?.split('attachment;filename=')[1] || '')
+    if (res.data && res.data.size) {
+      if (res.data.type === 'application/json') {
+        // 如果接口报错,抛出错误
+        const reader: any = new FileReader()
+        reader.readAsText(res.data, 'utf-8')
+        reader.onload = function () {
+          const response = JSON.parse(reader.result)
+          if (response && response.code === 401) {
+            loginOut()
+            notification.warning({
+              key: 'error',
+              message: response.responseMsg,
+            })
+            return
+          }
+          if (response && response.code !== 200) {
+            notification.warning({
+              key: 'error',
+              message: response.responseMsg,
+            })
+            return
+          }
+        }
+      } else {
+        FileSaver.saveAs(res.data, fileName)
+      }
+    }
   }
 
   return (
