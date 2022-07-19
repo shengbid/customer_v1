@@ -1,4 +1,4 @@
-import React, { useState, useRef, MutableRefObject } from 'react'
+import React, { useState, useRef, MutableRefObject, useEffect } from 'react'
 import { Button, Steps, message } from 'antd'
 import StepOne from './components/stepOne'
 import StepTwo from './components/stepTwo'
@@ -10,19 +10,42 @@ import Reject from './results/reject'
 import Success from './results/success'
 import { isEmpty } from 'lodash'
 import { useIntl } from 'umi'
+import { getCreditDetail } from '@/services'
 
 const { Step } = Steps
 
 const ApplyForm: React.FC = () => {
-  const [current, setCurrent] = useState(1)
+  const [current, setCurrent] = useState(0)
   const [businessType, setBusinessType] = useState(['B2B', 'B2C'])
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
   const creditThreeRef: MutableRefObject<any> = useRef({})
-  const [status] = useState<number>(0)
+  const [status, setStatus] = useState<number>(0)
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
   const [subLoading, setSubLoading] = useState<boolean>(false)
+  const [id, setId] = useState<number>()
   const intl = useIntl()
+
+  // 获取详情
+  const getDetail = async () => {
+    const { data } = await getCreditDetail()
+    if (data.dsList) {
+      // 步骤判断
+      setCurrent(2)
+    } else if (data.sellProduct) {
+      setCurrent(1)
+    }
+    if (data.auditStatus) {
+      setStatus(Number(data.auditStatus))
+    }
+    if (data.id) {
+      setId(data.id)
+    }
+  }
+
+  useEffect(() => {
+    getDetail()
+  }, [])
 
   const steps = [
     {
@@ -103,11 +126,23 @@ const ApplyForm: React.FC = () => {
   // 提交
   const submit = async () => {
     const { form, realform, marform, mainform, finaneform } = creditThreeRef.current.getStepData()
-    await form.validateFields()
-    await realform.validateFields()
+    try {
+      await form.validateFields()
+    } catch (error) {
+      // 滚动到报错的地方
+      window.scrollTo(100, 200)
+      return
+    }
+    try {
+      await realform.validateFields()
+    } catch (error) {
+      window.scrollTo(100, 500)
+      return
+    }
     await marform.validateFields()
     await mainform.validateFields()
     await finaneform.validateFields()
+
     setSubLoading(true)
     const item1 = form.getFieldsValue()
     item1.frontFileName = item1.idFront[0].fileName
@@ -130,22 +165,29 @@ const ApplyForm: React.FC = () => {
     item2.houseLicense = JSON.stringify(item2.houseLicense)
     item2.driveLicense = JSON.stringify(item2.driveLicense)
 
+    const arr = [item1, item2]
+    // 如果有配偶信息
     const item3 = marform.getFieldsValue()
-    if (!isEmpty(item3.idReverse)) {
-      item3.backFileName = item3.idReverse[0].fileName
-      item3.backFileUrl = item3.idReverse[0].fileUrl
-    }
-    item3.frontFileName = item3.idFront[0].fileName
-    item3.frontFileUrl = item3.idFront[0].fileUrl
-    item3.pictureDomain = item3.idFront[0].pictureDomain
+    if (item3) {
+      if (!isEmpty(item3.idReverse)) {
+        item3.backFileName = item3.idReverse[0].fileName
+        item3.backFileUrl = item3.idReverse[0].fileUrl
+      }
+      item3.frontFileName = item3.idFront[0].fileName
+      item3.frontFileUrl = item3.idFront[0].fileUrl
+      item3.pictureDomain = item3.idFront[0].pictureDomain
 
-    item3.creditReport = JSON.stringify(item2.creditReport)
+      item3.creditReport = JSON.stringify(item2.creditReport)
+      arr.push(item3)
+    }
 
     const item4 = mainform.getFieldsValue()
     const item5 = finaneform.getFieldsValue()
+    arr.push(item4)
+    arr.push(item5)
 
     try {
-      await addCreditThree({ cusEnterprisePersonInfoList: [item1, item2, item3, item4, item5] })
+      await addCreditThree({ cusEnterprisePersonInfoList: arr, id })
     } catch (error) {
       setSubLoading(false)
       return
@@ -202,9 +244,9 @@ const ApplyForm: React.FC = () => {
           </div>
         </>
       )}
-      {status === 1 && <Processing />}
-      {status === 2 && <Reject />}
-      {status === 3 && <Success />}
+      {status === 2 && <Processing />}
+      {status === 3 && <Reject />}
+      {status === 1 && <Success />}
     </div>
   )
 }

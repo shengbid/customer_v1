@@ -1,5 +1,4 @@
 import { useImperativeHandle, forwardRef, useState } from 'react'
-
 import { Form } from 'antd'
 import LegalPerson from './legalPerson'
 import RealPersonInfo from './realPersonInfo'
@@ -31,11 +30,7 @@ const StepThree = ({}, ref: any) => {
         initialValues={{ phoneArea: '1', identity: 'qyfr' }}
         form={form}
         autoComplete="off"
-        scrollToFirstError={{
-          behavior: (a) => {
-            console.log(a)
-          },
-        }}
+        scrollToFirstError
       >
         {/* 法人信息 */}
         <LegalPerson />
