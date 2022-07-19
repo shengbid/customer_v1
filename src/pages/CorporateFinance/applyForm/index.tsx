@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, MutableRefObject } from 'react'
+import React, { useState, useRef, MutableRefObject } from 'react'
 import { Button, Steps, message } from 'antd'
 import StepOne from './components/stepOne'
 import StepTwo from './components/stepTwo'
 import StepThree from './components/stepThree'
 import styles from './index.less'
-import { addCreditOne, addCreditTwo, addCreditThree, getCreditDetail } from '@/services'
+import { addCreditOne, addCreditTwo, addCreditThree } from '@/services'
 import Processing from './results/processing'
 import Reject from './results/reject'
 import Success from './results/success'
@@ -14,7 +14,7 @@ import { useIntl } from 'umi'
 const { Step } = Steps
 
 const ApplyForm: React.FC = () => {
-  const [current, setCurrent] = useState(2)
+  const [current, setCurrent] = useState(1)
   const [businessType, setBusinessType] = useState(['B2B', 'B2C'])
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
@@ -23,15 +23,6 @@ const ApplyForm: React.FC = () => {
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
   const [subLoading, setSubLoading] = useState<boolean>(false)
   const intl = useIntl()
-
-  // 获取详情
-  const getDetail = async () => {
-    await getCreditDetail()
-  }
-
-  useEffect(() => {
-    getDetail()
-  }, [])
 
   const steps = [
     {
@@ -70,11 +61,11 @@ const ApplyForm: React.FC = () => {
         await form.validateFields()
         await tableForm.validateFields()
         const data = form.getFieldsValue()
-        setBusinessType(data.businessType)
+        setBusinessType(data.businessTypeList)
         setBtnLoading(true)
         try {
           await addCreditOne({
-            cusEnterpriseInfo: { ...data, businessType: 'B2C' },
+            cusEnterpriseInfo: data,
             businessDetailsList: dataSource,
           })
         } catch (error) {

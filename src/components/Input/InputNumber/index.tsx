@@ -1,21 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { InputNumber } from 'antd'
 import { numToThousandReg, thousandToNumReg } from '@/utils/reg'
 
 interface inputProps {
   value?: any
-  onChange?: () => void
+  onChange?: (vals: any) => void
+  unit?: number // 单位 1万元 2亿元 无元
 }
 
-const ComInputNumber: React.FC<inputProps> = ({ value, onChange }) => {
+const ComInputNumber: React.FC<inputProps> = ({ value, onChange = () => {}, unit }) => {
+  const [val, setVal] = useState<number | string>(value)
+  useEffect(() => {
+    if (value && unit) {
+      let newVal = value / 10000
+      if (unit === 1) {
+      } else if (unit === 2) {
+        newVal = value / 100000000
+      }
+      setVal(newVal)
+      onChange(newVal)
+    }
+  }, [unit])
+
   return (
     <InputNumber
-      value={value}
+      value={val}
       maxLength={11}
       min={0}
-      formatter={(val: any) => numToThousandReg(val)}
-      parser={(val: any) => thousandToNumReg(val)}
-      onChange={onChange}
+      formatter={(vals: any) => numToThousandReg(vals)}
+      parser={(vals: any) => thousandToNumReg(vals)}
+      onChange={(vals) => {
+        console.log(vals)
+        setVal(vals)
+        onChange(vals)
+      }}
       style={{ width: '100%' }}
     />
   )

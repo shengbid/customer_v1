@@ -1,10 +1,11 @@
-import { useImperativeHandle, forwardRef } from 'react'
+import { useImperativeHandle, forwardRef, useEffect } from 'react'
 import ComCard from '@/components/ComPage/ComCard'
 import { Form, Input } from 'antd'
 import { useIntl } from 'umi'
 import ComUpload from '@/components/ComUpload'
 import DownloadFile from '@/components/ComUpload/downloadFile'
 import RequiredLabel from '@/components/RequiredLabel'
+import { getCreditDetail } from '@/services'
 
 interface stepsprops {
   type: string[]
@@ -12,6 +13,18 @@ interface stepsprops {
 const StepTwo = ({ type }: stepsprops, ref: any) => {
   const [form] = Form.useForm()
   const intl = useIntl()
+
+  // 获取详情
+  const getDetail = async () => {
+    const { data } = await getCreditDetail()
+    if (data && data.id) {
+      form.setFieldsValue({ ...data.dsList, ...data.qyList })
+    }
+  }
+
+  useEffect(() => {
+    getDetail()
+  }, [])
 
   useImperativeHandle(ref, () => ({
     // getOneStepData 就是暴露给父组件的方法
@@ -102,7 +115,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
         >
           <Form.Item
             name="gysqd"
-            style={{ display: 'inline-block', marginBottom: 0 }}
+            style={{ display: 'inline-block', width: '90%', marginBottom: 0 }}
             rules={[
               {
                 required: true,
@@ -116,7 +129,10 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
           >
             <ComUpload />
           </Form.Item>
-          <DownloadFile templateId="eOIa0c2I6R0NC5MeHR3" />
+          <DownloadFile
+            style={{ position: 'absolute', left: 50 }}
+            templateId="eOIa0c2I6R0NC5MeHR3"
+          />
         </Form.Item>
       </ComCard>
 
@@ -137,7 +153,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
           >
             <Form.Item
               name="xykhqd"
-              style={{ display: 'inline-block', marginBottom: 0 }}
+              style={{ display: 'inline-block', width: '90%', marginBottom: 0 }}
               rules={[
                 {
                   required: true,
@@ -151,7 +167,10 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
             >
               <ComUpload />
             </Form.Item>
-            <DownloadFile templateId="4IjAsqinzus91Msi9ln" />
+            <DownloadFile
+              style={{ position: 'absolute', left: 50 }}
+              templateId="4IjAsqinzus91Msi9ln"
+            />
           </Form.Item>
           <Form.Item
             name="btobSdqd"
@@ -191,7 +210,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
           >
             <Form.Item
               name="jyrsm"
-              style={{ display: 'inline-block', marginBottom: 0 }}
+              style={{ display: 'inline-block', width: '90%', marginBottom: 0 }}
               rules={[
                 {
                   required: true,
@@ -205,7 +224,10 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
             >
               <ComUpload />
             </Form.Item>
-            <DownloadFile templateId="Dn1IyZvubOpjcYpgWzY" />
+            <DownloadFile
+              style={{ position: 'absolute', left: 50 }}
+              templateId="Dn1IyZvubOpjcYpgWzY"
+            />
           </Form.Item>
           <Form.Item
             name="btocSdqd"

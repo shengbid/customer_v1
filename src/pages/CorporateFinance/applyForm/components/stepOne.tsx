@@ -10,6 +10,7 @@ import type { ProColumns } from '@ant-design/pro-table'
 import moment from 'moment'
 import ComInputNumber from '@/components/Input/InputNumber'
 import { QuestionCircleOutlined } from '@ant-design/icons'
+import { getCreditDetail } from '@/services'
 
 const { TextArea } = Input
 
@@ -22,12 +23,34 @@ const StepOne = ({}, ref: any) => {
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([2022, 2021])
   const [dataSource, setDataSource] = useState<companyBusinessProps[]>([])
   const [busType, setBusType] = useState<string[]>(['B2C'])
+  const [unit, setUnit] = useState<number>(0)
 
-  useEffect(() => {
+  // 表格初始数据
+  const initTable = () => {
     const year = moment().year()
     const preYear = year - 1
     setEditableRowKeys([year, preYear])
     setDataSource([{ year }, { year: preYear }])
+  }
+
+  // 获取详情
+  const getDetail = async () => {
+    const { data } = await getCreditDetail()
+    if (data && data.id) {
+      form.setFieldsValue({ ...data })
+      const businessDetailsList = data.businessDetailsList
+      if (businessDetailsList) {
+        setDataSource(businessDetailsList)
+        setEditableRowKeys(businessDetailsList.map((item: any) => item.year))
+      }
+      setUnit(1)
+    } else {
+      initTable()
+    }
+  }
+
+  useEffect(() => {
+    getDetail()
   }, [])
 
   useImperativeHandle(ref, () => ({
@@ -48,33 +71,12 @@ const StepOne = ({}, ref: any) => {
       title: (
         <span>
           B2B营业额（万元）
-          <Tooltip title="B2B/BBC营业额（万元）">
+          <Tooltip title="B2B营业额（万元）">
             <QuestionCircleOutlined />
           </Tooltip>
         </span>
       ),
       dataIndex: 'btobQuota',
-      formItemProps: {
-        rules: [
-          {
-            required: busType.includes('B2C') ? true : false,
-            message: '此项为必填项',
-          },
-        ],
-      },
-      width: '40%',
-      renderFormItem: () => <ComInputNumber />,
-    },
-    {
-      title: (
-        <span>
-          B2C/BBC营业额（万元）
-          <Tooltip title="B2C营业额（万元）">
-            <QuestionCircleOutlined />
-          </Tooltip>
-        </span>
-      ),
-      dataIndex: 'btocQuota',
       formItemProps: {
         rules: [
           {
@@ -84,7 +86,28 @@ const StepOne = ({}, ref: any) => {
         ],
       },
       width: '40%',
-      renderFormItem: () => <ComInputNumber />,
+      renderFormItem: () => <ComInputNumber unit={unit} />,
+    },
+    {
+      title: (
+        <span>
+          B2C/BBC营业额（万元）
+          <Tooltip title="B2C/BBC营业额（万元）">
+            <QuestionCircleOutlined />
+          </Tooltip>
+        </span>
+      ),
+      dataIndex: 'btocQuota',
+      formItemProps: {
+        rules: [
+          {
+            required: busType.includes('B2C') ? true : false,
+            message: '此项为必填项',
+          },
+        ],
+      },
+      width: '40%',
+      renderFormItem: () => <ComInputNumber unit={unit} />,
     },
   ]
   return (
@@ -213,7 +236,7 @@ const StepOne = ({}, ref: any) => {
             },
           ]}
         >
-          <ComInputNumber />
+          <ComInputNumber unit={unit} />
         </Form.Item>
       </Form>
     </ComCard>
