@@ -23,7 +23,7 @@ const DownloadFile: React.FC<exportProps> = ({ templateId, style }) => {
     setLoading(false)
     // console.log(res)
     const file = res.response.headers.get('content-disposition')
-    const fileName = file?.split('attachment;filename=')[1]
+    const fileName = decodeURI(file?.split('attachment;filename=')[1] || '')
     if (res.data && res.data.size) {
       if (res.data.type === 'application/json') {
         // 如果接口报错,抛出错误
