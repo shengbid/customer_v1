@@ -45,7 +45,7 @@ const BaseLayout: React.FC = (props: any) => {
               pathname,
             }}
             menuDataRender={() => {
-              console.log(initialState?.menus)
+              // console.log(initialState?.menus)
               return [...(initialState?.menus || [])]
             }}
             menuItemRender={(item, dom) => (
