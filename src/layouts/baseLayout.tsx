@@ -18,7 +18,7 @@ const BaseLayout: React.FC = (props: any) => {
   const { initialState } = useModel('@@initialState')
   const { location } = history
   const [pathname, setPathname] = useState<string>(location.pathname)
-  console.log(props)
+  // console.log(props)
   return (
     <div className={styles.contanier}>
       <Layout>
