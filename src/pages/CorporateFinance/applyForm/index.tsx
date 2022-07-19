@@ -15,7 +15,7 @@ import { getCreditDetail } from '@/services'
 const { Step } = Steps
 
 const ApplyForm: React.FC = () => {
-  const [current, setCurrent] = useState(0)
+  const [current, setCurrent] = useState(2)
   const [businessType, setBusinessType] = useState(['B2B', 'B2C'])
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
@@ -30,18 +30,20 @@ const ApplyForm: React.FC = () => {
   // 获取详情
   const getDetail = async () => {
     const { data } = await getCreditDetail()
-    if (data.dsList) {
-      // 步骤判断
-      setCurrent(2)
-    } else if (data.sellProduct) {
-      setCurrent(1)
-    }
-    if (data.auditStatus) {
-      setStatus(Number(data.auditStatus))
-      setCreateTime(data.updateTime)
-    }
-    if (data.id) {
-      setId(data.id)
+    if (data) {
+      if (data.dsList) {
+        // 步骤判断
+        setCurrent(2)
+      } else if (data.sellProduct) {
+        setCurrent(1)
+      }
+      if (data.auditStatus) {
+        setStatus(Number(data.auditStatus))
+        setCreateTime(data.updateTime)
+      }
+      if (data.id) {
+        setId(data.id)
+      }
     }
   }
 
@@ -170,7 +172,8 @@ const ApplyForm: React.FC = () => {
     const arr = [item1, item2]
     // 如果有配偶信息
     const item3 = marform.getFieldsValue()
-    if (item3) {
+
+    if (item3 && item3.idFront) {
       if (!isEmpty(item3.idReverse)) {
         item3.backFileName = item3.idReverse[0].fileName
         item3.backFileUrl = item3.idReverse[0].fileUrl
