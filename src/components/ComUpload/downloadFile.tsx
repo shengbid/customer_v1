@@ -8,10 +8,11 @@ import { useIntl } from 'umi'
 export interface exportProps {
   templateId: string
   title?: string
+  style?: any
 }
 
 // 下载模板
-const DownloadFile: React.FC<exportProps> = ({ templateId }) => {
+const DownloadFile: React.FC<exportProps> = ({ templateId, style }) => {
   const intl = useIntl()
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -54,7 +55,7 @@ const DownloadFile: React.FC<exportProps> = ({ templateId }) => {
   }
 
   return (
-    <Button type="link" loading={loading} onClick={download}>
+    <Button type="link" style={style} loading={loading} onClick={download}>
       {intl.formatMessage({ id: 'pages.btn.down' })}
     </Button>
   )
