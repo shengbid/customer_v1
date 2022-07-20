@@ -189,7 +189,7 @@ const LegalPerson: React.FC = () => {
         </Col>
         <Col span={12}>
           <Form.Item
-            name="houseStatus"
+            name="houseAddr"
             label={intl.formatMessage({
               id: 'credit.apply.address',
             })}

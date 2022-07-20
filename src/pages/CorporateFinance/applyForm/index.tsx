@@ -179,7 +179,7 @@ const ApplyForm: React.FC = () => {
       item3.frontFileUrl = item3.idFront[0].fileUrl
       item3.pictureDomain = item3.idFront[0].pictureDomain
 
-      item3.creditReport = JSON.stringify(item2.creditReport)
+      item3.creditReport = JSON.stringify(item3.creditReport)
       arr.push(item3)
     }
 
