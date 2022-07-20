@@ -15,7 +15,7 @@ import { getCreditDetail } from '@/services'
 const { Step } = Steps
 
 const ApplyForm: React.FC = () => {
-  const [current, setCurrent] = useState(2)
+  const [current, setCurrent] = useState(0)
   const [businessType, setBusinessType] = useState(['B2B', 'B2C'])
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
@@ -23,8 +23,7 @@ const ApplyForm: React.FC = () => {
   const [status, setStatus] = useState<number>(0)
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
   const [subLoading, setSubLoading] = useState<boolean>(false)
-  const [id, setId] = useState<number>()
-  const [createTime, setCreateTime] = useState<number>()
+  const [createTime, setCreateTime] = useState<string>('')
   const intl = useIntl()
 
   // 获取详情
@@ -39,10 +38,7 @@ const ApplyForm: React.FC = () => {
       }
       if (data.auditStatus) {
         setStatus(Number(data.auditStatus))
-        setCreateTime(data.updateTime)
-      }
-      if (data.id) {
-        setId(data.id)
+        setCreateTime(data.updateTime || '')
       }
     }
   }
@@ -129,7 +125,8 @@ const ApplyForm: React.FC = () => {
 
   // 提交
   const submit = async () => {
-    const { form, realform, marform, mainform, finaneform } = creditThreeRef.current.getStepData()
+    const { form, realform, marform, mainform, finaneform, id } =
+      creditThreeRef.current.getStepData()
     try {
       await form.validateFields()
     } catch (error) {

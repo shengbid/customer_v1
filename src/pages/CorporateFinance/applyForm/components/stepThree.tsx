@@ -1,10 +1,11 @@
-import { useImperativeHandle, forwardRef, useState } from 'react'
+import { useImperativeHandle, forwardRef, useState, useEffect } from 'react'
 import { Form } from 'antd'
 import LegalPerson from './legalPerson'
 import RealPersonInfo from './realPersonInfo'
 import MetalPersonInfo from './metaInfo'
 import MainPrincipal from './principal'
 import FinancePrincipal from './financePrincipal'
+import { getCreditDetail } from '@/services'
 
 const StepThree = ({}, ref: any) => {
   const [maritalStatus, setMaritalStatus] = useState<string>('ds') // 婚姻状态
@@ -13,11 +14,24 @@ const StepThree = ({}, ref: any) => {
   const [marform] = Form.useForm()
   const [mainform] = Form.useForm()
   const [finaneform] = Form.useForm()
+  const [id, setId] = useState<number>()
+
+  // 获取详情
+  const getDetail = async () => {
+    const { data } = await getCreditDetail()
+    if (data && data.id) {
+      setId(data.id)
+    }
+  }
+
+  useEffect(() => {
+    getDetail()
+  }, [])
 
   useImperativeHandle(ref, () => ({
     // getOneStepData 就是暴露给父组件的方法
     getStepData: () => {
-      return { form, realform, marform, mainform, finaneform } // 将表格form实例导出
+      return { form, realform, marform, mainform, finaneform, id } // 将表格form实例导出
     },
   }))
 
