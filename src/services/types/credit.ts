@@ -1,22 +1,16 @@
-import type { pageLimitProps } from './base'
-
-// 授信查询参数
-export interface customerListParamProps extends pageLimitProps {
-  fullName?: string
-  shortName?: string
-}
-
-// 企业信息
-export interface customerListProps {
+// 企业经营信息
+export interface companyBusProps {
   id: string
-  fullName?: string
-  shortName?: string
-  code?: string
-  createTime?: string
-  status: string
+  enterpriseName: string
+  businessTypeList: string
+  sellProduct: string
+  enterpriseDebt: string
+  applyQuota: string
+  updateTime: string
+  businessDetailsList: companyBusinessProps[]
 }
 
-// 企业经营情况
+// 企业经营年度营业额情况
 export interface companyBusinessProps {
   year?: string | number
   businessVolume?: string
