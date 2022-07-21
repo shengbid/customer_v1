@@ -22,7 +22,7 @@ const StepOne = ({}, ref: any) => {
   const { currentUser } = initialState || {}
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([2022, 2021])
   const [dataSource, setDataSource] = useState<companyBusinessProps[]>([])
-  const [busType, setBusType] = useState<string[]>(['B2C'])
+  const [busType, setBusType] = useState<string[]>([])
   const [unit, setUnit] = useState<number>(0)
 
   // 表格初始数据
@@ -38,6 +38,7 @@ const StepOne = ({}, ref: any) => {
     const { data } = await getCreditDetail()
     if (data && data.id) {
       form.setFieldsValue({ ...data })
+      setBusType(data.businessTypeList)
       const businessDetailsList = data.businessDetailsList
       if (businessDetailsList) {
         setDataSource(businessDetailsList)

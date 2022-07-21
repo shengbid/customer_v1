@@ -20,7 +20,7 @@ const ApplyForm: React.FC = () => {
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
   const creditThreeRef: MutableRefObject<any> = useRef({})
-  const [status, setStatus] = useState<number>(0)
+  const [status, setStatus] = useState<number>()
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
   const [subLoading, setSubLoading] = useState<boolean>(false)
   const [createTime, setCreateTime] = useState<string>('')
@@ -30,7 +30,7 @@ const ApplyForm: React.FC = () => {
   const getDetail = async () => {
     const { data } = await getCreditDetail()
     if (data) {
-      if (data.dsList) {
+      if (!isEmpty(data.dsList)) {
         // 步骤判断
         setCurrent(2)
       } else if (data.sellProduct) {
