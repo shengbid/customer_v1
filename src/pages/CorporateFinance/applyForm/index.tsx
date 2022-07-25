@@ -39,6 +39,8 @@ const ApplyForm: React.FC = () => {
       if (data.auditStatus) {
         setStatus(Number(data.auditStatus))
         setCreateTime(data.updateTime || '')
+      } else {
+        setStatus(0)
       }
     } else {
       setStatus(0)
