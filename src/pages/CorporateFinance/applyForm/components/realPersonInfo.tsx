@@ -4,15 +4,16 @@ import ComCard from '@/components/ComPage/ComCard'
 import DictSelect from '@/components/ComSelect'
 import { phoneReg, idCardReg } from '@/utils/reg'
 import RequiredLabel from '@/components/RequiredLabel'
-import { Form, Input, Row, Col } from 'antd'
+import { Form, Input, Row, Col, Radio } from 'antd'
 import ComUpload from '@/components/ComUpload'
 import UploadImage from '@/components/ComUpload/uploadImage'
 
 interface reralProps {
   changeRealMarital: (value: string) => void
+  changeLegalFlag: (value: string) => void
 }
 // 实控人信息
-const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
+const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital, changeLegalFlag }) => {
   const intl = useIntl()
   const [idType, setIdTyp] = useState<string>('xgsfz')
 
@@ -26,6 +27,39 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital }) => {
       <Form.Item label="identity" name="identity" style={{ display: 'none' }}>
         <Input />
       </Form.Item>
+      <Row gutter={gutter}>
+        <Col span={12}>
+          <Form.Item
+            name="legalFlag"
+            label={intl.formatMessage({
+              id: 'credit.apply.legalFlag',
+            })}
+            rules={[
+              {
+                required: true,
+                message: `${intl.formatMessage({
+                  id: 'pages.form.select',
+                })}${intl.formatMessage({
+                  id: 'credit.apply.legalFlag',
+                })}`,
+              },
+            ]}
+          >
+            <Radio.Group onChange={(e: any) => changeLegalFlag(e.target.value)}>
+              <Radio value={'yes'}>
+                {intl.formatMessage({
+                  id: 'pages.form.yes',
+                })}
+              </Radio>
+              <Radio value={'no'}>
+                {intl.formatMessage({
+                  id: 'pages.form.no',
+                })}
+              </Radio>
+            </Radio.Group>
+          </Form.Item>
+        </Col>
+      </Row>
       <Row gutter={gutter}>
         <Col span={12}>
           <Form.Item

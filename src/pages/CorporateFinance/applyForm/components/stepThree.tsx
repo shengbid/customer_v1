@@ -9,6 +9,7 @@ import { getCreditDetail } from '@/services'
 
 const StepThree = ({}, ref: any) => {
   const [maritalStatus, setMaritalStatus] = useState<string>('ds') // 婚姻状态
+  const [legalFlag, setLegalFlag] = useState<string>('yes') // 实控人是否为法人
   const [form] = Form.useForm()
   const [realform] = Form.useForm()
   const [marform] = Form.useForm()
@@ -41,26 +42,28 @@ const StepThree = ({}, ref: any) => {
         name="basic"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ phoneArea: '1', identity: 'qyfr' }}
-        form={form}
-        autoComplete="off"
-        scrollToFirstError
-      >
-        {/* 法人信息 */}
-        <LegalPerson />
-      </Form>
-      <Form
-        name="basic"
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 16 }}
-        initialValues={{ phoneArea: '1', identity: 'skr' }}
+        initialValues={{ phoneArea: '1', identity: 'skr', legalFlag: 'yes' }}
         form={realform}
         autoComplete="off"
         scrollToFirstError
       >
         {/* 实控人信息 */}
-        <RealPersonInfo changeRealMarital={setMaritalStatus} />
+        <RealPersonInfo changeLegalFlag={setLegalFlag} changeRealMarital={setMaritalStatus} />
       </Form>
+      {legalFlag === 'no' ? (
+        <Form
+          name="basic"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 16 }}
+          initialValues={{ phoneArea: '1', identity: 'qyfr' }}
+          form={form}
+          autoComplete="off"
+          scrollToFirstError
+        >
+          {/* 法人信息 */}
+          <LegalPerson />
+        </Form>
+      ) : null}
       <Form
         name="basic"
         labelCol={{ span: 6 }}

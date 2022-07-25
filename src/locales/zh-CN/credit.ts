@@ -36,6 +36,7 @@ export default {
   'credit.apply.address': '住房地址',
   'credit.apply.RealPersonInfo': '实控人信息',
   'credit.apply.RealName': '实控人姓名',
+  'credit.apply.legalFlag': '是否同时为法人',
   'credit.apply.addressStatus': '住房情况',
   'credit.apply.realPeriod': '实控人行业从业年限',
   'credit.apply.realCrediReport': '实控人征信报告（近三个月内）',
