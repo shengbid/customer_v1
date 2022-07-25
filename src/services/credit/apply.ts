@@ -1,10 +1,10 @@
 import { request } from 'umi'
-import type { companyBusProps } from '../types'
+// import type { companyBusProps } from '../types'
 
 const Url = '/cus/credit'
 
 /** 新增第一步 */
-export async function addCreditOne(data: companyBusProps) {
+export async function addCreditOne(data: any) {
   return request<{ data: any[] }>(`${Url}/add`, {
     method: 'post',
     data,

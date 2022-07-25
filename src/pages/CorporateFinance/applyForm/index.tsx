@@ -20,7 +20,7 @@ const ApplyForm: React.FC = () => {
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
   const creditThreeRef: MutableRefObject<any> = useRef({})
-  const [status, setStatus] = useState<number>()
+  const [status, setStatus] = useState<number>(4)
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
   const [subLoading, setSubLoading] = useState<boolean>(false)
   const [createTime, setCreateTime] = useState<string>('')
@@ -210,7 +210,7 @@ const ApplyForm: React.FC = () => {
           id: 'credit.cusApply',
         })}
       </div>
-      {status === 0 && (
+      {(status === 0 || !status) && (
         <>
           <div className={styles.step}>
             <Steps current={current} style={{ width: '97%' }}>
