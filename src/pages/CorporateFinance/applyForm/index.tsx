@@ -5,9 +5,6 @@ import StepTwo from './components/stepTwo'
 import StepThree from './components/stepThree'
 import styles from './index.less'
 import { addCreditOne, addCreditTwo, addCreditThree } from '@/services'
-import Processing from './results/processing'
-import Reject from './results/reject'
-import Success from './results/success'
 import { isEmpty } from 'lodash'
 import { useIntl } from 'umi'
 import { getCreditDetail } from '@/services'
@@ -20,10 +17,8 @@ const ApplyForm: React.FC = () => {
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
   const creditThreeRef: MutableRefObject<any> = useRef({})
-  const [status, setStatus] = useState<number>()
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
   const [subLoading, setSubLoading] = useState<boolean>(false)
-  const [createTime, setCreateTime] = useState<string>('')
   const intl = useIntl()
 
   // 获取详情
@@ -36,14 +31,6 @@ const ApplyForm: React.FC = () => {
       } else if (data.sellProduct) {
         setCurrent(1)
       }
-      if (data.auditStatus) {
-        setStatus(Number(data.auditStatus))
-        setCreateTime(data.updateTime || '')
-      } else {
-        setStatus(0)
-      }
-    } else {
-      setStatus(0)
     }
   }
 
@@ -150,12 +137,14 @@ const ApplyForm: React.FC = () => {
 
     setSubLoading(true)
     const item1 = form.getFieldsValue()
-    item1.frontFileName = item1.idFront[0].fileName
-    item1.frontFileUrl = item1.idFront[0].fileUrl
-    item1.pictureDomain = item1.idFront[0].pictureDomain
-    if (!isEmpty(item1.idReverse)) {
-      item1.backFileName = item1.idReverse[0].fileName
-      item1.backFileUrl = item1.idReverse[0].fileUrl
+    if (item1 && item1.name) {
+      item1.frontFileName = item1.idFront[0].fileName
+      item1.frontFileUrl = item1.idFront[0].fileUrl
+      item1.pictureDomain = item1.idFront[0].pictureDomain
+      if (!isEmpty(item1.idReverse)) {
+        item1.backFileName = item1.idReverse[0].fileName
+        item1.backFileUrl = item1.idReverse[0].fileUrl
+      }
     }
     const item2 = realform.getFieldsValue()
     item2.frontFileName = item2.idFront[0].fileName
@@ -214,46 +203,40 @@ const ApplyForm: React.FC = () => {
           id: 'credit.cusApply',
         })}
       </div>
-      {status === 0 && (
-        <>
-          <div className={styles.step}>
-            <Steps current={current} style={{ width: '97%' }}>
-              {steps.map((item) => (
-                <Step key={item.title} title={item.title} description={item.description} />
-              ))}
-            </Steps>
-          </div>
-          <div className={styles.content}>
-            <div>{steps[current].content}</div>
-          </div>
-          <div className="applyBtn">
-            {current > 0 && (
-              <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                {intl.formatMessage({
-                  id: 'credit.pre',
-                })}
-              </Button>
-            )}
-            {current < steps.length - 1 && (
-              <Button type="primary" loading={btnLoading} onClick={() => next()}>
-                {intl.formatMessage({
-                  id: 'credit.next',
-                })}
-              </Button>
-            )}
-            {current === steps.length - 1 && (
-              <Button type="primary" loading={subLoading} onClick={submit}>
-                {intl.formatMessage({
-                  id: 'pages.btn.submit',
-                })}
-              </Button>
-            )}
-          </div>
-        </>
-      )}
-      {status === 2 && <Processing time={createTime} />}
-      {status === 3 && <Reject />}
-      {status === 1 && <Success />}
+
+      <div className={styles.step}>
+        <Steps current={current} style={{ width: '97%' }}>
+          {steps.map((item) => (
+            <Step key={item.title} title={item.title} description={item.description} />
+          ))}
+        </Steps>
+      </div>
+      <div className={styles.content}>
+        <div>{steps[current].content}</div>
+      </div>
+      <div className="applyBtn">
+        {current > 0 && (
+          <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+            {intl.formatMessage({
+              id: 'credit.pre',
+            })}
+          </Button>
+        )}
+        {current < steps.length - 1 && (
+          <Button type="primary" loading={btnLoading} onClick={() => next()}>
+            {intl.formatMessage({
+              id: 'credit.next',
+            })}
+          </Button>
+        )}
+        {current === steps.length - 1 && (
+          <Button type="primary" loading={subLoading} onClick={submit}>
+            {intl.formatMessage({
+              id: 'pages.btn.submit',
+            })}
+          </Button>
+        )}
+      </div>
     </div>
   )
 }

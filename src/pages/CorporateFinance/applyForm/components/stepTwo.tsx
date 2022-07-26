@@ -6,11 +6,13 @@ import ComUpload from '@/components/ComUpload'
 import DownloadFile from '@/components/ComUpload/downloadFile'
 import RequiredLabel from '@/components/RequiredLabel'
 import { getCreditDetail } from '@/services'
+import { useState } from 'react'
 
 interface stepsprops {
   type: string[]
 }
 const StepTwo = ({ type }: stepsprops, ref: any) => {
+  const [types, setTypes] = useState(type)
   const [form] = Form.useForm()
   const intl = useIntl()
 
@@ -19,6 +21,9 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
     const { data } = await getCreditDetail()
     if (data && data.id) {
       form.setFieldsValue({ ...data.dsList, ...data.qyList })
+      if (data.businessTypeList) {
+        setTypes(data.businessTypeList)
+      }
     }
   }
 
@@ -136,7 +141,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
         </Form.Item>
       </ComCard>
 
-      {type.includes('B2B') && (
+      {types.includes('B2B') && (
         <ComCard
           title={intl.formatMessage({
             id: 'credit.apply.B2BInfo',
@@ -193,7 +198,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
         </ComCard>
       )}
 
-      {type.includes('B2C') && (
+      {types.includes('B2C') && (
         <ComCard
           title={intl.formatMessage({
             id: 'credit.apply.b2cInfo',
