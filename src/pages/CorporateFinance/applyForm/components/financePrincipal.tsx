@@ -19,6 +19,9 @@ const MetalPersonInfo: React.FC = () => {
       <Form.Item label="identity" name="identity" style={{ display: 'none' }}>
         <Input />
       </Form.Item>
+      <Form.Item label="id" name="id" style={{ display: 'none' }}>
+        <Input />
+      </Form.Item>
       <Form.Item
         name="name"
         label={intl.formatMessage({
