@@ -136,6 +136,7 @@ const ApplyForm: React.FC = () => {
     await finaneform.validateFields()
 
     setSubLoading(true)
+    const arr = []
     const item1 = form.getFieldsValue()
     if (item1 && item1.name) {
       item1.frontFileName = item1.idFront[0].fileName
@@ -145,6 +146,7 @@ const ApplyForm: React.FC = () => {
         item1.backFileName = item1.idReverse[0].fileName
         item1.backFileUrl = item1.idReverse[0].fileUrl
       }
+      arr.push(item1)
     }
     const item2 = realform.getFieldsValue()
     item2.frontFileName = item2.idFront[0].fileName
@@ -158,8 +160,7 @@ const ApplyForm: React.FC = () => {
     item2.spouseCreditReport = JSON.stringify(item2.spouseCreditReport)
     item2.houseLicense = JSON.stringify(item2.houseLicense)
     item2.driveLicense = JSON.stringify(item2.driveLicense)
-
-    const arr = [item1, item2]
+    arr.push(item2)
     // 如果有配偶信息
     const item3 = marform.getFieldsValue()
 
