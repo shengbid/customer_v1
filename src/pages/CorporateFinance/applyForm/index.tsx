@@ -6,7 +6,7 @@ import StepThree from './components/stepThree'
 import styles from './index.less'
 import { addCreditOne, addCreditTwo, addCreditThree } from '@/services'
 import { isEmpty } from 'lodash'
-import { useIntl } from 'umi'
+import { useIntl, history } from 'umi'
 import { getCreditDetail } from '@/services'
 
 const { Step } = Steps
@@ -194,7 +194,7 @@ const ApplyForm: React.FC = () => {
       }),
     )
     setSubLoading(false)
-    getDetail()
+    history.push('/finance/create')
   }
 
   return (
