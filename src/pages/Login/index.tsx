@@ -119,7 +119,12 @@ const Login: React.FC = () => {
         if (!history) return
         const { query } = history.location
         const { redirect } = query as { redirect: string }
-        history.push(redirect || '/welcome')
+        const applyRoute: any[] = ['/finance/create/form'] // 申请页面退出,重新登录,到首页
+        if (redirect && !applyRoute.includes(redirect)) {
+          history.push(redirect)
+        } else {
+          history.push('/welcome')
+        }
         return
       }
 
