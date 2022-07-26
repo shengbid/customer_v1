@@ -1,6 +1,7 @@
 import React from 'react'
 import { Result, Button } from 'antd'
 import { FrownOutlined } from '@ant-design/icons'
+import { history } from 'umi'
 
 // 授信拒绝
 const Reject: React.FC = () => {
@@ -38,7 +39,11 @@ const Reject: React.FC = () => {
       title="抱歉,暂时无法为你提供资金"
       subTitle={subTile}
       extra={
-        <Button type="primary" key="console">
+        <Button
+          type="primary"
+          key="console"
+          onClick={() => history.replace('/finance/create/form')}
+        >
           重新申请
         </Button>
       }
