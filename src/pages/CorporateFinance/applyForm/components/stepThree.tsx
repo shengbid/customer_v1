@@ -22,6 +22,82 @@ const StepThree = ({}, ref: any) => {
     const { data } = await getCreditDetail()
     if (data && data.id) {
       setId(data.id)
+      if (data.ryList && data.ryList.skr) {
+        const ryList = data.ryList
+        if (ryList.qyfr) {
+          setLegalFlag('no')
+          // 如果有法人信息(实控人为法人,不展示法人信息)
+          const qyfr = ryList.qyfr
+          if (qyfr.backFileName) {
+            qyfr.idReverse = [
+              {
+                fileName: qyfr.backFileName,
+                fileUrl: qyfr.backFileUrl,
+                pictureDomain: qyfr.pictureDomain,
+              },
+            ]
+          }
+          qyfr.idFront = [
+            {
+              fileName: qyfr.frontFileName,
+              fileUrl: qyfr.frontFileUrl,
+              pictureDomain: qyfr.pictureDomain,
+            },
+          ]
+          form.setFieldsValue(qyfr)
+        }
+        // 实控人
+        const skr = ryList.skr
+        if (skr.backFileName) {
+          skr.idReverse = [
+            {
+              fileName: skr.backFileName,
+              fileUrl: skr.backFileUrl,
+              pictureDomain: skr.pictureDomain,
+            },
+          ]
+        }
+        skr.idFront = [
+          {
+            fileName: skr.frontFileName,
+            fileUrl: skr.frontFileUrl,
+            pictureDomain: skr.pictureDomain,
+          },
+        ]
+        skr.spouseCreditReport = JSON.parse(skr.spouseCreditReport)
+        if (skr.houseLicense) {
+          skr.houseLicense = JSON.parse(skr.houseLicense)
+        }
+        if (skr.driveLicense) {
+          skr.driveLicense = JSON.parse(skr.driveLicense)
+        }
+        realform.setFieldsValue(skr)
+
+        // 实控人配偶
+        const skrpo = ryList.skrpo
+        if (skrpo) {
+          if (skrpo.backFileName) {
+            skrpo.idReverse = [
+              {
+                fileName: skrpo.backFileName,
+                fileUrl: skrpo.backFileUrl,
+                pictureDomain: skrpo.pictureDomain,
+              },
+            ]
+          }
+          skrpo.idFront = [
+            {
+              fileName: skrpo.frontFileName,
+              fileUrl: skrpo.frontFileUrl,
+              pictureDomain: skrpo.pictureDomain,
+            },
+          ]
+          skrpo.creditReport = JSON.parse(skrpo.creditReport)
+          marform.setFieldsValue(skrpo)
+        }
+        mainform.setFieldsValue(ryList.zyfzr)
+        finaneform.setFieldsValue(ryList.cwfzr)
+      }
     }
   }
 
