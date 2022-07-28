@@ -87,9 +87,9 @@ export const accountReg = {
 // 金额千分位展示正则
 export const numToThousandReg = (value: number | string, unit: string = '') => {
   if (value || value === 0) {
-    let amount = `${value}`.match(/\d*(\.\d{0,2})?/)[0]
+    let amount = `${value}`.match(/\d{0,5}(\.\d{0,2})?/)[0]
     if (value < 0) {
-      amount = `${-value}`.match(/\d*(\.\d{0,2})?/)[0]
+      amount = `${-value}`.match(/\d{0,5}(\.\d{0,2})?/)[0]
     }
     let dot = ''
     let number = amount
