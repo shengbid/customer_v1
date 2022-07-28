@@ -25,7 +25,7 @@ const ComInputNumber: React.FC<inputProps> = ({ value, onChange = () => {}, unit
   return (
     <InputNumber
       value={val}
-      maxLength={7}
+      maxLength={9}
       min={0}
       formatter={(vals: any) => numToThousandReg(vals)}
       parser={(vals: any) => thousandToNumReg(vals)}
