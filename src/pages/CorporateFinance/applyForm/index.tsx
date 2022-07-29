@@ -34,6 +34,10 @@ const ApplyForm: React.FC = () => {
       } else if (data.sellProduct) {
         setCurrent(1)
       }
+      // 如果有授信状态,并且不是拒绝,回到申请页面
+      if (data.auditStatus && Number(data.auditStatus) !== 3) {
+        history.push('/finance/create')
+      }
     }
   }
 
