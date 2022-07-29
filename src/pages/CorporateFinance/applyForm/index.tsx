@@ -25,6 +25,9 @@ const ApplyForm: React.FC = () => {
   const getDetail = async () => {
     const { data } = await getCreditDetail()
     if (data) {
+      if (data.businessTypeList) {
+        setBusinessType(data.businessTypeList)
+      }
       if (!isEmpty(data.dsList)) {
         // 步骤判断
         setCurrent(2)
