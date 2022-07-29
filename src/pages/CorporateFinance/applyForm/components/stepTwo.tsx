@@ -132,7 +132,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
               },
             ]}
           >
-            <ComUpload />
+            <ComUpload limit={1} />
           </Form.Item>
           <DownloadFile
             style={{ position: 'absolute', left: 50 }}
@@ -170,7 +170,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
                 },
               ]}
             >
-              <ComUpload />
+              <ComUpload limit={1} />
             </Form.Item>
             <DownloadFile
               style={{ position: 'absolute', left: 50 }}
@@ -227,7 +227,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
                 },
               ]}
             >
-              <ComUpload />
+              <ComUpload limit={1} />
             </Form.Item>
             <DownloadFile
               style={{ position: 'absolute', left: 50 }}
