@@ -216,6 +216,13 @@ const ApplyForm: React.FC = () => {
         <div>{steps[current].content}</div>
       </div>
       <div className="applyBtn">
+        {current === 0 && (
+          <Button style={{ margin: '0 8px' }} onClick={() => history.push('/finance/create')}>
+            {intl.formatMessage({
+              id: 'pages.btn.back',
+            })}
+          </Button>
+        )}
         {current > 0 && (
           <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
             {intl.formatMessage({
