@@ -136,8 +136,8 @@ const ComUpload: React.FC<comuploadProps> = ({
 
   const checkFileSize = (file: any) => {
     const size = file.size / 1024 / 1024
-    if (size > 20) {
-      message.warn(intl.formatMessage({ id: 'pages.modal.updateRule' }))
+    if (size > 100) {
+      message.warn(intl.formatMessage({ id: 'pages.modal.updateRule2' }))
       return Upload.LIST_IGNORE
     }
     return true

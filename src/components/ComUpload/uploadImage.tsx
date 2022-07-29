@@ -128,8 +128,12 @@ const ImageUpload: React.FC<comuploadProps> = ({
   }
 
   const checkFileSize = (file: any) => {
+    if (file.type.indexOf('image') < 0) {
+      message.warn(intl.formatMessage({ id: 'pages.modal.updateImageRule' }))
+      return Upload.LIST_IGNORE
+    }
     const size = file.size / 1024 / 1024
-    if (size > 20) {
+    if (size > 10) {
       message.warn(intl.formatMessage({ id: 'pages.modal.updateRule' }))
       return Upload.LIST_IGNORE
     }
@@ -164,7 +168,7 @@ const ImageUpload: React.FC<comuploadProps> = ({
         multiple={multiple}
         onChange={changeFile}
         fileList={files}
-        accept="image/*"
+        accept="image/pjpeg,image/bmp,image/jpeg,image/jpg,image/png"
         headers={{
           Authorization: Cookies.get('token'),
         }}
