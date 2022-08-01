@@ -118,7 +118,7 @@ const StepThree = ({}, ref: any) => {
         name="basic"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ phoneArea: '1', identity: 'skr', legalFlag: 'yes' }}
+        initialValues={{ phoneArea: '1', identity: 'skr' }}
         form={realform}
         autoComplete="off"
         scrollToFirstError
