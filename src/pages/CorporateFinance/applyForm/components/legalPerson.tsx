@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Input, Row, Col } from 'antd'
 import DictSelect from '@/components/ComSelect'
-import { phoneReg, idCardReg } from '@/utils/reg'
+import { phoneReg, idReg } from '@/utils/reg'
 import RequiredLabel from '@/components/RequiredLabel'
 import ComCard from '@/components/ComPage/ComCard'
 import { useIntl } from 'umi'
@@ -61,10 +61,10 @@ const LegalPerson: React.FC = () => {
                   id: 'credit.apply.idNo',
                 })}`,
               },
-              idCardReg,
+              idReg[idType],
             ]}
           >
-            <Input maxLength={50} />
+            <Input maxLength={18} />
           </Form.Item>
         </Col>
       </Row>

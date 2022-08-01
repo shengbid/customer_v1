@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { useIntl } from 'umi'
 import ComCard from '@/components/ComPage/ComCard'
 import DictSelect from '@/components/ComSelect'
-import { phoneReg, idCardReg } from '@/utils/reg'
+import { phoneReg, idReg, numToThousandReg, thousandToNumReg } from '@/utils/reg'
 import RequiredLabel from '@/components/RequiredLabel'
-import { Form, Input, Row, Col, Radio } from 'antd'
+import { Form, Input, Row, Col, Radio, InputNumber } from 'antd'
 import ComUpload from '@/components/ComUpload'
 import UploadImage from '@/components/ComUpload/uploadImage'
 
@@ -99,10 +99,10 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital, changeLegalFl
                   id: 'credit.apply.idNo',
                 })}`,
               },
-              idCardReg,
+              idReg[idType],
             ]}
           >
-            <Input maxLength={50} />
+            <Input maxLength={18} />
           </Form.Item>
         </Col>
       </Row>
@@ -273,7 +273,14 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital, changeLegalFl
               },
             ]}
           >
-            <Input maxLength={50} />
+            <InputNumber
+              maxLength={6}
+              min={0}
+              max={999.99}
+              formatter={(vals: any) => numToThousandReg(vals)}
+              parser={(vals: any) => thousandToNumReg(vals)}
+              style={{ width: '100%' }}
+            />
           </Form.Item>
         </Col>
         <Col span={12}>

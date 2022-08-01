@@ -31,7 +31,7 @@ const ComInputNumber: React.FC<inputProps> = ({ value, onChange = () => {}, unit
       formatter={(vals: any) => numToThousandReg(vals)}
       parser={(vals: any) => thousandToNumReg(vals)}
       onChange={(vals) => {
-        console.log(vals)
+        // console.log(vals)
         setVal(vals)
         onChange(vals)
       }}
