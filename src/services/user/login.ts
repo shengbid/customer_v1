@@ -23,7 +23,7 @@ export async function getCaptcha() {
 
 /** 获取手机验证码 */
 export async function getPhoneCaptcha(data: phoneCodeProps) {
-  return request(`/auth/verify/phone`, {
+  return request(`/auth/cus/verify/phone`, {
     method: 'post',
     data,
   })
