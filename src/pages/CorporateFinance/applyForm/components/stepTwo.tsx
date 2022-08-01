@@ -27,7 +27,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
       if (data.businessTypeList) {
         setTypes(data.businessTypeList)
       }
-      setshow1(data.qyList.gysqd.length)
+      setshow1(data.qyList.gysqd ? data.qyList.gysqd.length : 0)
       setshow2(data.dsList.xykhqd ? data.dsList.xykhqd.length : 0)
       setshow3(data.dsList.jyrsm ? data.dsList.jyrsm.length : 0)
     }

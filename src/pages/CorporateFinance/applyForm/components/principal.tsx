@@ -1,9 +1,7 @@
 import React from 'react'
 import { useIntl } from 'umi'
 import ComCard from '@/components/ComPage/ComCard'
-import DictSelect from '@/components/ComSelect'
-import { phoneReg } from '@/utils/reg'
-import RequiredLabel from '@/components/RequiredLabel'
+import PhoneInput from '@/components/Input/phoneInput'
 import { Form, Input } from 'antd'
 
 // 主要负责人信息
@@ -57,39 +55,7 @@ const MetalPersonInfo: React.FC = () => {
         <Input maxLength={50} />
       </Form.Item>
 
-      <Form.Item
-        label={
-          <RequiredLabel
-            label={intl.formatMessage({
-              id: 'credit.apply.phone',
-            })}
-          />
-        }
-      >
-        <Form.Item
-          name="phoneArea"
-          style={{ display: 'inline-block', marginBottom: 0, width: '30%' }}
-        >
-          <DictSelect authorword="phone_code" allowClear={false} />
-        </Form.Item>
-        <Form.Item
-          name="phoneNumber"
-          style={{ display: 'inline-block', marginBottom: 0, width: '70%' }}
-          rules={[
-            {
-              required: true,
-              message: `${intl.formatMessage({
-                id: 'pages.form.input',
-              })}${intl.formatMessage({
-                id: 'credit.apply.phone',
-              })}`,
-            },
-            phoneReg,
-          ]}
-        >
-          <Input maxLength={50} />
-        </Form.Item>
-      </Form.Item>
+      <PhoneInput />
     </ComCard>
   )
 }

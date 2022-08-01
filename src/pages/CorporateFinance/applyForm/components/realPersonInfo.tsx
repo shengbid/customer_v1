@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useIntl } from 'umi'
 import ComCard from '@/components/ComPage/ComCard'
 import DictSelect from '@/components/ComSelect'
-import { phoneReg, idReg, numToThousandReg, thousandToNumReg } from '@/utils/reg'
-import RequiredLabel from '@/components/RequiredLabel'
+import { idReg, numToThousandReg, thousandToNumReg } from '@/utils/reg'
+import PhoneInput from '@/components/Input/phoneInput'
 import { Form, Input, Row, Col, Radio, InputNumber } from 'antd'
 import ComUpload from '@/components/ComUpload'
 import UploadImage from '@/components/ComUpload/uploadImage'
@@ -174,39 +174,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital, changeLegalFl
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item
-            label={
-              <RequiredLabel
-                label={intl.formatMessage({
-                  id: 'credit.apply.phone',
-                })}
-              />
-            }
-          >
-            <Form.Item
-              name="phoneArea"
-              style={{ display: 'inline-block', marginBottom: 0, width: '30%' }}
-            >
-              <DictSelect authorword="phone_code" allowClear={false} />
-            </Form.Item>
-            <Form.Item
-              name="phoneNumber"
-              style={{ display: 'inline-block', marginBottom: 0, width: '70%' }}
-              rules={[
-                {
-                  required: true,
-                  message: `${intl.formatMessage({
-                    id: 'pages.form.input',
-                  })}${intl.formatMessage({
-                    id: 'credit.apply.phone',
-                  })}`,
-                },
-                phoneReg,
-              ]}
-            >
-              <Input maxLength={50} />
-            </Form.Item>
-          </Form.Item>
+          <PhoneInput />
         </Col>
       </Row>
 
