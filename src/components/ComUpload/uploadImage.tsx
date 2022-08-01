@@ -133,7 +133,7 @@ const ImageUpload: React.FC<comuploadProps> = ({
       return Upload.LIST_IGNORE
     }
     const size = file.size / 1024 / 1024
-    if (size > 10) {
+    if (size > 20) {
       message.warn(intl.formatMessage({ id: 'pages.modal.updateRule' }))
       return Upload.LIST_IGNORE
     }
