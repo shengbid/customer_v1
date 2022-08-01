@@ -13,6 +13,9 @@ interface stepsprops {
 }
 const StepTwo = ({ type }: stepsprops, ref: any) => {
   const [types, setTypes] = useState(type)
+  const [show1, setshow1] = useState(0)
+  const [show2, setshow2] = useState(0)
+  const [show3, setshow3] = useState(0)
   const [form] = Form.useForm()
   const intl = useIntl()
 
@@ -120,7 +123,12 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
         >
           <Form.Item
             name="gysqd"
-            style={{ display: 'inline-block', width: '90%', marginBottom: 0 }}
+            style={{
+              display: 'inline-block',
+              width: '90%',
+              marginBottom: 0,
+              marginTop: show1 ? 25 : 0,
+            }}
             rules={[
               {
                 required: true,
@@ -132,10 +140,13 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
               },
             ]}
           >
-            <ComUpload limit={1} />
+            <ComUpload limit={1} onChange={(val) => setshow1(val.length)} />
           </Form.Item>
           <DownloadFile
-            style={{ position: 'absolute', left: 50 }}
+            style={{
+              position: 'absolute',
+              left: 50,
+            }}
             templateId="eOIa0c2I6R0NC5MeHR3"
           />
         </Form.Item>
@@ -158,7 +169,12 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
           >
             <Form.Item
               name="xykhqd"
-              style={{ display: 'inline-block', width: '90%', marginBottom: 0 }}
+              style={{
+                display: 'inline-block',
+                width: '90%',
+                marginBottom: 0,
+                marginTop: show2 ? 25 : 0,
+              }}
               rules={[
                 {
                   required: true,
@@ -170,7 +186,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
                 },
               ]}
             >
-              <ComUpload limit={1} />
+              <ComUpload limit={1} onChange={(val) => setshow2(val.length)} />
             </Form.Item>
             <DownloadFile
               style={{ position: 'absolute', left: 50 }}
@@ -215,7 +231,12 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
           >
             <Form.Item
               name="jyrsm"
-              style={{ display: 'inline-block', width: '90%', marginBottom: 0 }}
+              style={{
+                display: 'inline-block',
+                width: '90%',
+                marginBottom: 0,
+                marginTop: show3 ? 25 : 0,
+              }}
               rules={[
                 {
                   required: true,
@@ -227,7 +248,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
                 },
               ]}
             >
-              <ComUpload limit={1} />
+              <ComUpload limit={1} onChange={(val) => setshow3(val.length)} />
             </Form.Item>
             <DownloadFile
               style={{ position: 'absolute', left: 50 }}
