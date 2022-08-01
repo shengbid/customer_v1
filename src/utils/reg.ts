@@ -64,6 +64,11 @@ export const phoneReg = {
   message: RegText.phone,
   pattern: REGS.TELEPHONE_REG,
 }
+// 香港电话号码验证
+export const phoneHKReg = {
+  message: RegText.phone,
+  pattern: REGS.TELEPHONE_HK_REG,
+}
 
 // 邮箱验证
 export const emailReg = {
@@ -101,8 +106,16 @@ export const passportReg = {
 // 身份证类型的不同判断
 export const idReg = {
   xgsfz: idHongKongReg,
+  amsfz: idHongKongReg,
   dlsfz: idCardReg,
   hz: passportReg,
+}
+// 电话区号不同判断
+export const phoneCodeReg = {
+  1: phoneReg,
+  2: phoneHKReg,
+  3: phoneHKReg,
+  4: phoneHKReg,
 }
 
 // 金额千分位展示正则
