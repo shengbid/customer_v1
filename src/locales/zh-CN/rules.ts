@@ -1,6 +1,7 @@
 export default {
   phone: '手机号码格式不正确',
-  idCard: '身份证格式不正确',
+  idCard: '身份证号码格式不正确',
+  passport: '护照格式不正确',
   number: '最多输入11位数,小数最多保留4位',
   integer: '最多输入11位整数',
   email: '邮箱格式不正确',
