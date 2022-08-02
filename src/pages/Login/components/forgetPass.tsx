@@ -4,7 +4,7 @@ import { Modal, Button, Form, Input, message } from 'antd'
 import type { addModalProps } from '@/services/types'
 import { passwordReg } from '@/utils/reg'
 import { ProFormCaptcha } from '@ant-design/pro-form'
-import { LockOutlined } from '@ant-design/icons'
+import { LockOutlined, SecurityScanOutlined } from '@ant-design/icons'
 import { getPhoneCaptcha, forgetPassWord } from '@/services'
 import ValidateModal from './validate'
 import PhoneInput from '@/components/Input/phoneInput'
@@ -70,7 +70,7 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
           <ProFormCaptcha
             fieldProps={{
               size: 'large',
-              prefix: <LockOutlined />,
+              prefix: <SecurityScanOutlined />,
             }}
             captchaProps={{
               size: 'large',
@@ -134,7 +134,9 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
               placeholder={intl.formatMessage({
                 id: 'pages.login.newPass',
               })}
-              maxLength={50}
+              size="large"
+              maxLength={20}
+              prefix={<LockOutlined />}
             />
           </Form.Item>
           <Form.Item
@@ -168,7 +170,9 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
               placeholder={intl.formatMessage({
                 id: 'pages.login.confirmPass',
               })}
-              maxLength={50}
+              maxLength={20}
+              size="large"
+              prefix={<LockOutlined />}
             />
           </Form.Item>
 
