@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useIntl } from 'umi'
 import ComCard from '@/components/ComPage/ComCard'
 import DictSelect from '@/components/ComSelect'
@@ -9,9 +9,15 @@ import ComUpload from '@/components/ComUpload'
 import UploadImage from '@/components/ComUpload/uploadImage'
 
 // 实控人配偶信息
-const MetalPersonInfo: React.FC = () => {
+const MetalPersonInfo: React.FC<{ info?: any }> = ({ info = {} }) => {
   const intl = useIntl()
   const [idType, setIdTyp] = useState<string>('xgsfz')
+
+  useEffect(() => {
+    if (info && info.identity) {
+      setIdTyp(info.identity)
+    }
+  }, [info])
 
   const gutter = 10
   return (
@@ -137,7 +143,7 @@ const MetalPersonInfo: React.FC = () => {
           </Form.Item>
         </Col>
         <Col span={12}>
-          <PhoneInput />
+          <PhoneInput initType={info.phoneArea} />
         </Col>
       </Row>
 

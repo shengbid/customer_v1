@@ -16,6 +16,13 @@ const StepThree = ({}, ref: any) => {
   const [mainform] = Form.useForm()
   const [finaneform] = Form.useForm()
   const [id, setId] = useState<number>()
+  const [infoData, setInfoData] = useState({
+    qyfr: {},
+    skr: {},
+    skrpo: {},
+    zyfzr: { phoneArea: '1' },
+    cwfzr: { phoneArea: '1' },
+  })
 
   // 获取详情
   const getDetail = async () => {
@@ -24,6 +31,7 @@ const StepThree = ({}, ref: any) => {
       setId(data.id)
       if (data.ryList && data.ryList.skr) {
         const ryList = data.ryList
+        setInfoData(ryList)
         if (ryList.qyfr) {
           setLegalFlag('no')
           // 如果有法人信息(实控人为法人,不展示法人信息)
@@ -124,7 +132,11 @@ const StepThree = ({}, ref: any) => {
         scrollToFirstError
       >
         {/* 实控人信息 */}
-        <RealPersonInfo changeLegalFlag={setLegalFlag} changeRealMarital={setMaritalStatus} />
+        <RealPersonInfo
+          info={infoData.skr}
+          changeLegalFlag={setLegalFlag}
+          changeRealMarital={setMaritalStatus}
+        />
       </Form>
       {legalFlag === 'no' ? (
         <Form
@@ -137,7 +149,7 @@ const StepThree = ({}, ref: any) => {
           scrollToFirstError
         >
           {/* 法人信息 */}
-          <LegalPerson />
+          <LegalPerson info={infoData.qyfr} />
         </Form>
       ) : null}
       <Form
@@ -150,7 +162,7 @@ const StepThree = ({}, ref: any) => {
         scrollToFirstError
       >
         {/* 实控人配偶信息 */}
-        {maritalStatus === 'yh' && <MetalPersonInfo />}
+        {maritalStatus === 'yh' && <MetalPersonInfo info={infoData.skrpo} />}
       </Form>
       <Form
         name="basic"
@@ -162,7 +174,7 @@ const StepThree = ({}, ref: any) => {
         scrollToFirstError
       >
         {/* 主要负责人信息 */}
-        <MainPrincipal />
+        <MainPrincipal phoneType={infoData.zyfzr.phoneArea} />
       </Form>
       <Form
         name="basic"
@@ -174,7 +186,7 @@ const StepThree = ({}, ref: any) => {
         scrollToFirstError
       >
         {/* 财务负责人信息 */}
-        <FinancePrincipal />
+        <FinancePrincipal phoneType={infoData.zyfzr.phoneArea} />
       </Form>
     </>
   )

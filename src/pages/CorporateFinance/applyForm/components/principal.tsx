@@ -5,7 +5,7 @@ import PhoneInput from '@/components/Input/phoneInput'
 import { Form, Input } from 'antd'
 
 // 主要负责人信息
-const MetalPersonInfo: React.FC = () => {
+const MetalPersonInfo: React.FC<{ phoneType?: string }> = ({ phoneType }) => {
   const intl = useIntl()
 
   return (
@@ -55,7 +55,7 @@ const MetalPersonInfo: React.FC = () => {
         <Input maxLength={50} />
       </Form.Item>
 
-      <PhoneInput />
+      <PhoneInput initType={phoneType} />
     </ComCard>
   )
 }

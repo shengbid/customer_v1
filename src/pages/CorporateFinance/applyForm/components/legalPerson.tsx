@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Input, Row, Col } from 'antd'
 import DictSelect from '@/components/ComSelect'
 import { idReg } from '@/utils/reg'
@@ -8,9 +8,15 @@ import UploadImage from '@/components/ComUpload/uploadImage'
 import PhoneInput from '@/components/Input/phoneInput'
 
 // 法人信息
-const LegalPerson: React.FC = () => {
+const LegalPerson: React.FC<{ info?: any }> = ({ info = {} }) => {
   const intl = useIntl()
   const [idType, setIdTyp] = useState<string>('xgsfz')
+
+  useEffect(() => {
+    if (info && info.identity) {
+      setIdTyp(info.identity)
+    }
+  }, [info])
 
   const gutter = 10
   return (
@@ -134,7 +140,7 @@ const LegalPerson: React.FC = () => {
           </Form.Item>
         </Col>
         <Col span={12}>
-          <PhoneInput />
+          <PhoneInput initType={info.phoneArea} />
         </Col>
       </Row>
       <Row gutter={gutter}>

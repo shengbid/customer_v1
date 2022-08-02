@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useIntl } from 'umi'
 import ComCard from '@/components/ComPage/ComCard'
 import DictSelect from '@/components/ComSelect'
@@ -11,11 +11,18 @@ import UploadImage from '@/components/ComUpload/uploadImage'
 interface reralProps {
   changeRealMarital: (value: string) => void
   changeLegalFlag: (value: string) => void
+  info?: any
 }
 // 实控人信息
-const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital, changeLegalFlag }) => {
+const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital, changeLegalFlag, info }) => {
   const intl = useIntl()
   const [idType, setIdTyp] = useState<string>('xgsfz')
+
+  useEffect(() => {
+    if (info && info.identity) {
+      setIdTyp(info.identity)
+    }
+  }, [info])
 
   const gutter = 10
   return (
@@ -174,7 +181,7 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital, changeLegalFl
           </Form.Item>
         </Col>
         <Col span={12}>
-          <PhoneInput />
+          <PhoneInput initType={info.phoneArea} />
         </Col>
       </Row>
 

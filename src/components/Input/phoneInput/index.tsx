@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Input } from 'antd'
 import DictSelect from '@/components/ComSelect'
 import { phoneCodeReg } from '@/utils/reg'
 import RequiredLabel from '@/components/RequiredLabel'
 import { useIntl } from 'umi'
 
-const PhoneInput: React.FC = () => {
+const PhoneInput: React.FC<{ initType?: string | number }> = ({ initType = '1' }) => {
   const intl = useIntl()
-  const [phoneType, setPhoneType] = useState<number>(1)
+  const [phoneType, setPhoneType] = useState<number>(Number(initType))
+
+  useEffect(() => {
+    if (initType) {
+      setPhoneType(Number(initType))
+    }
+  }, [initType])
 
   return (
     <Form.Item
