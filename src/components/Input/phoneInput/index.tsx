@@ -36,7 +36,12 @@ const PhoneInput: React.FC<phoneProps> = ({ initType = '1', icon = false }) => {
         name="phoneArea"
         style={{ display: 'inline-block', marginBottom: 0, width: '30%' }}
       >
-        <DictSelect authorword="phone_code" allowClear={false} onChange={setPhoneType} />
+        <DictSelect
+          size={icon ? 'large' : 'middle'}
+          authorword="phone_code"
+          allowClear={false}
+          onChange={setPhoneType}
+        />
       </Form.Item>
       <Form.Item
         name={icon ? 'phone' : 'phoneNumber'}
@@ -53,7 +58,12 @@ const PhoneInput: React.FC<phoneProps> = ({ initType = '1', icon = false }) => {
           phoneCodeReg[Number(phoneType)],
         ]}
       >
-        <Input prefix={icon ? <MobileOutlined /> : null} maxLength={15} />
+        <Input
+          size={icon ? 'large' : 'middle'}
+          prefix={icon ? <MobileOutlined /> : null}
+          placeholder="手机号"
+          maxLength={15}
+        />
       </Form.Item>
     </Form.Item>
   )
