@@ -129,13 +129,13 @@ const ApplyForm: React.FC = () => {
       await form.validateFields()
     } catch (error) {
       // 滚动到报错的地方
-      window.scrollTo(100, 200)
+      window.scrollTo(100, 600)
       return
     }
     try {
       await realform.validateFields()
     } catch (error) {
-      window.scrollTo(100, 500)
+      window.scrollTo(100, 200)
       return
     }
     await marform.validateFields()
