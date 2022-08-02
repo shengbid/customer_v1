@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { useIntl } from 'umi'
 import { Modal, Button, Form, Input, message } from 'antd'
 import type { addModalProps } from '@/services/types'
-import { passwordReg, phoneReg } from '@/utils/reg'
-import DictSelect from '@/components/ComSelect'
+import { passwordReg } from '@/utils/reg'
 import { ProFormCaptcha } from '@ant-design/pro-form'
-import { LockOutlined, MobileOutlined } from '@ant-design/icons'
+import { LockOutlined } from '@ant-design/icons'
 import { getPhoneCaptcha, forgetPassWord } from '@/services'
 import ValidateModal from './validate'
+import PhoneInput from '@/components/Input/phoneInput'
 
 const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel }) => {
   const intl = useIntl()
@@ -19,10 +19,7 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
   const handleOk = async (values: any) => {
     setConfirmLoading(true)
     try {
-      await forgetPassWord({
-        ...values,
-        ...validaInfo,
-      })
+      await forgetPassWord(values)
       setConfirmLoading(false)
     } catch (error) {
       setConfirmLoading(false)
@@ -43,7 +40,6 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
   }
 
   const handleValid = (values: any) => {
-    console.log(values)
     setValidaInfo(values)
   }
 
@@ -69,35 +65,8 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
           form={form}
           autoComplete="off"
         >
-          <Input.Group>
-            <Form.Item name="phoneArea" style={{ width: '30%', display: 'inline-block' }}>
-              <DictSelect size="large" authorword="phone_code" allowClear={false} />
-            </Form.Item>
-            <Form.Item
-              style={{ width: '70%', display: 'inline-block' }}
-              name="phone"
-              rules={[
-                {
-                  required: true,
-                  message: `${intl.formatMessage({
-                    id: 'pages.form.input',
-                  })}${intl.formatMessage({
-                    id: 'pages.login.phone',
-                  })}`,
-                },
-                phoneReg,
-              ]}
-            >
-              <Input
-                size="large"
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.phone',
-                })}
-                autoComplete="off"
-                prefix={<MobileOutlined />}
-              />
-            </Form.Item>
-          </Input.Group>
+          <PhoneInput icon />
+
           <ProFormCaptcha
             fieldProps={{
               size: 'large',
@@ -134,7 +103,7 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
               },
             ]}
             onGetCaptcha={async (phone) => {
-              const result = await getPhoneCaptcha({ phone, loginType: 'phone' })
+              const result = await getPhoneCaptcha({ phone, loginType: 'phone', ...validaInfo })
               if (result.code === 2022) {
                 setIsModalVisible(true)
               } else {
@@ -148,7 +117,7 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
           />
 
           <Form.Item
-            name="newPassword"
+            name="password"
             rules={[
               {
                 required: true,
@@ -181,7 +150,7 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue('newPassword') === value) {
+                  if (!value || getFieldValue('password') === value) {
                     return Promise.resolve()
                   }
                   return Promise.reject(

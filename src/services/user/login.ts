@@ -53,14 +53,14 @@ export async function updatePassWord(data: { oldPassword: string; newPassword: s
 interface forgetProps {
   phone: string
   phoneCode: string
-  newPassword: string
-  code?: string
+  password: string
+  phoneArea: string
   uuid?: string
 }
 /** 忘记密码 */
 export async function forgetPassWord(data: forgetProps) {
-  return request('/cus/user/resetPwd', {
-    method: 'put',
+  return request('/auth/cus/reset/password', {
+    method: 'post',
     data,
   })
 }

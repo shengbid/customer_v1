@@ -4,8 +4,13 @@ import DictSelect from '@/components/ComSelect'
 import { phoneCodeReg } from '@/utils/reg'
 import RequiredLabel from '@/components/RequiredLabel'
 import { useIntl } from 'umi'
+import { MobileOutlined } from '@ant-design/icons'
 
-const PhoneInput: React.FC<{ initType?: string | number }> = ({ initType = '1' }) => {
+interface phoneProps {
+  initType?: string | number
+  icon?: boolean
+}
+const PhoneInput: React.FC<phoneProps> = ({ initType = '1', icon = false }) => {
   const intl = useIntl()
   const [phoneType, setPhoneType] = useState<number>(Number(initType))
 
@@ -18,11 +23,13 @@ const PhoneInput: React.FC<{ initType?: string | number }> = ({ initType = '1' }
   return (
     <Form.Item
       label={
-        <RequiredLabel
-          label={intl.formatMessage({
-            id: 'credit.apply.phone',
-          })}
-        />
+        icon ? null : (
+          <RequiredLabel
+            label={intl.formatMessage({
+              id: 'credit.apply.phone',
+            })}
+          />
+        )
       }
     >
       <Form.Item
@@ -32,7 +39,7 @@ const PhoneInput: React.FC<{ initType?: string | number }> = ({ initType = '1' }
         <DictSelect authorword="phone_code" allowClear={false} onChange={setPhoneType} />
       </Form.Item>
       <Form.Item
-        name="phoneNumber"
+        name={icon ? 'phone' : 'phoneNumber'}
         style={{ display: 'inline-block', marginBottom: 0, width: '70%' }}
         rules={[
           {
@@ -46,7 +53,7 @@ const PhoneInput: React.FC<{ initType?: string | number }> = ({ initType = '1' }
           phoneCodeReg[Number(phoneType)],
         ]}
       >
-        <Input maxLength={15} />
+        <Input prefix={icon ? <MobileOutlined /> : null} maxLength={15} />
       </Form.Item>
     </Form.Item>
   )
