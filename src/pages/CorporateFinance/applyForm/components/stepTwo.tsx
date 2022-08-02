@@ -193,7 +193,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
             </Form.Item>
             <DownloadFile
               style={{ position: 'absolute', left: 50 }}
-              templateId="4IjAsqinzus91Msi9ln"
+              templateId="JnytKoM7y8est0jDVjc"
             />
           </Form.Item>
           <Form.Item
