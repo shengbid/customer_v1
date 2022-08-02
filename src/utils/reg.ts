@@ -15,6 +15,8 @@ export const REGS = {
   TELEPHONE_REG: /^1[3-9]\d{9}$/,
   // 香港手机号正则表达式
   TELEPHONE_HK_REG: /^\d{8}$/,
+  // 韩国手机号正则表达式
+  TELEPHONE_KOREA_REG: /^(\d{9}|\d{10}|\d{11})$/,
   // 六位校验码
   CHECK_CODE: /^[0-9]{6}$/,
   // 银行卡号
@@ -31,11 +33,11 @@ export const REGS = {
   PASS_WORD: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/,
   // 身份证校验
   ID_CARD_REG:
-    /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/,
+    /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[X])$)$/,
   // 香港身份证
-  ID_HONGKONG: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8}$/,
+  ID_HONGKONG: /^(?=.*[0-9])(?=.*[A-Z])(?=.*[\W])[0-9A-Z].{9}$/,
   // 护照
-  ID_PASSPORT: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{9}$/,
+  ID_PASSPORT: /^(?![0-9]+$)(?![A-Z]+$)[0-9A-Z]{9}$/,
   // 账号验证 (字母或数字.字母开头)
   ACCOUNT_REG: /(^[a-zA-Z])([0-9A-Za-z]{5,18}$)/,
 }
@@ -68,6 +70,11 @@ export const phoneReg = {
 export const phoneHKReg = {
   message: RegText.phone,
   pattern: REGS.TELEPHONE_HK_REG,
+}
+// 韩国电话号码验证
+export const phoneKOREAReg = {
+  message: RegText.phone,
+  pattern: REGS.TELEPHONE_KOREA_REG,
 }
 
 // 邮箱验证
@@ -115,7 +122,7 @@ export const phoneCodeReg = {
   1: phoneReg,
   2: phoneHKReg,
   3: phoneHKReg,
-  4: phoneHKReg,
+  4: phoneKOREAReg,
 }
 
 // 金额千分位展示正则
