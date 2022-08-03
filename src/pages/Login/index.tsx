@@ -1,6 +1,6 @@
 import { LockOutlined, UserOutlined, SecurityScanOutlined } from '@ant-design/icons'
 import { Alert, message, Tabs, Row, Col, Modal, Input, Form, Button } from 'antd'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { ProFormCaptcha, ProFormText, LoginForm } from '@ant-design/pro-form'
 import { history, useModel, SelectLang, useIntl } from 'umi'
 import Footer from '@/components/Footer'
@@ -48,6 +48,7 @@ const Login: React.FC = () => {
   const { setInitialState } = useModel('@@initialState')
   const [form] = Form.useForm()
   const [passform] = Form.useForm()
+  const captchaRef = useRef<any>()
 
   const intl = useIntl()
 
@@ -77,6 +78,7 @@ const Login: React.FC = () => {
       phone: form.getFieldValue('phone'),
     })
     setIsModalVisible(false)
+    captchaRef.current?.startTiming()
     message.success(
       intl.formatMessage({
         id: 'pages.login.getcodeSuccess',
@@ -315,6 +317,7 @@ const Login: React.FC = () => {
                 captchaProps={{
                   size: 'large',
                 }}
+                fieldRef={captchaRef}
                 placeholder={`${intl.formatMessage({
                   id: 'pages.form.input',
                 })}${intl.formatMessage({
@@ -346,6 +349,7 @@ const Login: React.FC = () => {
                   const result = await getPhoneCaptcha({ phone, loginType: type })
                   if (result.code === 2022) {
                     setIsModalVisible(true)
+                    throw new Error('需要进行安全校验')
                   } else {
                     message.success(
                       intl.formatMessage({
