@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useIntl } from 'umi'
-import { Modal, Row, Col, Input } from 'antd'
+import { Modal, Row, Col, Input, message } from 'antd'
 import { getCaptcha } from '@/services'
 import { SecurityScanOutlined } from '@ant-design/icons'
 
@@ -17,10 +17,14 @@ const ValidateModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, ha
   const [phoneCode, setPhoneCode] = useState<string>('')
 
   const handleOk = () => {
-    handleSubmit({
-      code: phoneCode,
-      uuid: captchaUid,
-    })
+    if (phoneCode) {
+      handleSubmit({
+        code: phoneCode,
+        uuid: captchaUid,
+      })
+    } else {
+      message.warning('请先填写验证码!')
+    }
   }
 
   // 获取图形验证码
