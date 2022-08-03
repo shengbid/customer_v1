@@ -71,19 +71,24 @@ const Login: React.FC = () => {
       message.warning('请先填写验证码!')
       return
     }
-    await getPhoneCaptcha({
+    const { code, msg } = await getPhoneCaptcha({
       code: phoneCode,
       uuid: captchaUid,
       loginType: type,
       phone: form.getFieldValue('phone'),
     })
-    setIsModalVisible(false)
-    captchaRef.current?.startTiming()
-    message.success(
-      intl.formatMessage({
-        id: 'pages.login.getcodeSuccess',
-      }),
-    )
+    if (Number(code) === 2022) {
+      message.error(msg)
+      getCaptchas()
+    } else {
+      setIsModalVisible(false)
+      captchaRef.current?.startTiming()
+      message.success(
+        intl.formatMessage({
+          id: 'pages.login.getcodeSuccess',
+        }),
+      )
+    }
   }
 
   const fetchUserInfo = async () => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useIntl } from 'umi'
 import { Modal, Button, Form, Input, message } from 'antd'
 import type { addModalProps } from '@/services/types'
@@ -14,7 +14,7 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [IsModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [form] = Form.useForm()
-  const [validaInfo, setValidaInfo] = useState<any>()
+  const captchaRef = useRef<any>()
 
   const handleOk = async (values: any) => {
     setConfirmLoading(true)
@@ -39,8 +39,10 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
     form.resetFields()
   }
 
-  const handleValid = (values: any) => {
-    setValidaInfo(values)
+  const handleValid = async () => {
+    captchaRef.current?.startTiming()
+    message.success('发送验证码成功')
+    setIsModalVisible(false)
   }
 
   return (
@@ -75,6 +77,7 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
             captchaProps={{
               size: 'large',
             }}
+            fieldRef={captchaRef}
             placeholder={`${intl.formatMessage({
               id: 'pages.form.input',
             })}${intl.formatMessage({
@@ -103,9 +106,10 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
               },
             ]}
             onGetCaptcha={async (phone) => {
-              const result = await getPhoneCaptcha({ phone, loginType: 'phone', ...validaInfo })
+              const result = await getPhoneCaptcha({ phone, loginType: 'phone' })
               if (result.code === 2022) {
                 setIsModalVisible(true)
+                throw new Error('需要进行安全校验')
               } else {
                 message.success(
                   intl.formatMessage({
@@ -198,6 +202,7 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
 
       <ValidateModal
         modalVisible={IsModalVisible}
+        phone={form.getFieldValue('phone')}
         handleCancel={() => {
           setIsModalVisible(false)
         }}

@@ -1,31 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import { useIntl } from 'umi'
 import { Modal, Row, Col, Input, message } from 'antd'
-import { getCaptcha } from '@/services'
+import { getCaptcha, getPhoneCaptcha } from '@/services'
 import { SecurityScanOutlined } from '@ant-design/icons'
 
 interface addModalProps {
+  phone: string
   modalVisible: boolean
-  handleSubmit: (values: any) => void
+  handleSubmit: () => void
   handleCancel: () => void
 }
 
-const ValidateModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleCancel }) => {
+const ValidateModal: React.FC<addModalProps> = ({
+  phone,
+  modalVisible,
+  handleSubmit,
+  handleCancel,
+}) => {
   const intl = useIntl()
   const [captcha, setCaptcha] = useState<string>('')
   const [captchaUid, setCaptchaUid] = useState<string>('')
   const [phoneCode, setPhoneCode] = useState<string>('')
-
-  const handleOk = () => {
-    if (phoneCode) {
-      handleSubmit({
-        code: phoneCode,
-        uuid: captchaUid,
-      })
-    } else {
-      message.warning('请先填写验证码!')
-    }
-  }
 
   // 获取图形验证码
   const getCaptchas = async () => {
@@ -33,6 +28,25 @@ const ValidateModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, ha
     if (img) {
       setCaptcha(`data:image/gif;base64,${img}`)
       setCaptchaUid(uuid)
+    }
+  }
+
+  const handleOk = async () => {
+    if (phoneCode) {
+      const { code, msg } = await getPhoneCaptcha({
+        code: phoneCode,
+        uuid: captchaUid,
+        loginType: 'phone',
+        phone,
+      })
+      if (Number(code) === 2022) {
+        message.error(msg)
+        getCaptchas()
+      } else {
+        handleSubmit()
+      }
+    } else {
+      message.warning('请先填写验证码!')
     }
   }
 
