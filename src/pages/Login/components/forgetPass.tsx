@@ -56,6 +56,7 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
         width={500}
         visible={modalVisible}
         footer={false}
+        zIndex={900}
         onCancel={cancel}
       >
         <Form
