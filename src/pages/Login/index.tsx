@@ -19,6 +19,7 @@ import { handleMenuData } from '@/utils/menu'
 import { passwordReg } from '@/utils/reg'
 import ForgetPass from './components/forgetPass'
 import PhoneInput from '@/components/Input/phoneInput'
+import ValidateModal from './components/validate'
 
 import styles from './index.less'
 
@@ -40,7 +41,6 @@ const Login: React.FC = () => {
   const [type, setType] = useState<string>('account')
   const [captcha, setCaptcha] = useState<string>('')
   const [captchaUid, setCaptchaUid] = useState<string>('')
-  const [phoneCode, setPhoneCode] = useState<string>('')
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [passModalVisible, setPassModalVisible] = useState<boolean>(false)
   const [forgetModalVisible, setForgetModalVisible] = useState<boolean>(false)
@@ -67,28 +67,9 @@ const Login: React.FC = () => {
 
   // 提交手机超次数验证码
   const handleOk = async () => {
-    if (!phoneCode) {
-      message.warning('请先填写验证码!')
-      return
-    }
-    const { code, msg } = await getPhoneCaptcha({
-      code: phoneCode,
-      uuid: captchaUid,
-      loginType: type,
-      phone: form.getFieldValue('phone'),
-    })
-    if (Number(code) === 2022) {
-      message.error(msg)
-      getCaptchas()
-    } else {
-      setIsModalVisible(false)
-      captchaRef.current?.startTiming()
-      message.success(
-        intl.formatMessage({
-          id: 'pages.login.getcodeSuccess',
-        }),
-      )
-    }
+    captchaRef.current?.startTiming()
+    message.success('发送验证码成功')
+    setIsModalVisible(false)
   }
 
   const fetchUserInfo = async () => {
@@ -167,6 +148,7 @@ const Login: React.FC = () => {
       )
       setConfirmLoading(false)
       setPassModalVisible(false)
+      passform.resetFields()
     } catch (error) {
       setConfirmLoading(false)
     }
@@ -392,39 +374,17 @@ const Login: React.FC = () => {
       </div>
       <Footer />
 
-      <Modal
-        title={intl.formatMessage({
-          id: 'pages.login.valitTilte',
-        })}
-        visible={isModalVisible}
-        onOk={handleOk}
-        cancelButtonProps={{ style: { display: 'none' } }}
-        onCancel={() => {
+      {/* 手机验证码超次数验证 */}
+      <ValidateModal
+        modalVisible={isModalVisible}
+        phone={form.getFieldValue('phone')}
+        handleCancel={() => {
           setIsModalVisible(false)
         }}
-      >
-        <Row>
-          <Col span={6}>
-            <a onClick={getCaptchas}>
-              <img src={captcha} alt="" style={{ height: 39 }} />
-            </a>
-          </Col>
-          <Col span={16}>
-            <Input
-              placeholder={intl.formatMessage({
-                id: 'pages.login.code',
-              })}
-              value={phoneCode}
-              onChange={(e) => {
-                setPhoneCode(e.target.value)
-              }}
-              size="large"
-              prefix={<SecurityScanOutlined className={styles.prefixIcon} />}
-            />
-          </Col>
-        </Row>
-      </Modal>
+        handleSubmit={handleOk}
+      />
 
+      {/* 首次登录修改密码 */}
       <Modal
         title={intl.formatMessage({
           id: 'pages.login.editPass',
