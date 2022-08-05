@@ -11,6 +11,8 @@ export type comuploadProps = {
   limit?: number
   isDetail?: boolean
   multiple?: boolean
+  urlStr?: string
+  infoData?: any // cardSide  front正面 back反面
 }
 
 const ImageUpload: React.FC<comuploadProps> = ({
@@ -19,6 +21,8 @@ const ImageUpload: React.FC<comuploadProps> = ({
   onChange,
   isDetail = false,
   multiple = true,
+  urlStr,
+  infoData,
 }) => {
   const [files, setFiles] = useState<any[]>([])
   const [previewVisible, setPreviewVisible] = useState<boolean>(false)
@@ -37,7 +41,7 @@ const ImageUpload: React.FC<comuploadProps> = ({
   //     reader.onerror = (error) => reject(error)
   //   })
   // }
-  const action = `${URL_PREFIX}/file/upload`
+  const action = `${URL_PREFIX}${urlStr ? urlStr : '/file/upload'}`
 
   useEffect(() => {
     // 展示传入的文件数据
@@ -168,6 +172,7 @@ const ImageUpload: React.FC<comuploadProps> = ({
         multiple={multiple}
         onChange={changeFile}
         fileList={files}
+        data={infoData}
         accept="image/pjpeg,image/bmp,image/jpeg,image/jpg,image/png"
         headers={{
           Authorization: Cookies.get('token'),
