@@ -134,6 +134,7 @@ const StepThree = ({}, ref: any) => {
         {/* 实控人信息 */}
         <RealPersonInfo
           info={infoData.skr}
+          form={realform}
           changeLegalFlag={setLegalFlag}
           changeRealMarital={setMaritalStatus}
         />
@@ -149,7 +150,7 @@ const StepThree = ({}, ref: any) => {
           scrollToFirstError
         >
           {/* 法人信息 */}
-          <LegalPerson info={infoData.qyfr} />
+          <LegalPerson form={form} info={infoData.qyfr} />
         </Form>
       ) : null}
       <Form
@@ -162,7 +163,7 @@ const StepThree = ({}, ref: any) => {
         scrollToFirstError
       >
         {/* 实控人配偶信息 */}
-        {maritalStatus === 'yh' && <MetalPersonInfo info={infoData.skrpo} />}
+        {maritalStatus === 'yh' && <MetalPersonInfo form={marform} info={infoData.skrpo} />}
       </Form>
       <Form
         name="basic"

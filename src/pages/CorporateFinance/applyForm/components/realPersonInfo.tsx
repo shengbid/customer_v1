@@ -11,18 +11,44 @@ import UploadImage from '@/components/ComUpload/uploadImage'
 interface reralProps {
   changeRealMarital: (value: string) => void
   changeLegalFlag: (value: string) => void
+  form: any
   info?: any
 }
 // 实控人信息
-const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital, changeLegalFlag, info }) => {
+const RealPersonInfo: React.FC<reralProps> = ({
+  changeRealMarital,
+  changeLegalFlag,
+  info,
+  form,
+}) => {
   const intl = useIntl()
-  const [idType, setIdTyp] = useState<string>('xgsfz')
+  const [idType, setIdTyp] = useState<string>('')
 
   useEffect(() => {
     if (info && info.identity) {
       setIdTyp(info.identity)
     }
   }, [info])
+
+  // 回显身份信息
+  const setIdInfo = (files: any) => {
+    if (files && files.length) {
+      const item = files[0]
+      if (idType === 'hz') {
+        form.setFieldsValue({
+          identityNumber: item.passportNumber,
+          name: item.passportName,
+          houseAddr: item.birthPlace,
+        })
+      } else {
+        form.setFieldsValue({
+          identityNumber: item.number,
+          name: item.identityName,
+          houseAddr: item.address,
+        })
+      }
+    }
+  }
 
   const gutter = 10
   return (
@@ -88,7 +114,11 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital, changeLegalFl
               },
             ]}
           >
-            <DictSelect authorword="cus_sfzlx" onChange={(val: string) => setIdTyp(val)} />
+            <DictSelect
+              allowClear={false}
+              authorword="cus_sfzlx"
+              onChange={(val: string) => setIdTyp(val)}
+            />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -114,33 +144,13 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital, changeLegalFl
         </Col>
       </Row>
 
-      <Row gutter={gutter}>
-        <Col span={12}>
-          <Form.Item
-            name="idFront"
-            label={intl.formatMessage({
-              id: 'credit.apply.idFront',
-            })}
-            rules={[
-              {
-                required: true,
-                message: `${intl.formatMessage({
-                  id: 'pages.form.upload',
-                })}${intl.formatMessage({
-                  id: 'credit.apply.idFront',
-                })}`,
-              },
-            ]}
-          >
-            <UploadImage limit={1} />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          {idType !== 'hz' && (
+      {idType ? (
+        <Row gutter={gutter}>
+          <Col span={12}>
             <Form.Item
-              name="idReverse"
+              name="idFront"
               label={intl.formatMessage({
-                id: 'credit.apply.idReverse',
+                id: 'credit.apply.idFront',
               })}
               rules={[
                 {
@@ -148,16 +158,43 @@ const RealPersonInfo: React.FC<reralProps> = ({ changeRealMarital, changeLegalFl
                   message: `${intl.formatMessage({
                     id: 'pages.form.upload',
                   })}${intl.formatMessage({
-                    id: 'credit.apply.idReverse',
+                    id: 'credit.apply.idFront',
                   })}`,
                 },
               ]}
             >
-              <UploadImage limit={1} />
+              <UploadImage
+                urlStr={idType !== 'hz' ? '/file/upload/identity' : '/file/upload/passport'}
+                limit={1}
+                infoData={{ cardSide: 'front' }}
+                onChange={setIdInfo}
+              />
             </Form.Item>
-          )}
-        </Col>
-      </Row>
+          </Col>
+          <Col span={12}>
+            {idType !== 'hz' && (
+              <Form.Item
+                name="idReverse"
+                label={intl.formatMessage({
+                  id: 'credit.apply.idReverse',
+                })}
+                rules={[
+                  {
+                    required: true,
+                    message: `${intl.formatMessage({
+                      id: 'pages.form.upload',
+                    })}${intl.formatMessage({
+                      id: 'credit.apply.idReverse',
+                    })}`,
+                  },
+                ]}
+              >
+                <UploadImage limit={1} />
+              </Form.Item>
+            )}
+          </Col>
+        </Row>
+      ) : null}
 
       <Row gutter={gutter}>
         <Col span={12}>
