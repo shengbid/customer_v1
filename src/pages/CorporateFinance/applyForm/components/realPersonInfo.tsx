@@ -38,13 +38,13 @@ const RealPersonInfo: React.FC<reralProps> = ({
         form.setFieldsValue({
           identityNumber: item.passportNumber,
           name: item.passportName,
-          houseAddr: item.birthPlace,
+          // houseAddr: item.birthPlace,
         })
       } else {
         form.setFieldsValue({
           identityNumber: item.number,
           name: item.identityName,
-          houseAddr: item.address,
+          // houseAddr: item.address,
         })
       }
     }
