@@ -132,6 +132,7 @@ const ApplyForm: React.FC = () => {
       window.scrollTo(100, 600)
       return
     }
+
     try {
       await realform.validateFields()
     } catch (error) {

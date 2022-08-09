@@ -13,8 +13,8 @@ const LegalPerson: React.FC<{ form: any; info?: any }> = ({ form, info = {} }) =
   const [idType, setIdTyp] = useState<string>('')
 
   useEffect(() => {
-    if (info && info.identity) {
-      setIdTyp(info.identity)
+    if (info && info.identityType) {
+      setIdTyp(info.identityType)
     }
   }, [info])
 
