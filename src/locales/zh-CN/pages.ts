@@ -69,5 +69,5 @@ export default {
   'pages.login.newPass': '新密码',
   'pages.login.confirmPass': '确认密码',
   'pages.login.confirmPasstip': '确认密码与新密码不一致',
-  'pages.login.editPassSuccess': '修改成功,请重新登录',
+  'pages.login.editPassSuccess': '修改成功',
 }

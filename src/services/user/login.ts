@@ -44,7 +44,7 @@ export async function queryUserCenter(data?: userProps) {
 
 /** 修改密码 */
 export async function updatePassWord(data: { oldPassword: string; newPassword: string }) {
-  return request('/cus/user/resetPwd', {
+  return request('/auth/cus/resetPwd', {
     method: 'put',
     data,
   })

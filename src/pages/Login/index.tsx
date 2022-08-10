@@ -132,11 +132,11 @@ const Login: React.FC = () => {
     }
   }
 
-  // 修改密码
+  // 首次登录修改密码
   const handlePass = async (values: any) => {
     setConfirmLoading(true)
     try {
-      await updatePassWord({
+      const { data } = await updatePassWord({
         userName: type === 'phone' ? form.getFieldValue('phone') : form.getFieldValue('username'),
         // oldPassword: form.getFieldValue('password'),
         ...values,
@@ -146,9 +146,23 @@ const Login: React.FC = () => {
           id: 'pages.login.editPassSuccess',
         }),
       )
+      if (data.access_token) {
+        Cookies.set('token', data.access_token)
+      }
       setConfirmLoading(false)
       setPassModalVisible(false)
       passform.resetFields()
+      await fetchUserInfo()
+      /** 此方法会跳转到 redirect 参数所在的位置 */
+      if (!history) return
+      const { query } = history.location
+      const { redirect } = query as { redirect: string }
+      const applyRoute: any[] = ['/finance/create/form'] // 申请页面退出,重新登录,到首页
+      if (redirect && !applyRoute.includes(redirect)) {
+        history.push(redirect)
+      } else {
+        history.push('/welcome')
+      }
     } catch (error) {
       setConfirmLoading(false)
     }
