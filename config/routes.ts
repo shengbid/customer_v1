@@ -6,18 +6,6 @@
     component: './Login',
   },
   {
-    layout: false,
-    name: 'login',
-    path: '/sign',
-    component: './Docusign',
-  },
-  {
-    layout: false,
-    name: 'login',
-    path: '/complete',
-    component: './Docusign/complete',
-  },
-  {
     path: '/',
     component: '../layouts/baseLayout',
     menu: {
