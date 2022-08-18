@@ -146,7 +146,21 @@ export const numToThousandReg = (value: number | string, unit: string = '') => {
   }
   return ''
 }
+// 金额千分位整数展示正则
+export const numIntegerToThousandReg = (value: number | string, unit: string = '') => {
+  if (value || value === 0) {
+    let amount = `${value}`.match(/\d{0,5}/)[0]
+    if (value < 0) {
+      amount = `${-value}`.match(/\d{0,5}/)[0]
+    }
 
+    if (value < 0) {
+      return `-${amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
+    return `${unit}${amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+  return ''
+}
 // 金额千分位转数字展示正则
 export const thousandToNumReg = (value: string) => {
   return value.replace(/\￥\s?|(,*)/g, '')
