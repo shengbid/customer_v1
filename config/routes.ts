@@ -142,6 +142,18 @@
             // access: 'hasMenu',
             component: './CorporateFinance/applyForm',
           },
+          {
+            path: '/finance/apply',
+            name: '融资申请',
+            access: 'hasMenu',
+            component: './CorporateFinance/applications',
+          },
+          {
+            path: '/finance/apply/form',
+            name: '融资申请',
+            // access: 'hasMenu',
+            component: './CorporateFinance/applications/applyForm',
+          },
         ],
       },
       {
