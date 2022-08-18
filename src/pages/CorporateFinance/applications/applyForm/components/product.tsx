@@ -6,8 +6,12 @@ import RequiredLabel from '@/components/RequiredLabel'
 import IntergerInput from '@/components/Input/integerInput'
 import PointInput from '@/components/Input/InputNumber'
 import DictSelect from '@/components/ComSelect'
+import ComUpload from '@/components/ComUpload'
 
-const Product = ({}, ref: any) => {
+interface detailProps {
+  type: string
+}
+const Product = ({ type }: detailProps, ref: any) => {
   const [dataSource, setDataSource] = useState<any[]>([{ id: 1 }])
   const [editableKeys, setEditableRowKeys] = useState<any[]>([1])
 
@@ -202,7 +206,8 @@ const Product = ({}, ref: any) => {
         columns={columns}
         value={dataSource}
         scroll={{
-          x: 1350,
+          x: 1400,
+          y: 600,
         }}
         onChange={setDataSource}
         editable={{
@@ -217,50 +222,133 @@ const Product = ({}, ref: any) => {
       />
 
       <Form name="basic" form={form} autoComplete="off" layout="vertical">
-        <Row gutter={24}>
-          <Col span={8}>
-            <Form.Item
-              label="运输方式"
-              name="warehouseName"
-              rules={[
-                {
-                  required: true,
-                  message: `请选择运输方式`,
-                },
-              ]}
-            >
-              <DictSelect authorword="warehouse_type" />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              label="交货地点"
-              name="warehouseType"
-              rules={[
-                {
-                  required: true,
-                  message: `请选择交货地点`,
-                },
-              ]}
-            >
-              <DictSelect authorword="warehouse_type" />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              label="预计交货时间"
-              name="time"
-              rules={[
-                {
-                  required: true,
-                  message: `请选择预计交货时间`,
-                },
-              ]}
-            >
-              <DatePicker style={{ width: '100%' }} />
-            </Form.Item>
-          </Col>
-        </Row>
+        {type === '3' ? (
+          <>
+            <Row gutter={24}>
+              <Col span={8}>
+                <Form.Item
+                  label="交货地点"
+                  name="warehouseName"
+                  rules={[
+                    {
+                      required: true,
+                      message: `请选择交货地点`,
+                    },
+                  ]}
+                >
+                  <DictSelect authorword="warehouse_type" />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label="购买链路信息"
+                  name="warehouseName"
+                  rules={[
+                    {
+                      required: true,
+                      message: `请上传购买链路信息文件`,
+                    },
+                  ]}
+                >
+                  <ComUpload limit={100} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label="物流信息"
+                  name="warehouseName"
+                  rules={[
+                    {
+                      required: true,
+                      message: `请上传物流信息文件`,
+                    },
+                  ]}
+                >
+                  <ComUpload limit={100} />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col span={8}>
+                <Form.Item
+                  label="仓储资料"
+                  name="warehouseName"
+                  rules={[
+                    {
+                      required: true,
+                      message: `请上传仓储资料`,
+                    },
+                  ]}
+                >
+                  <ComUpload limit={100} />
+                </Form.Item>
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <Row gutter={24}>
+            <Col span={8}>
+              <Form.Item
+                label="运输方式"
+                name="warehouseName"
+                rules={[
+                  {
+                    required: true,
+                    message: `请选择运输方式`,
+                  },
+                ]}
+              >
+                <DictSelect authorword="warehouse_type" />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                label="交货地点"
+                name="warehouseType"
+                rules={[
+                  {
+                    required: true,
+                    message: `请选择交货地点`,
+                  },
+                ]}
+              >
+                <DictSelect authorword="warehouse_type" />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                label="预计交货时间"
+                name="time"
+                rules={[
+                  {
+                    required: true,
+                    message: `请选择预计交货时间`,
+                  },
+                ]}
+              >
+                <DatePicker style={{ width: '100%' }} />
+              </Form.Item>
+            </Col>
+          </Row>
+        )}
+        {type === '2' ? (
+          <Row gutter={24}>
+            <Col span={8}>
+              <Form.Item
+                label="购买链路信息"
+                name="warehouseName"
+                rules={[
+                  {
+                    required: true,
+                    message: `请选择运输方式`,
+                  },
+                ]}
+              >
+                <ComUpload limit={100} />
+              </Form.Item>
+            </Col>
+          </Row>
+        ) : null}
       </Form>
     </ComCard>
   )

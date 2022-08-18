@@ -1,13 +1,16 @@
 import { Button } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './index.less'
 import { formatAmount } from '@/utils/base'
 import { history } from 'umi'
+import FinanceType from './components/financeType'
 
 const Applications: React.FC = () => {
+  const [financeVisible, setFinanceVisible] = useState<boolean>(false)
+
   const productList = [
     {
-      key: 1,
+      key: 4,
       name: '池融易可用额度(美元)',
       amount: 200000,
       creditAmount: 10000,
@@ -23,7 +26,7 @@ const Applications: React.FC = () => {
       usedAmount: 100000,
     },
     {
-      key: 3,
+      key: 1,
       name: '代理采购可用额度(美元)',
       amount: 200000,
       creditAmount: 10000,
@@ -33,14 +36,29 @@ const Applications: React.FC = () => {
 
   // 跳转申请页面
   const toApply = (key: number) => {
-    if (key === 3) {
+    if (key === 1) {
       history.push({
         pathname: '/finance/apply/form',
         query: {
-          key: String(key),
+          type: String(key),
         },
       })
     }
+    if (key === 2) {
+      setFinanceVisible(true)
+    }
+  }
+
+  const handleApply = (key?: number) => {
+    if (key) {
+      history.push({
+        pathname: '/finance/apply/form',
+        query: {
+          type: String(key),
+        },
+      })
+    }
+    setFinanceVisible(false)
   }
 
   return (
@@ -75,6 +93,9 @@ const Applications: React.FC = () => {
           </div>
         </div>
       ))}
+
+      {/* 选择质押类型 */}
+      <FinanceType modalVisible={financeVisible} handleCancel={handleApply} />
     </div>
   )
 }
