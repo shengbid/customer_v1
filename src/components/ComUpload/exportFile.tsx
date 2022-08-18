@@ -11,7 +11,6 @@ export interface exportProps {
   url: string
   authorword: string // 权限字符
   icon?: boolean
-  all?: boolean
   params?: any
   exportText?: string
 }
@@ -20,7 +19,6 @@ export interface exportProps {
 const ExportFile: React.FC<exportProps> = ({
   title,
   url,
-  all = false,
   authorword,
   icon = true,
   exportText,
@@ -32,7 +30,7 @@ const ExportFile: React.FC<exportProps> = ({
   // 下载模板
   const download = async () => {
     setLoading(true)
-    const res = icon ? await exportFile(url, params, all) : await downloadFile(url)
+    const res = icon ? await exportFile(url, params) : await downloadFile(url)
     setLoading(false)
     if (res && res.size) {
       if (res.type === 'application/json') {

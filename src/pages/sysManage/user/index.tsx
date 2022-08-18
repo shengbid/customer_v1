@@ -249,7 +249,7 @@ const UserManage: React.FC = () => {
           //   title={intl.formatMessage({
           //     id: 'sys.user.user',
           //   })}
-          //   url="user"
+          //   url="/system/user/export"
           // />,
           // <MenuMultiDelButton
           //   authorword="system:user:remove"
