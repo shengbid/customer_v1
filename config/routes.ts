@@ -145,6 +145,54 @@
         ],
       },
       {
+        path: '/repayment',
+        name: '还款管理',
+        access: 'hasMenu',
+        icon: 'DesktopOutlined',
+        routes: [
+          {
+            path: '/repayment',
+            redirect: '/repayment/create',
+          },
+          {
+            path: '/repayment/create',
+            name: '还款管理',
+            access: 'hasMenu',
+            component: './repaymentManage/repayment',
+          },
+          {
+            path: '/repayment/create/form',
+            name: '还款管理申请',
+            // access: 'hasMenu',
+            component: './repaymentManage/repayment/applyForm',
+          },
+        ],
+      },
+      {
+        path: '/assets',
+        name: '资产管理',
+        access: 'hasMenu',
+        icon: 'DesktopOutlined',
+        routes: [
+          {
+            path: '/assets',
+            redirect: '/assets/create',
+          },
+          {
+            path: '/assets/create',
+            name: '库存质押管理',
+            access: 'hasMenu',
+            component: './assetsManage/inventoryManage',
+          },
+          {
+            path: '/assets/create/form',
+            name: '库存质押申请',
+            // access: 'hasMenu',
+            component: './assetsManage/inventoryManage/applyForm',
+          },
+        ],
+      },
+      {
         path: '/personal/center',
         name: '个人中心',
         icon: 'UserOutlined',
