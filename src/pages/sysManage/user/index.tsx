@@ -237,7 +237,7 @@ const UserManage: React.FC = () => {
           // <ImportFile
           //   authorword="system:user:import"
           //   key="import"
-          //   url="user"
+          //   url="/system/user/importTemplate"
           //   title={intl.formatMessage({
           //     id: 'sys.user.user',
           //   })}
