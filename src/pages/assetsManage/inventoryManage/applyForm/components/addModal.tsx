@@ -151,37 +151,6 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
           <Row gutter={24}>
             <Col span={12}>
               <Form.Item
-                label="最近采购价"
-                name="purchasePrice"
-                rules={[
-                  {
-                    required: true,
-                    message: `请输入最近采购价`,
-                  },
-                ]}
-              >
-                <PointInput addonAfter={'美元'} />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label="商品单位"
-                name="warrantyMonth"
-                rules={[
-                  {
-                    required: true,
-                    message: `请输入商品单位`,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row gutter={24}>
-            <Col span={12}>
-              <Form.Item
                 label="商品企业编码"
                 name="goodBrand"
                 rules={[
@@ -213,11 +182,42 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
           <Row gutter={24}>
             <Col span={12}>
               <Form.Item
+                label="最近采购价"
+                name="purchasePrice"
+                rules={[
+                  {
+                    required: false,
+                    message: `请输入最近采购价`,
+                  },
+                ]}
+              >
+                <PointInput addonAfter={'美元'} />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label="商品单位"
+                name="warrantyMonth"
+                rules={[
+                  {
+                    required: false,
+                    message: `请输入商品单位`,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item
                 label="商品SKU NO"
                 name="goodSku"
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: `请输入商品SKU NO`,
                   },
                 ]}
@@ -264,7 +264,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                 name="goodBrand"
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: `请输入商品品牌`,
                   },
                 ]}
