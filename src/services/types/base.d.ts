@@ -5,7 +5,7 @@ export interface pageLimitProps {
 
 export interface addModalProps {
   modalVisible: boolean
-  handleSubmit: () => void
+  handleSubmit: (val?: any) => void
   handleCancel: () => void
   info?: any
 }

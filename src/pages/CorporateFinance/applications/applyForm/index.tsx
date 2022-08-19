@@ -8,6 +8,7 @@ import Finance from './components/finance'
 import styles from './index.less'
 import { useIntl, history } from 'umi'
 import DictSelect from '@/components/ComSelect'
+import CardTilte from '@/components/ComPage/ComTiltle'
 
 const ApplyForm: React.FC = (props: any) => {
   const [dataSource, setDataSource] = useState<any[]>([{ id: 1 }])
@@ -84,9 +85,8 @@ const ApplyForm: React.FC = (props: any) => {
 
   return (
     <div className={styles.box}>
-      <div className={styles.header}>
-        <div className={styles.title}>{title}</div>
-      </div>
+      <CardTilte title={title} />
+
       {/* 采购信息 */}
       <Product type={type} ref={productRef} />
 
