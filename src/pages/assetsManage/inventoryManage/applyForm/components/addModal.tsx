@@ -57,20 +57,20 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
 
           <Row gutter={24}>
             <Col span={12}>
-              <Col span={12}>
-                <Form.Item
-                  label="商品条码"
-                  name="barCode"
-                  rules={[
-                    {
-                      required: true,
-                      message: `请输入商品条码`,
-                    },
-                  ]}
-                >
-                  <Input maxLength={150} />
-                </Form.Item>
-              </Col>
+              <Form.Item
+                label="商品条码"
+                name="barCode"
+                rules={[
+                  {
+                    required: true,
+                    message: `请输入商品条码`,
+                  },
+                ]}
+              >
+                <Input maxLength={150} />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
               <Form.Item
                 label="商品名称"
                 name="goodName"
@@ -160,7 +160,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                   },
                 ]}
               >
-                <Input placeholder="请输入企业对商品的唯一编码" maxLength={150} />
+                <Input placeholder="请输入企业内部对商品的唯一编码" maxLength={150} />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -205,7 +205,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
                   },
                 ]}
               >
-                <Input />
+                <Input placeholder="请输入商品单位, 例如: 个" maxLength={10} />
               </Form.Item>
             </Col>
           </Row>

@@ -20,7 +20,7 @@ export default {
   'pages.btn.confirm': '确定',
   'pages.btn.cancel': '取消',
   'pages.btn.export': '导出',
-  'pages.btn.import': '导入',
+  'pages.btn.import': '批量导入',
   'pages.btn.down': '下载模板',
   'pages.btn.upload': '上传',
   'pages.btn.back': '返回',

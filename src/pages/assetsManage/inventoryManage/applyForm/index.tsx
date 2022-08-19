@@ -10,6 +10,7 @@ import AddModal from './components/addModal'
 import { useIntl } from 'umi'
 import type { ProColumns } from '@ant-design/pro-table'
 import type { productListProps } from '@/services/types'
+import ComUpload from '@/components/ComUpload'
 
 const { Link } = Typography
 
@@ -19,7 +20,7 @@ const ApplyForm: React.FC = (props: any) => {
   const [importVisible, setImportVisible] = useState<boolean>(false)
   const [tableData, setTableData] = useState<any[]>([])
   const [info, setInfo] = useState<any>()
-  const { id } = props.location.query
+  const { id, status } = props.location.query
 
   const intl = useIntl()
 
@@ -30,25 +31,32 @@ const ApplyForm: React.FC = (props: any) => {
       dataIndex: 'goodName',
     },
     {
-      title: '品牌名称',
-      key: 'goodBrand',
-      dataIndex: 'goodBrand',
-    },
-    {
-      title: '商品条码',
+      title: '条形码',
       key: 'barCode',
       dataIndex: 'barCode',
     },
     {
-      title: '最近采购价(美元)',
-      key: 'purchasePrice',
-      dataIndex: 'purchasePrice',
-      valueType: 'digit',
-      width: 127,
+      title: '有效期',
+      key: 'warrantyMonth',
+      dataIndex: 'warrantyMonth',
+      width: 110,
       hideInSearch: true,
     },
     {
-      title: '公允价(美元)',
+      title: '批次号',
+      key: 'barCode',
+      dataIndex: 'barCode',
+    },
+    {
+      title: '正常数量',
+      key: 'purchasePrice',
+      dataIndex: 'purchasePrice',
+      valueType: 'digit',
+      width: 110,
+      hideInSearch: true,
+    },
+    {
+      title: '残次品数量',
       key: 'fairPrice',
       dataIndex: 'fairPrice',
       valueType: 'digit',
@@ -56,11 +64,21 @@ const ApplyForm: React.FC = (props: any) => {
       hideInSearch: true,
     },
     {
-      title: '保质期(月)',
-      key: 'warrantyMonth',
-      dataIndex: 'warrantyMonth',
-      width: 90,
-      hideInSearch: true,
+      title: '入库总数',
+      key: 'fairPrice',
+      dataIndex: 'fairPrice',
+      valueType: 'digit',
+      width: 110,
+    },
+    {
+      title: '料号',
+      key: 'barCode',
+      dataIndex: 'barCode',
+    },
+    {
+      title: '单位',
+      key: 'unit',
+      dataIndex: 'unit',
     },
     {
       title: intl.formatMessage({
@@ -78,6 +96,62 @@ const ApplyForm: React.FC = (props: any) => {
           }}
         >
           编辑
+        </Link>,
+        <Link
+          key="edit"
+          onClick={() => {
+            setDataSource(dataSource.filter((item: any) => item.barCode !== recored.barCode))
+          }}
+        >
+          删除
+        </Link>,
+      ],
+    },
+  ]
+
+  const columns2: ProColumns<any>[] = [
+    {
+      title: '文件类型',
+      key: 'goodName',
+      dataIndex: 'goodName',
+    },
+    {
+      title: '附件',
+      key: 'barCode',
+      dataIndex: 'barCode',
+      width: '40%',
+      ellipsis: true,
+      render: (_, recored: any) => (recored.files ? <ComUpload limit={1} /> : <>-</>),
+    },
+    {
+      title: '上传时间',
+      key: 'warrantyMonth',
+      dataIndex: 'warrantyMonth',
+    },
+    {
+      title: intl.formatMessage({
+        id: 'pages.table.option',
+      }),
+      width: 100,
+      key: 'option',
+      valueType: 'option',
+      render: (_, recored) => [
+        <Link
+          key="edit"
+          onClick={() => {
+            setModalVisible(true)
+            setInfo(recored)
+          }}
+        >
+          编辑
+        </Link>,
+        <Link
+          key="edit"
+          onClick={() => {
+            setDataSource(dataSource.filter((item: any) => item.barCode !== recored.barCode))
+          }}
+        >
+          删除
         </Link>,
       ],
     },
@@ -112,27 +186,36 @@ const ApplyForm: React.FC = (props: any) => {
       <ComCard
         title="本次入仓商品信息"
         extra={
-          <>
-            <Button
-              onClick={() => {
-                setModalVisible(true)
-              }}
-            >
-              新增商品
-            </Button>
-            <ImportFile
-              authorword="system:user:import"
-              key="import"
-              actionUrl="/system/goodManage/importData"
-              downUrl="/system/goodManage/importTemplate"
-              title={'商品列表'}
-              handleSuccess={handleSuccess}
-            />
-          </>
+          status === '1' ? (
+            <>
+              <Button
+                style={{ marginRight: 12 }}
+                type="primary"
+                onClick={() => {
+                  setModalVisible(true)
+                }}
+              >
+                新增商品
+              </Button>
+              <ImportFile
+                authorword="system:user:import"
+                key="import"
+                actionUrl="/system/goodManage/importData"
+                downUrl="/system/goodManage/importTemplate"
+                title={'商品列表'}
+                handleSuccess={handleSuccess}
+              />
+            </>
+          ) : null
         }
       >
-        <SimpleProtable columns={columns} dataSource={dataSource} scroll={{ x: 1300 }} />
+        <SimpleProtable columns={columns} dataSource={dataSource} scroll={{ x: 1200 }} />
       </ComCard>
+
+      <ComCard title="理货报告及附件">
+        <SimpleProtable columns={columns2} dataSource={dataSource} />
+      </ComCard>
+
       {/* 新增编辑商品 */}
       <AddModal
         modalVisible={modalVisible}
