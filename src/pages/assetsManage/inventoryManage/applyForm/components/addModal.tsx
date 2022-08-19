@@ -151,7 +151,7 @@ const AddModal: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handleC
           <Row gutter={24}>
             <Col span={12}>
               <Form.Item
-                label="商品企业编码"
+                label="商品编码"
                 name="goodBrand"
                 rules={[
                   {
