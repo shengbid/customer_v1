@@ -2,6 +2,7 @@ import { useImperativeHandle, forwardRef, useState, useEffect } from 'react'
 import ComCard from '@/components/ComPage/ComCard'
 import PointInput from '@/components/Input/InputNumber'
 import { Form, Row, Col } from 'antd'
+import { formatAmount } from '@/utils/base'
 
 const Finance = ({}, ref: any) => {
   const [infoData, setInfoData] = useState<any>({})
@@ -47,8 +48,8 @@ const Finance = ({}, ref: any) => {
             </Form.Item>
           </Col>
           <Col span={8}>
-            <Form.Item label="委托方应付保证金(美元)" name="time">
-              <span>{infoData.amount}</span>
+            <Form.Item label="委托方应付保证金" name="time">
+              <span>{formatAmount(infoData.amount)}</span>
             </Form.Item>
           </Col>
         </Row>

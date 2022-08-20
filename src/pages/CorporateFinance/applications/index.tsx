@@ -11,7 +11,7 @@ const Applications: React.FC = () => {
   const productList = [
     {
       key: 4,
-      name: '池融易可用额度(美元)',
+      name: '池融易可用额',
       amount: 200000,
       creditAmount: 10000,
       usedAmount: 100000,
@@ -20,14 +20,14 @@ const Applications: React.FC = () => {
     },
     {
       key: 2,
-      name: 'B2B质押可用额度(美元)',
+      name: 'B2B质押可用额度',
       amount: 300000,
       creditAmount: 20000,
       usedAmount: 100000,
     },
     {
       key: 1,
-      name: '代理采购可用额度(美元)',
+      name: '代理采购可用额度',
       amount: 200000,
       creditAmount: 10000,
       usedAmount: 100000,

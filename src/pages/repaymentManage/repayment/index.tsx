@@ -5,6 +5,7 @@ import { getDictList } from '@/services'
 import { Typography } from 'antd'
 import { history } from 'umi'
 import DictSelect from '@/components/ComSelect'
+import { formatAmount } from '@/utils/base'
 
 const { Link } = Typography
 
@@ -20,22 +21,25 @@ const Repayment: React.FC = () => {
       width: '13%',
     },
     {
-      title: '偿还代垫资金(美元)',
+      title: '偿还代垫资金',
       dataIndex: 'processNo',
       width: '13%',
       hideInSearch: true,
+      render: (val) => formatAmount(val),
     },
     {
-      title: '偿还费用(美元)',
+      title: '偿还费用',
       dataIndex: 'processNo',
       width: '13%',
       hideInSearch: true,
+      render: (val) => formatAmount(val),
     },
     {
-      title: '还款总额(美元)',
+      title: '还款总额',
       dataIndex: 'processNo',
       width: '13%',
       hideInSearch: true,
+      render: (val) => formatAmount(val),
     },
     {
       title: '还款日期',

@@ -112,7 +112,7 @@ const Product = ({ type }: detailProps, ref: any) => {
       },
     },
     {
-      title: <RequiredLabel label="单价(美元)" />,
+      title: <RequiredLabel label="单价" />,
       dataIndex: 'price',
       width: '8%',
       formItemProps: {
@@ -123,7 +123,7 @@ const Product = ({ type }: detailProps, ref: any) => {
           },
         ],
       },
-      renderFormItem: () => <PointInput />,
+      renderFormItem: () => <PointInput addonBefore="$" />,
     },
     {
       title: <RequiredLabel label="数量" />,
@@ -140,7 +140,7 @@ const Product = ({ type }: detailProps, ref: any) => {
       renderFormItem: () => <IntergerInput />,
     },
     {
-      title: <RequiredLabel label="采购金额(美元)" />,
+      title: <RequiredLabel label="采购金额" />,
       dataIndex: 'price',
       width: '8%',
       formItemProps: {
@@ -151,7 +151,7 @@ const Product = ({ type }: detailProps, ref: any) => {
           },
         ],
       },
-      renderFormItem: () => <PointInput />,
+      renderFormItem: () => <PointInput addonBefore="$" />,
     },
     {
       title: <RequiredLabel label="保证金比例" />,
@@ -168,7 +168,7 @@ const Product = ({ type }: detailProps, ref: any) => {
       renderFormItem: () => <PointInput max={100} />,
     },
     {
-      title: <RequiredLabel label="委托方应付保证金(美元)" />,
+      title: <RequiredLabel label="委托方应付保证金" />,
       dataIndex: 'price',
       width: '8%',
       formItemProps: {
@@ -179,10 +179,10 @@ const Product = ({ type }: detailProps, ref: any) => {
           },
         ],
       },
-      renderFormItem: () => <PointInput />,
+      renderFormItem: () => <PointInput addonBefore="$" />,
     },
     {
-      title: <RequiredLabel label="受托方垫付金额(美元)" />,
+      title: <RequiredLabel label="受托方垫付金额" />,
       dataIndex: 'price',
       width: '8%',
       formItemProps: {
@@ -193,7 +193,7 @@ const Product = ({ type }: detailProps, ref: any) => {
           },
         ],
       },
-      renderFormItem: () => <PointInput />,
+      renderFormItem: () => <PointInput addonBefore="$" />,
     },
   ]
 

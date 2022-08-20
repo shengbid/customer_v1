@@ -56,7 +56,7 @@ export const formatPercent = (val: any) => {
 }
 
 // 金额千分位展示,保留两位小数
-export function formatAmount(val: any, type = false) {
+export function formatAmount(val: any, type = false, unit = '$') {
   if (val === '' || val === '-' || val === undefined || isNaN(val)) {
     return '-'
   }
@@ -96,9 +96,9 @@ export function formatAmount(val: any, type = false) {
   if (type && !dotVal) dotVal = '.00'
 
   if (val < 0) {
-    return `-${arr.join(',')}${dotVal}`
+    return `-${unit}${arr.join(',')}${dotVal}`
   }
-  return arr.join(',') + dotVal
+  return unit + arr.join(',') + dotVal
 }
 
 export interface setProductElementParam {
