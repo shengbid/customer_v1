@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Row, Col, Button } from 'antd'
 import styles from './index.less'
 import { useIntl, history } from 'umi'
-import Processing from '../applyForm/results/processing'
-import Reject from '../applyForm/results/reject'
-import Success from '../applyForm/results/success'
+import Processing from './applyForm/results/processing'
+import Reject from './applyForm/results/reject'
+import Success from './applyForm/results/success'
 import { getCreditDetail } from '@/services'
 
 const CreateCredit: React.FC = () => {
