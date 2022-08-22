@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import { getDictList } from '@/services'
-import { Typography } from 'antd'
+import { Typography, Button } from 'antd'
 import { history } from 'umi'
 import DictSelect from '@/components/ComSelect'
 import { formatAmount } from '@/utils/base'
@@ -112,6 +112,15 @@ const Repayment: React.FC = () => {
     }
   }
 
+  const apply = (type: number) => {
+    history.push({
+      pathname: '/repayment/create/form',
+      query: {
+        type: String(type),
+      },
+    })
+  }
+
   return (
     <>
       <MenuProTable<any>
@@ -119,6 +128,14 @@ const Repayment: React.FC = () => {
         request={getList}
         columns={columns}
         actionRef={actionRef}
+        toolBarRender={() => [
+          <Button type="primary" key="order" onClick={() => apply(1)}>
+            选择融资订单还款
+          </Button>,
+          <Button type="primary" key="cargo" onClick={() => apply(2)}>
+            选择货物还款
+          </Button>,
+        ]}
       />
     </>
   )
