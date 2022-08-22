@@ -128,7 +128,7 @@
             path: '/finance/create/form',
             name: '授信申请',
             // access: 'hasMenu',
-            component: './CorporateFinance/applyForm',
+            component: './CorporateFinance/createCredit/applyForm',
           },
           {
             path: '/finance/apply',
@@ -141,6 +141,12 @@
             name: '融资申请',
             // access: 'hasMenu',
             component: './CorporateFinance/applications/applyForm',
+          },
+          {
+            path: '/finance/process',
+            name: '融资进度查询',
+            access: 'hasMenu',
+            component: './CorporateFinance/financeProcess',
           },
         ],
       },
@@ -165,6 +171,12 @@
             name: '还款管理申请',
             // access: 'hasMenu',
             component: './repaymentManage/repayment/applyForm',
+          },
+          {
+            path: '/repayment/myFinance',
+            name: '我的融资',
+            access: 'hasMenu',
+            component: './repaymentManage/myFinance',
           },
         ],
       },
@@ -191,6 +203,13 @@
             component: './assetsManage/inventoryManage/applyForm',
           },
         ],
+      },
+      {
+        path: '/contract/agreement',
+        name: '合同协议管理',
+        access: 'hasMenu',
+        icon: 'DesktopOutlined',
+        component: './contractManage/agreement',
       },
       {
         path: '/personal/center',

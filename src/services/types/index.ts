@@ -7,3 +7,4 @@ export * from './process'
 export * from './credit'
 
 export * from './assetsmanage/product' //资产管理 入库质押
+export * from './contract/contract' //合同协议管理

@@ -17,3 +17,4 @@ export * from './docusin/index' // docusign
 export * from './sys/process' // 流程管理
 
 export * from './credit/apply' // 授信申请
+export * from './contract' // 合同协议管理
