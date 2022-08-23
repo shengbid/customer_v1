@@ -148,6 +148,12 @@
             access: 'hasMenu',
             component: './CorporateFinance/financeProcess',
           },
+          {
+            path: '/finance/myFinance',
+            name: '我的融资',
+            access: 'hasMenu',
+            component: './CorporateFinance/myFinance',
+          },
         ],
       },
       {
@@ -172,12 +178,12 @@
             // access: 'hasMenu',
             component: './repaymentManage/repayment/applyForm',
           },
-          {
-            path: '/repayment/myFinance',
-            name: '我的融资',
-            access: 'hasMenu',
-            component: './repaymentManage/myFinance',
-          },
+          // {
+          //   path: '/repayment/myFinance',
+          //   name: '我的融资',
+          //   access: 'hasMenu',
+          //   component: './repaymentManage/myFinance',
+          // },
         ],
       },
       {
