@@ -6,7 +6,7 @@ const url = '/cus/agreement'
 
 /** 获取合同协议列表 */
 export async function getContractList(params: contractListParamsProps) {
-  return request<{ rows: contractListProps[]; total: number }>(`${url}/adminList`, {
+  return request<{ rows: contractListProps[]; total: number }>(`${url}/listByCus`, {
     data: paramsToPageParams(params),
     method: 'post',
   })

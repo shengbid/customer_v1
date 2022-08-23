@@ -5,7 +5,7 @@ import StepTwo from './components/stepTwo'
 import StepThree from './components/stepThree'
 import styles from './index.less'
 // import { addCreditOne, addCreditTwo, addCreditThree } from '@/services'
-// import { isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 import { useIntl, history } from 'umi'
 
 const { Step } = Steps
@@ -33,7 +33,7 @@ const ApplyForm: React.FC = () => {
         id: 'credit.stepTwo',
       }),
       content: <StepTwo info={twoInfo} ref={creditTwoRef} />,
-      description: '赎回货物数量',
+      description: '填写赎回货物数量',
     },
     {
       title: intl.formatMessage({
@@ -47,10 +47,19 @@ const ApplyForm: React.FC = () => {
   const next = async () => {
     switch (current) {
       case 0:
+        const { selectedRowKeys } = creditOneRef.current.getBusinessData()
+        // console.log(4, selectedRowKeys)
+        if (isEmpty(selectedRowKeys)) {
+          message.warning('请先选择融资订单!')
+          return
+        }
         break
       case 1:
         setBtnLoading(false)
-      // const two = creditTwoRef.current.getStepData()
+        const businessData = await creditTwoRef.current.getBusinessData()
+        if (!businessData) {
+          return
+        }
       // await two.form.validateFields()
       // const twoData = two.form.getFieldsValue()
       // setBtnLoading(true)
@@ -67,7 +76,6 @@ const ApplyForm: React.FC = () => {
       default:
         break
     }
-    // setBusinessType(['1', '2'])
     setCurrent(current + 1)
   }
 
