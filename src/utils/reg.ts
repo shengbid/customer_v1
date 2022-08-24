@@ -119,10 +119,10 @@ export const idReg = {
 }
 // 电话区号不同判断
 export const phoneCodeReg = {
-  1: phoneReg,
-  2: phoneHKReg,
-  3: phoneHKReg,
-  4: phoneKOREAReg,
+  '+86': phoneReg,
+  '+852': phoneHKReg,
+  '+853': phoneHKReg,
+  '+82': phoneKOREAReg,
 }
 
 // 金额千分位展示正则
