@@ -64,7 +64,7 @@ const ForgetPass: React.FC<addModalProps> = ({ modalVisible, handleSubmit, handl
           // labelCol={{ span: 4 }}
           // wrapperCol={{ span: 18 }}
           onFinish={handleOk}
-          initialValues={{ phoneArea: '1' }}
+          initialValues={{ phoneArea: '+86' }}
           form={form}
           autoComplete="off"
         >

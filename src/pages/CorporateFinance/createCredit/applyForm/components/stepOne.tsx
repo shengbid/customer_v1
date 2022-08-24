@@ -117,7 +117,7 @@ const StepOne = ({}, ref: any) => {
         name="basic"
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 18 }}
-        initialValues={{ phoneArea: '1', enterpriseName: currentUser?.fullName }}
+        initialValues={{ phoneArea: '+86', enterpriseName: currentUser?.fullName }}
         form={form}
         autoComplete="off"
         scrollToFirstError

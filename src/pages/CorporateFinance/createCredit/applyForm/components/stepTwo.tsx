@@ -48,7 +48,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
       name="basic"
       labelCol={{ span: 6 }}
       wrapperCol={{ span: 17 }}
-      initialValues={{ phoneArea: '1' }}
+      initialValues={{ phoneArea: '+86' }}
       form={form}
       autoComplete="off"
       scrollToFirstError

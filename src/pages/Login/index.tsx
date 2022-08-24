@@ -188,7 +188,7 @@ const Login: React.FC = () => {
           form={form}
           initialValues={{
             autoLogin: true,
-            phoneArea: '1',
+            phoneArea: '+86',
           }}
           // actions={[
           //   <span key="text">其他登录方式</span>,

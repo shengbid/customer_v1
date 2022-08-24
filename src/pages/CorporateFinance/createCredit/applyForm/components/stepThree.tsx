@@ -20,8 +20,8 @@ const StepThree = ({}, ref: any) => {
     qyfr: {},
     skr: {},
     skrpo: {},
-    zyfzr: { phoneArea: '1' },
-    cwfzr: { phoneArea: '1' },
+    zyfzr: { phoneArea: '+86' },
+    cwfzr: { phoneArea: '+86' },
   })
 
   // 获取详情
@@ -126,7 +126,7 @@ const StepThree = ({}, ref: any) => {
         name="basic"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ phoneArea: '1', identity: 'skr' }}
+        initialValues={{ phoneArea: '+86', identity: 'skr' }}
         form={realform}
         autoComplete="off"
         scrollToFirstError
@@ -144,7 +144,7 @@ const StepThree = ({}, ref: any) => {
           name="basic"
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 16 }}
-          initialValues={{ phoneArea: '1', identity: 'qyfr' }}
+          initialValues={{ phoneArea: '+86', identity: 'qyfr' }}
           form={form}
           autoComplete="off"
           scrollToFirstError
@@ -157,7 +157,7 @@ const StepThree = ({}, ref: any) => {
         name="basic"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ phoneArea: '1', identity: 'skrpo' }}
+        initialValues={{ phoneArea: '+86', identity: 'skrpo' }}
         form={marform}
         autoComplete="off"
         scrollToFirstError
@@ -169,7 +169,7 @@ const StepThree = ({}, ref: any) => {
         name="basic"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ phoneArea: '1', identity: 'zyfzr' }}
+        initialValues={{ phoneArea: '+86', identity: 'zyfzr' }}
         form={mainform}
         autoComplete="off"
         scrollToFirstError
@@ -181,7 +181,7 @@ const StepThree = ({}, ref: any) => {
         name="basic"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ phoneArea: '1', identity: 'cwfzr' }}
+        initialValues={{ phoneArea: '+86', identity: 'cwfzr' }}
         form={finaneform}
         autoComplete="off"
         scrollToFirstError

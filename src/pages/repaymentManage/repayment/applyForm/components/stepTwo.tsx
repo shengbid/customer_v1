@@ -14,7 +14,8 @@ interface infoProps {
 const StepOne = ({}: infoProps, ref: any) => {
   const [listData, setListData] = useState<any[]>([])
   const [tableForm] = Form.useForm()
-  console.log(tableForm)
+  // console.log(tableForm)
+
   useEffect(() => {
     setListData([
       {
@@ -172,7 +173,7 @@ const StepOne = ({}: infoProps, ref: any) => {
               y: 500,
             }}
             editable={{
-              // form: tableForm,
+              // form: [Form.useForm()],
               editableKeys: item.editableKeys,
               onValuesChange: (record: any, recordList: any) => {
                 console.log(1, recordList)
@@ -181,7 +182,6 @@ const StepOne = ({}: infoProps, ref: any) => {
                 setListData(arr)
               },
               onChange: (value: any) => {
-                console.log(2, value)
                 const arr = listData
                 listData[i].editableKeys = value
                 setListData(arr)

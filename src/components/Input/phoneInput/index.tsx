@@ -10,7 +10,7 @@ interface phoneProps {
   initType?: string | number
   icon?: boolean
 }
-const PhoneInput: React.FC<phoneProps> = ({ initType = '1', icon = false }) => {
+const PhoneInput: React.FC<phoneProps> = ({ initType = '+86', icon = false }) => {
   const intl = useIntl()
   const [phoneType, setPhoneType] = useState<number>(Number(initType))
 
@@ -55,7 +55,7 @@ const PhoneInput: React.FC<phoneProps> = ({ initType = '1', icon = false }) => {
               id: 'credit.apply.phone',
             })}`,
           },
-          phoneCodeReg[Number(phoneType)],
+          phoneCodeReg[phoneType],
         ]}
       >
         <Input
