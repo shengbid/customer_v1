@@ -7,16 +7,16 @@ import { useIntl } from 'umi'
 import { MobileOutlined } from '@ant-design/icons'
 
 interface phoneProps {
-  initType?: string | number
+  initType?: string
   icon?: boolean
 }
 const PhoneInput: React.FC<phoneProps> = ({ initType = '+86', icon = false }) => {
   const intl = useIntl()
-  const [phoneType, setPhoneType] = useState<number>(Number(initType))
+  const [phoneType, setPhoneType] = useState<string>(initType)
 
   useEffect(() => {
     if (initType) {
-      setPhoneType(Number(initType))
+      setPhoneType(initType)
     }
   }, [initType])
 
