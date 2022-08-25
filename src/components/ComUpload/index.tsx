@@ -22,6 +22,7 @@ export type comuploadProps = {
   limit?: number
   isDetail?: boolean
   multiple?: boolean
+  downUrl?: string
 }
 
 const ComUpload: React.FC<comuploadProps> = ({
@@ -30,6 +31,7 @@ const ComUpload: React.FC<comuploadProps> = ({
   onChange,
   isDetail = false,
   multiple = true,
+  downUrl = '/file/download/common',
 }) => {
   const [files, setFiles] = useState<any[]>([])
   // console.log(3, value)
@@ -151,7 +153,7 @@ const ComUpload: React.FC<comuploadProps> = ({
       fileUrl = `${file.response?.fileUrl}`
     }
     // window.open(`${url}`)
-    const res = await downFile({ name, fileUrl })
+    const res = await downFile(downUrl, { name, fileUrl })
     const headerName = res.response.headers.get('content-disposition')
     const fileName = decodeURI(headerName?.split('attachment;filename=')[1] || '')
     if (res.data && res.data.size) {
