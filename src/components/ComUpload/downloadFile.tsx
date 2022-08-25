@@ -1,25 +1,32 @@
 import React, { useState } from 'react'
 import { Button, notification } from 'antd'
-import { downloadTemplate } from '@/services'
+import { downFile } from '@/services'
 import { loginOut } from '@/utils/base'
 import FileSaver from 'file-saver'
 import { useIntl } from 'umi'
 
 export interface exportProps {
-  templateId: string
+  params: any
+  url?: string
   title?: string
   style?: any
+  btnTitle?: any
 }
 
 // 下载模板
-const DownloadFile: React.FC<exportProps> = ({ templateId, style }) => {
+const DownloadFile: React.FC<exportProps> = ({
+  params,
+  style,
+  url = '/file/download',
+  btnTitle,
+}) => {
   const intl = useIntl()
   const [loading, setLoading] = useState<boolean>(false)
 
   // 下载模板
   const download = async () => {
     setLoading(true)
-    const res = await downloadTemplate(templateId)
+    const res = await downFile(url, params)
     setLoading(false)
     // console.log(res)
     const file = res.response.headers.get('content-disposition')
@@ -56,7 +63,7 @@ const DownloadFile: React.FC<exportProps> = ({ templateId, style }) => {
 
   return (
     <Button type="link" style={style} loading={loading} onClick={download}>
-      {intl.formatMessage({ id: 'pages.btn.down' })}
+      {btnTitle ? btnTitle : intl.formatMessage({ id: 'pages.btn.down' })}
     </Button>
   )
 }

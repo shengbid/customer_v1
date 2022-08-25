@@ -22,20 +22,11 @@ export async function downloadFile(url: string, data?: any) {
   })
 }
 // 下载上传的文件
-export async function downFile(params: { name: string; fileUrl: string }) {
-  return request(`/file/download/common`, {
+export async function downFile(url: string, params: any) {
+  return request(url, {
     params,
     responseType: 'blob',
     getResponse: true,
-  })
-}
-// 下载模板管理上传的文件
-export async function downloadTemplate(templateId: string) {
-  return request(`/file/download`, {
-    params: { templateId },
-    responseType: 'blob',
-    getResponse: true,
-    // method: 'post',
   })
 }
 
