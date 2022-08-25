@@ -109,14 +109,15 @@ const Login: React.FC = () => {
         await fetchUserInfo()
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return
-        const { query } = history.location
-        const { redirect } = query as { redirect: string }
-        const applyRoute: any[] = ['/finance/create/form'] // 申请页面退出,重新登录,到首页
-        if (redirect && !applyRoute.includes(redirect)) {
-          history.push(redirect)
-        } else {
-          history.push('/welcome')
-        }
+        // const { query } = history.location
+        // const { redirect } = query as { redirect: string }
+        // const applyRoute: any[] = ['/finance/create/form'] // 申请页面退出,重新登录,到首页
+        // if (redirect && !applyRoute.includes(redirect)) {
+        //   history.push(redirect)
+        // } else {
+        //   history.push('/welcome')
+        // }
+        history.push('/welcome')
         return
       }
 
