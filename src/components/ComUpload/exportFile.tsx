@@ -1,28 +1,31 @@
 import React, { useState } from 'react'
 import { VerticalAlignBottomOutlined } from '@ant-design/icons'
-import { Button, notification } from 'antd'
+import { Button, notification, Typography, Spin } from 'antd'
 import { downloadFile, exportFile } from '@/services'
 import { loginOut } from '@/utils/base'
 import FileSaver from 'file-saver'
 import PermissionButton from '@/components/Permission'
 import { useIntl } from 'umi'
+const { Link } = Typography
 export interface exportProps {
   title: string
   url: string
-  authorword: string // 权限字符
+  authorword?: string // 权限字符
   icon?: boolean
   params?: any
   exportText?: string
+  tableDown?: boolean // 表格列的下载
 }
 
 // 导出模板
 const ExportFile: React.FC<exportProps> = ({
   title,
   url,
-  authorword,
+  authorword = '',
   icon = true,
   exportText,
   params,
+  tableDown = false,
 }) => {
   const intl = useIntl()
   const [loading, setLoading] = useState<boolean>(false)
@@ -30,7 +33,7 @@ const ExportFile: React.FC<exportProps> = ({
   // 下载模板
   const download = async () => {
     setLoading(true)
-    const res = icon ? await exportFile(url, params) : await downloadFile(url)
+    const res = icon ? await exportFile(url, params) : await downloadFile(url, params)
     setLoading(false)
     if (res && res.size) {
       if (res.type === 'application/json') {
@@ -56,14 +59,7 @@ const ExportFile: React.FC<exportProps> = ({
           }
         }
       } else {
-        FileSaver.saveAs(
-          res,
-          `${title}${
-            icon
-              ? intl.formatMessage({ id: 'pages.table.list' })
-              : intl.formatMessage({ id: 'pages.table.model' })
-          }`,
-        )
+        FileSaver.saveAs(res, title)
       }
       // FileSaver.saveAs(res, title)
     }
@@ -81,7 +77,13 @@ const ExportFile: React.FC<exportProps> = ({
       </PermissionButton>
     )
   }
-  return (
+  return tableDown ? (
+    <Spin spinning={loading}>
+      <Link key="down" onClick={download}>
+        下载
+      </Link>
+    </Spin>
+  ) : (
     <Button type="link" loading={loading} onClick={download}>
       {intl.formatMessage({ id: 'pages.btn.down' })}
     </Button>

@@ -14,10 +14,11 @@ export async function getAuthorRoutes() {
 }
 
 /** 下载模板 */
-export async function downloadFile(url: string) {
-  return request(`${url}`, {
+export async function downloadFile(url: string, data?: any) {
+  return request(url, {
     responseType: 'blob',
     method: 'post',
+    data,
   })
 }
 // 下载上传的文件
