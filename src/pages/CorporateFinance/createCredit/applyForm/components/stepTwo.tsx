@@ -150,7 +150,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
               position: 'absolute',
               left: 50,
             }}
-            templateId="eOIa0c2I6R0NC5MeHR3"
+            params={{ templateId: 'eOIa0c2I6R0NC5MeHR3' }}
           />
         </Form.Item>
       </ComCard>
@@ -193,7 +193,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
             </Form.Item>
             <DownloadFile
               style={{ position: 'absolute', left: 50 }}
-              templateId="JnytKoM7y8est0jDVjc"
+              params={{ templateId: 'JnytKoM7y8est0jDVjc' }}
             />
           </Form.Item>
           <Form.Item
@@ -255,7 +255,7 @@ const StepTwo = ({ type }: stepsprops, ref: any) => {
             </Form.Item>
             <DownloadFile
               style={{ position: 'absolute', left: 50 }}
-              templateId="Dn1IyZvubOpjcYpgWzY"
+              params={{ templateId: 'Dn1IyZvubOpjcYpgWzY' }}
             />
           </Form.Item>
           <Form.Item

@@ -27,7 +27,9 @@ export interface contractListProps {
   contractName: string
   contractType: string
   signStatus: number
-  signWay: string
+  signWay: number
   signTime: string
   recipientsList: any[]
+  fileUrl: string
+  fileName: string
 }
