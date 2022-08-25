@@ -4,15 +4,16 @@ import type { contractListProps, contractListParamsProps } from '@/services/type
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import { Typography, Space } from 'antd'
 // import { history } from 'umi'
-import { getContractList } from '@/services'
+import { getContractList, getDocusignSignUrl } from '@/services'
 import DictSelect from '@/components/ComSelect'
+import ExportFile from '@/components/ComUpload/exportFile'
 
 const { Link } = Typography
 // 合同协议管理列表
 const Agreement: React.FC = () => {
-  const [auditStatusData, setAuditStatusData] = useState<any>()
-  const [quatoStatusData, setQuatoStatusData] = useState<any>()
-  const [contractTypeData, setContractTypeData] = useState<any>()
+  const [auditStatusData, setAuditStatusData] = useState<any>({})
+  const [quatoStatusData, setQuatoStatusData] = useState<any>({})
+  const [contractTypeData, setContractTypeData] = useState<any>([])
   const actionRef = useRef<ActionType>()
 
   const getList = async (param: contractListParamsProps) => {
@@ -30,6 +31,11 @@ const Agreement: React.FC = () => {
   //   message.success('作废成功')
   //   actionRef.current?.reload()
   // }
+  const pathRoute = `${window.location.href}`
+  // 发起签署
+  const toSign = async (recored: any) => {
+    await getDocusignSignUrl({ contractId: recored.id, returnUrl: pathRoute })
+  }
 
   const columns: ProColumns<contractListProps>[] = [
     {
@@ -107,7 +113,7 @@ const Agreement: React.FC = () => {
       render: (_, recored) => (
         <Space wrap>
           {recored.recipientsList.map((item: any) => (
-            <span key={item.enterpriseId} style={item.signStatus === 10 ? { color: 'red' } : {}}>
+            <span key={item.enterpriseId} style={item.signStatus === 1 ? { color: 'red' } : {}}>
               {item.enterpriseName}
             </span>
           ))}
@@ -140,9 +146,12 @@ const Agreement: React.FC = () => {
       valueType: 'option',
       render: (_, recored) => [
         recored.signStatus === 200 ? (
-          <Link key="approval" onClick={() => {}}>
-            下载
-          </Link>
+          <ExportFile
+            url="/cus/agreement/downloadDoc"
+            params={{ contractId: recored.id }}
+            tableDown={true}
+            title={recored.contractName}
+          />
         ) : // <Link
         //   key="dis"
         //   onClick={cancellation}
@@ -151,7 +160,12 @@ const Agreement: React.FC = () => {
         // </Link>
         null,
         recored.signStatus === 10 ? (
-          <Link key="detail" onClick={() => {}}>
+          <Link
+            key="detail"
+            onClick={() => {
+              toSign(recored)
+            }}
+          >
             去签署
           </Link>
         ) : null,

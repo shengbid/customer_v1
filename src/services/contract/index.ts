@@ -11,3 +11,10 @@ export async function getContractList(params: contractListParamsProps) {
     method: 'post',
   })
 }
+
+/** 获取docusign签署地址 */
+export async function getDocusignSignUrl(params: { contractId: number; returnUrl: string }) {
+  return request(`/cus/agreement/createRecipientView`, {
+    params,
+  })
+}
