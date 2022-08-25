@@ -22,7 +22,7 @@ const ExportFile: React.FC<exportProps> = ({
   title,
   url,
   authorword = '',
-  icon = true,
+  icon = false,
   exportText,
   params,
   tableDown = false,
