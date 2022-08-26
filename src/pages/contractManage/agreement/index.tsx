@@ -35,7 +35,8 @@ const Agreement: React.FC = () => {
   const pathRoute = `${window.location.href}`
   // 发起签署
   const toSign = async (recored: any) => {
-    await getDocusignSignUrl({ contractId: recored.id, returnUrl: pathRoute })
+    const data = await getDocusignSignUrl({ contractId: recored.id, returnUrl: pathRoute })
+    window.location = data
   }
 
   const columns: ProColumns<contractListProps>[] = [
