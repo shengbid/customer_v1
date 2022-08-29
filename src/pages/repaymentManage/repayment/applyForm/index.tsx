@@ -14,7 +14,6 @@ const ApplyForm: React.FC = () => {
   const [current, setCurrent] = useState(0)
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
-  const creditThreeRef: MutableRefObject<any> = useRef({})
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
   const [subLoading, setSubLoading] = useState<boolean>(false)
   const intl = useIntl()
@@ -33,14 +32,14 @@ const ApplyForm: React.FC = () => {
         id: 'credit.stepTwo',
       }),
       content: <StepTwo info={twoInfo} ref={creditTwoRef} />,
-      description: '填写赎回货物数量',
+      description: '录入还款信息',
     },
     {
       title: intl.formatMessage({
         id: 'credit.stepThree',
       }),
-      content: <StepThree ref={creditThreeRef} />,
-      description: '赎回货物信息',
+      content: <StepThree />,
+      description: '提交等待审核',
     },
   ]
 
@@ -99,7 +98,7 @@ const ApplyForm: React.FC = () => {
       }),
     )
     setSubLoading(false)
-    history.push('/finance/create')
+    history.push('/repayment/create')
   }
 
   return (
@@ -118,32 +117,32 @@ const ApplyForm: React.FC = () => {
       </div>
       <div className="applyBtn">
         {current === 0 && (
-          <Button style={{ margin: '0 8px' }} onClick={() => history.push('/finance/create')}>
-            {intl.formatMessage({
-              id: 'pages.btn.back',
-            })}
-          </Button>
+          <>
+            <Button style={{ margin: '0 8px' }} onClick={() => history.push('/finance/create')}>
+              {intl.formatMessage({
+                id: 'pages.btn.back',
+              })}
+            </Button>
+            <Button type="primary" loading={btnLoading} onClick={() => next()}>
+              {intl.formatMessage({
+                id: 'credit.next',
+              })}
+            </Button>
+          </>
         )}
-        {current > 0 && (
-          <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-            {intl.formatMessage({
-              id: 'credit.pre',
-            })}
-          </Button>
-        )}
-        {current < steps.length - 1 && (
-          <Button type="primary" loading={btnLoading} onClick={() => next()}>
-            {intl.formatMessage({
-              id: 'credit.next',
-            })}
-          </Button>
-        )}
-        {current === steps.length - 1 && (
-          <Button type="primary" loading={subLoading} onClick={submit}>
-            {intl.formatMessage({
-              id: 'pages.btn.submit',
-            })}
-          </Button>
+        {current === 1 && (
+          <>
+            <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+              {intl.formatMessage({
+                id: 'credit.pre',
+              })}
+            </Button>
+            <Button type="primary" loading={subLoading} onClick={submit}>
+              {intl.formatMessage({
+                id: 'pages.btn.submit',
+              })}
+            </Button>
+          </>
         )}
       </div>
     </div>

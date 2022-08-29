@@ -1,11 +1,16 @@
 import { useImperativeHandle, forwardRef, useState, useEffect } from 'react'
 import { EditableProTable } from '@ant-design/pro-table'
-import { Form } from 'antd'
+import { Form, Table } from 'antd'
 import type { ProColumns } from '@ant-design/pro-table'
 import IntergerInput from '@/components/Input/integerInput'
 import RequiredLabel from '@/components/RequiredLabel'
 import { formatAmount } from '@/utils/base'
+import ComCard from '@/components/ComPage/ComCard/index'
+import Descriptions from '@/components/ComPage/Descriptions'
+import FeeInfo from '../components/feeInfo'
 import styles from './index.less'
+
+const { DescriptionsItem } = Descriptions
 
 interface infoProps {
   info: any
@@ -14,9 +19,11 @@ interface infoProps {
 const StepOne = ({}: infoProps, ref: any) => {
   const [listData, setListData] = useState<any[]>([])
   const [tableForm] = Form.useForm()
+  const [infoData, setInfoData] = useState<any>({})
   // console.log(tableForm)
 
   useEffect(() => {
+    setInfoData({})
     setListData([
       {
         id: 1,
@@ -187,15 +194,47 @@ const StepOne = ({}: infoProps, ref: any) => {
                 setListData(arr)
               },
             }}
+            summary={(pageData) => {
+              let totalUsableCount = 0
+              let totalBadCount = 0
+
+              pageData.forEach(({ completeCount, imperfectCount }) => {
+                if (completeCount) {
+                  totalUsableCount += Number(completeCount)
+                }
+                if (imperfectCount) {
+                  totalBadCount += Number(imperfectCount)
+                }
+              })
+              return (
+                <Table.Summary.Row>
+                  <Table.Summary.Cell index={0} colSpan={5}>
+                    合计
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={1}>{totalUsableCount}</Table.Summary.Cell>
+                  <Table.Summary.Cell index={2}>{totalBadCount}</Table.Summary.Cell>
+                </Table.Summary.Row>
+              )
+            }}
           />
-          <div className={styles.total}>
-            <span className={styles.spaceitem} />
-            <span className={`${styles.totaltitle} ${styles.totalitem}`}>小计</span>
-            <span className={styles.totalitem}>3000</span>
-            <span className={styles.totalitem}>400000</span>
-          </div>
         </div>
       ))}
+      {/* 费用信息 */}
+      <FeeInfo infoData={[]} />
+
+      <ComCard title="还款信息" style={{ marginTop: 12 }}>
+        <Descriptions>
+          <DescriptionsItem label="还款日期">{infoData.sellProduct}</DescriptionsItem>
+          <DescriptionsItem label="还款总金额">
+            {formatAmount(infoData.sellProduct)}
+          </DescriptionsItem>
+          <DescriptionsItem label="偿还代垫资金">{infoData.enterpriseDebt}</DescriptionsItem>
+          <DescriptionsItem label="偿还代理服务费">{infoData.enterpriseDebt}</DescriptionsItem>
+          <DescriptionsItem label="还款凭证水单">{infoData.enterpriseDebt}</DescriptionsItem>
+          <DescriptionsItem label="申请订单编号">{infoData.enterpriseDebt}</DescriptionsItem>
+          <DescriptionsItem label="审核状态">{infoData.enterpriseDebt}</DescriptionsItem>
+        </Descriptions>
+      </ComCard>
     </div>
   )
 }

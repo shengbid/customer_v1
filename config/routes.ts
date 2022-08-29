@@ -213,7 +213,7 @@
       {
         path: '/contract/agreement',
         name: '合同协议管理',
-        access: 'hasMenu',
+        // access: 'hasMenu',
         icon: 'DesktopOutlined',
         component: './contractManage/agreement',
       },
