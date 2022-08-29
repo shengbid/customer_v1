@@ -72,7 +72,12 @@ export default function MenuProTable<T>(props: ProTableProps<T, any> & FunctionP
           <Button
             key="rest"
             onClick={() => {
-              ;(props.onReset && props.onReset()) || form?.resetFields()
+              if (props.onReset) {
+                props.onReset()
+              } else {
+                form?.resetFields()
+                form?.submit()
+              }
             }}
           >
             <ReloadOutlined />
