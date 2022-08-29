@@ -1,13 +1,14 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import MenuProTable from '@/components/ComProtable/MenuProTable'
 import type { contractListProps, contractListParamsProps } from '@/services/types'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import { Typography, Space } from 'antd'
 // import { history } from 'umi'
 import { getContractList, getDocusignSignUrl } from '@/services'
-import DictSelect from '@/components/ComSelect'
+// import DictSelect from '@/components/ComSelect'
 import ExportFile from '@/components/ComUpload/exportFile'
 import DownFile from '@/components/ComUpload/downloadFile'
+import { getDictData } from '@/utils/dictData'
 
 const { Link } = Typography
 // 合同协议管理列表
@@ -16,6 +17,25 @@ const Agreement: React.FC = () => {
   const [quatoStatusData, setQuatoStatusData] = useState<any>({})
   const [contractTypeData, setContractTypeData] = useState<any>([])
   const actionRef = useRef<ActionType>()
+
+  const getDict = async () => {
+    const obj = await getDictData('contract_type')
+    setContractTypeData(obj)
+  }
+  const getDict2 = async () => {
+    const obj = await getDictData('sign_way')
+    setQuatoStatusData(obj)
+  }
+  const getDict3 = async () => {
+    const obj = await getDictData('sign_status')
+    setAuditStatusData(obj)
+  }
+
+  useEffect(() => {
+    getDict()
+    getDict2()
+    getDict3()
+  }, [])
 
   const getList = async (param: contractListParamsProps) => {
     // console.log(param)
@@ -57,18 +77,18 @@ const Agreement: React.FC = () => {
       width: '10%',
       render: (_, recored) => <>{contractTypeData[recored.contractType]}</>,
     },
-    {
-      title: '合同类型',
-      key: 'contractType',
-      dataIndex: 'contractType',
-      hideInTable: true,
-      renderFormItem: (_, { type }) => {
-        if (type === 'form') {
-          return null
-        }
-        return <DictSelect authorword="contract_type" getDictData={setContractTypeData} />
-      },
-    },
+    // {
+    //   title: '合同类型',
+    //   key: 'contractType',
+    //   dataIndex: 'contractType',
+    //   hideInTable: true,
+    //   renderFormItem: (_, { type }) => {
+    //     if (type === 'form') {
+    //       return null
+    //     }
+    //     return <DictSelect authorword="contract_type" getDictData={setContractTypeData} />
+    //   },
+    // },
     {
       title: '签署方式',
       hideInSearch: true,
@@ -76,18 +96,18 @@ const Agreement: React.FC = () => {
       width: '10%',
       render: (_, recored) => <>{quatoStatusData[recored.signWay]}</>,
     },
-    {
-      title: '签署方式',
-      key: 'signWay',
-      dataIndex: 'signWay',
-      hideInTable: true,
-      renderFormItem: (_, { type }) => {
-        if (type === 'form') {
-          return null
-        }
-        return <DictSelect authorword="sign_way" getDictData={setQuatoStatusData} />
-      },
-    },
+    // {
+    //   title: '签署方式',
+    //   key: 'signWay',
+    //   dataIndex: 'signWay',
+    //   hideInTable: true,
+    //   renderFormItem: (_, { type }) => {
+    //     if (type === 'form') {
+    //       return null
+    //     }
+    //     return <DictSelect authorword="sign_way" getDictData={setQuatoStatusData} />
+    //   },
+    // },
     {
       title: '签署时间',
       dataIndex: 'signTime',
@@ -129,18 +149,18 @@ const Agreement: React.FC = () => {
       hideInSearch: true,
       render: (_, recored) => <>{auditStatusData[recored.signStatus]}</>,
     },
-    {
-      title: '签署状态',
-      key: 'signStatus',
-      dataIndex: 'signStatus',
-      hideInTable: true,
-      renderFormItem: (_, { type }) => {
-        if (type === 'form') {
-          return null
-        }
-        return <DictSelect authorword="sign_status" getDictData={setAuditStatusData} />
-      },
-    },
+    // {
+    //   title: '签署状态',
+    //   key: 'signStatus',
+    //   dataIndex: 'signStatus',
+    //   hideInTable: true,
+    //   renderFormItem: (_, { type }) => {
+    //     if (type === 'form') {
+    //       return null
+    //     }
+    //     return <DictSelect authorword="sign_status" getDictData={setAuditStatusData} />
+    //   },
+    // },
     {
       title: '操作',
       width: 120,
