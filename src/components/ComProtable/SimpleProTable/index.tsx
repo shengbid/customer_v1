@@ -38,7 +38,6 @@ export default function ProjectProTable<T>(props: ProTableProps<T, any> & Functi
   return (
     <ProTable<T>
       className="pro-search-container"
-      bordered
       form={{
         labelAlign: 'left',
       }}
