@@ -3,7 +3,7 @@ import { EditableProTable } from '@ant-design/pro-table'
 import { Form, Table } from 'antd'
 import type { ProColumns } from '@ant-design/pro-table'
 import IntergerInput from '@/components/Input/integerInput'
-import RequiredLabel from '@/components/RequiredLabel'
+// import RequiredLabel from '@/components/RequiredLabel'
 import { formatAmount } from '@/utils/base'
 import ComCard from '@/components/ComPage/ComCard/index'
 import Descriptions from '@/components/ComPage/Descriptions'
@@ -85,7 +85,7 @@ const StepOne = ({}: infoProps, ref: any) => {
             obj.tables = item.tables.map((ss: any) => {
               return {
                 id: ss.id,
-                amount: ss.amount,
+                amount: ss.amount ? ss.amount : 0,
               }
             })
           }
@@ -105,46 +105,41 @@ const StepOne = ({}: infoProps, ref: any) => {
       title: '商品条形码',
       dataIndex: 'barCode',
       width: '13%',
-      editable: false,
     },
     {
       title: '描述 DESCRIPTION',
       dataIndex: 'goodName',
       width: '16%',
-      editable: false,
     },
     {
       title: '品牌 BRAND',
       dataIndex: 'goodBrand',
       width: '13%',
-      editable: false,
     },
     {
       title: '质押单价',
       dataIndex: 'price1',
       width: '13%',
-      editable: false,
       render: (val) => formatAmount(val),
     },
     {
       title: '可赎回数量',
       dataIndex: 'count',
       width: '15%',
-      editable: false,
       valueType: 'digit',
     },
     {
-      title: <RequiredLabel label="赎回数量" />,
+      title: '赎回数量',
       dataIndex: 'amount',
       width: '15%',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项是必填项',
-          },
-        ],
-      },
+      // formItemProps: {
+      //   rules: [
+      //     {
+      //       required: true,
+      //       message: '此项是必填项',
+      //     },
+      //   ],
+      // },
       renderFormItem: () => <IntergerInput />,
     },
 
@@ -152,7 +147,6 @@ const StepOne = ({}: infoProps, ref: any) => {
       title: '赎回总额',
       dataIndex: 'price2',
       width: '15%',
-      editable: false,
       render: (val) => formatAmount(val),
     },
   ]
@@ -234,6 +228,13 @@ const StepOne = ({}: infoProps, ref: any) => {
           <DescriptionsItem label="申请订单编号">{infoData.enterpriseDebt}</DescriptionsItem>
           <DescriptionsItem label="审核状态">{infoData.enterpriseDebt}</DescriptionsItem>
         </Descriptions>
+        <div className={styles.tipcontent}>
+          <div className={styles.tipinfo}>还款须知:</div>
+          <div className={styles.tipinfo}>
+            1、客户还款请用本公司帐户转出；若委托其它公司付款，仅限于付款方为贸易公司主体，并提供委托付款证明。
+          </div>
+          <div className={styles.tipinfo}>2、请不要通过Airwallex或找換店匯款到我司指定帐户。</div>
+        </div>
       </ComCard>
     </div>
   )

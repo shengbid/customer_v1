@@ -38,7 +38,7 @@ const Reject: React.FC = () => {
           <div className={styles.right}>
             <div className={styles.title}>{item.title}</div>
             {item.amount ? (
-              <div className={styles.amount}>{formatAmount(item.amount)}美元</div>
+              <div className={styles.amount}>{formatAmount(item.amount)}</div>
             ) : (
               <div className={styles.amount}>{item.text}</div>
             )}

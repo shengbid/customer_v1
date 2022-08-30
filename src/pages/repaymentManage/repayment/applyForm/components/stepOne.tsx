@@ -3,7 +3,11 @@ import SimpleProtable from '@/components/ComProtable/SimpleProTable'
 import type { ProColumns } from '@ant-design/pro-table'
 import { formatAmount } from '@/utils/base'
 
-const StepOne = ({}, ref: any) => {
+interface infoProps {
+  type: string
+}
+
+const StepOne = ({ type }: infoProps, ref: any) => {
   const [dataSource, setDataSource] = useState<any[]>([])
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
 
@@ -55,11 +59,40 @@ const StepOne = ({}, ref: any) => {
     },
   ]
 
+  const columns2: ProColumns<any>[] = [
+    {
+      title: '商品条形码',
+      dataIndex: 'barCode',
+      width: '18%',
+    },
+    {
+      title: '描述 DESCRIPTION',
+      dataIndex: 'goodName',
+      width: '26%',
+    },
+    {
+      title: '品牌 BRAND',
+      dataIndex: 'goodBrand',
+      width: '18%',
+    },
+    {
+      title: '关联融资订单',
+      key: 'identityNumber',
+      dataIndex: 'identityNumber',
+    },
+    {
+      title: '可赎回数量',
+      key: 'shareholderName',
+      dataIndex: 'shareholderName',
+      valueType: 'digit',
+    },
+  ]
+
   return (
     <>
       <SimpleProtable
         rowKey="id"
-        columns={columns}
+        columns={type === '1' ? columns : columns2}
         dataSource={dataSource || []}
         rowSelection={{
           selectedRowKeys,

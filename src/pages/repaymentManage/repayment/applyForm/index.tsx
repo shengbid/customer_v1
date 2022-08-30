@@ -2,7 +2,7 @@ import React, { useState, useRef, MutableRefObject } from 'react'
 import { Button, Steps, message } from 'antd'
 import StepOne from './components/stepOne'
 import StepTwo from './components/stepTwo'
-import StepThree from './components/stepThree'
+import StepThree from './components/resultPage'
 import styles from './index.less'
 // import { addCreditOne, addCreditTwo, addCreditThree } from '@/services'
 import { isEmpty } from 'lodash'
@@ -10,7 +10,7 @@ import { useIntl, history } from 'umi'
 
 const { Step } = Steps
 
-const ApplyForm: React.FC = () => {
+const ApplyForm: React.FC = (props: any) => {
   const [current, setCurrent] = useState(0)
   const creditOneRef: MutableRefObject<any> = useRef({})
   const creditTwoRef: MutableRefObject<any> = useRef({})
@@ -19,13 +19,15 @@ const ApplyForm: React.FC = () => {
   const intl = useIntl()
   const twoInfo = {}
 
+  const { type } = props.location.query
+
   const steps = [
     {
       title: intl.formatMessage({
         id: 'credit.stepOne',
       }),
-      content: <StepOne ref={creditOneRef} />,
-      description: '选择还款的融资订单',
+      content: <StepOne ref={creditOneRef} type={type} />,
+      description: type === '1' ? '选择还款的融资订单' : '选择赎货货物',
     },
     {
       title: intl.formatMessage({
@@ -49,7 +51,7 @@ const ApplyForm: React.FC = () => {
         const { selectedRowKeys } = creditOneRef.current.getBusinessData()
         // console.log(4, selectedRowKeys)
         if (isEmpty(selectedRowKeys)) {
-          message.warning('请先选择融资订单!')
+          message.warning(type === '1' ? '请先选择融资订单!' : '请先选择赎回货物')
           return
         }
         break
@@ -98,7 +100,7 @@ const ApplyForm: React.FC = () => {
       }),
     )
     setSubLoading(false)
-    history.push('/repayment/create')
+    setCurrent(current + 1)
   }
 
   return (
