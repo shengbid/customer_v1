@@ -1,12 +1,13 @@
 import { useImperativeHandle, forwardRef, useState } from 'react'
 import ComCard from '@/components/ComPage/ComCard'
 import ComEditTable from '@/components/ComProtable/ComEditTable'
-import { Form, Row, Col, DatePicker } from 'antd'
+import { Form, Row, Col, DatePicker, Table } from 'antd'
 import RequiredLabel from '@/components/RequiredLabel'
 import IntergerInput from '@/components/Input/integerInput'
 import PointInput from '@/components/Input/InputNumber'
 import DictSelect from '@/components/ComSelect'
 import ComUpload from '@/components/ComUpload'
+import { isEmpty } from 'lodash'
 
 interface detailProps {
   type: string
@@ -114,7 +115,7 @@ const Product = ({ type }: detailProps, ref: any) => {
     {
       title: <RequiredLabel label="单价" />,
       dataIndex: 'price',
-      width: '8%',
+      width: '10%',
       formItemProps: {
         rules: [
           {
@@ -142,58 +143,62 @@ const Product = ({ type }: detailProps, ref: any) => {
     {
       title: <RequiredLabel label="采购金额" />,
       dataIndex: 'price',
-      width: '8%',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项是必填项',
-          },
-        ],
-      },
-      renderFormItem: () => <PointInput addonBefore="$" />,
+      width: '7%',
+      editable: false,
+      // formItemProps: {
+      //   rules: [
+      //     {
+      //       required: true,
+      //       message: '此项是必填项',
+      //     },
+      //   ],
+      // },
+      // renderFormItem: () => <PointInput addonBefore="$" />,
     },
     {
       title: <RequiredLabel label="保证金比例" />,
       dataIndex: 'price',
-      width: '8%',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项是必填项',
-          },
-        ],
-      },
-      renderFormItem: () => <PointInput max={100} />,
+      width: '7%',
+      editable: false,
+      // formItemProps: {
+      //   rules: [
+      //     {
+      //       required: true,
+      //       message: '此项是必填项',
+      //     },
+      //   ],
+      // },
+      // renderFormItem: () => <PointInput max={100} />,
     },
     {
       title: <RequiredLabel label="委托方应付保证金" />,
       dataIndex: 'price',
       width: '8%',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项是必填项',
-          },
-        ],
-      },
-      renderFormItem: () => <PointInput addonBefore="$" />,
+      editable: false,
+      // formItemProps: {
+      //   rules: [
+      //     {
+      //       required: true,
+      //       message: '此项是必填项',
+      //     },
+      //   ],
+      // },
+      // renderFormItem: () => <PointInput addonBefore="$" />,
     },
     {
       title: <RequiredLabel label="受托方垫付金额" />,
       dataIndex: 'price',
-      width: '8%',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项是必填项',
-          },
-        ],
-      },
-      renderFormItem: () => <PointInput addonBefore="$" />,
+      width: '7%',
+      editable: false,
+      // formItemProps: {
+      //   rules: [
+      //     {
+      //       required: true,
+      //       message: '此项是必填项',
+      //     },
+      //   ],
+      // },
+      // renderFormItem: () => <PointInput addonBefore="$" />,
     },
   ]
 
@@ -206,7 +211,7 @@ const Product = ({ type }: detailProps, ref: any) => {
         columns={columns}
         value={dataSource}
         scroll={{
-          x: 1400,
+          x: 1500,
           y: 600,
         }}
         onChange={setDataSource}
@@ -218,6 +223,43 @@ const Product = ({ type }: detailProps, ref: any) => {
             setDataSource(recordList)
           },
           onChange: setEditableRowKeys,
+        }}
+        summary={(pageData: any) => {
+          let totalCount = 0
+          let totalPurchase = 0
+          let totalCash = 0
+          let totalPayment = 0
+
+          pageData.forEach(({ completeCount, imperfectCount, warehouseTotal, total }: any) => {
+            if (completeCount) {
+              totalCount += Number(completeCount)
+            }
+            if (imperfectCount) {
+              totalPurchase += Number(imperfectCount)
+            }
+            if (warehouseTotal) {
+              totalCash += Number(warehouseTotal)
+            }
+            if (total) {
+              totalPayment += Number(total)
+            }
+          })
+          if (isEmpty(dataSource)) {
+            return <></>
+          }
+          return (
+            <Table.Summary.Row>
+              <Table.Summary.Cell index={0} colSpan={7}>
+                合计
+              </Table.Summary.Cell>
+              <Table.Summary.Cell index={1}>{totalCount}</Table.Summary.Cell>
+              <Table.Summary.Cell index={2}>{totalPurchase}</Table.Summary.Cell>
+              <Table.Summary.Cell index={3} />
+              <Table.Summary.Cell index={4}>{totalCash}</Table.Summary.Cell>
+              <Table.Summary.Cell index={5}>{totalPayment}</Table.Summary.Cell>
+              <Table.Summary.Cell index={6} />
+            </Table.Summary.Row>
+          )
         }}
       />
 

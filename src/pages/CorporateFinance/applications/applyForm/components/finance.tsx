@@ -1,7 +1,6 @@
 import { useImperativeHandle, forwardRef, useState, useEffect } from 'react'
 import ComCard from '@/components/ComPage/ComCard'
-import PointInput from '@/components/Input/InputNumber'
-import { Form, Row, Col } from 'antd'
+import { Form, Row, Col, Input, Radio } from 'antd'
 import { formatAmount } from '@/utils/base'
 
 const Finance = ({}, ref: any) => {
@@ -44,7 +43,7 @@ const Finance = ({}, ref: any) => {
                 },
               ]}
             >
-              <PointInput />
+              <Input disabled />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -55,13 +54,35 @@ const Finance = ({}, ref: any) => {
         </Row>
         <Row gutter={24}>
           <Col span={8}>
-            <Form.Item label="垫资期限" name="warehouseName">
-              <span>{infoData.amount}</span>
+            <Form.Item
+              label="垫资期限"
+              name="datetype"
+              rules={[
+                {
+                  required: true,
+                  message: `请选择垫资期限`,
+                },
+              ]}
+            >
+              <Radio.Group>
+                <Radio value={90}>90天</Radio>
+              </Radio.Group>
             </Form.Item>
           </Col>
           <Col span={8}>
-            <Form.Item label="还款方式" name="warehouseName">
-              <span>{infoData.amount}</span>
+            <Form.Item
+              label="还款方式"
+              name="warehouseName"
+              rules={[
+                {
+                  required: true,
+                  message: `请选择还款方式`,
+                },
+              ]}
+            >
+              <Radio.Group>
+                <Radio value={1}>到期还款付息</Radio>
+              </Radio.Group>
             </Form.Item>
           </Col>
           <Col span={8}>
