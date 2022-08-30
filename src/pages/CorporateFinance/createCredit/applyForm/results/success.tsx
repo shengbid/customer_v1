@@ -45,6 +45,7 @@ const Reject: React.FC = () => {
       className={styles.success}
       icon={<CheckCircleOutlined />}
       title={title}
+      status="success"
       subTitle={subTile}
       extra={
         <Button type="primary" key="console">
