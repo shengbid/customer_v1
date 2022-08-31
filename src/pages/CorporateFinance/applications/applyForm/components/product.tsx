@@ -87,7 +87,7 @@ const Product = ({ type }: detailProps, ref: any) => {
     },
     {
       title: <RequiredLabel label="参考编码REF NO" />,
-      dataIndex: 'goodSku',
+      dataIndex: 'goodRef',
       width: '8%',
       formItemProps: {
         rules: [
@@ -124,11 +124,13 @@ const Product = ({ type }: detailProps, ref: any) => {
           },
         ],
       },
-      renderFormItem: () => <PointInput addonBefore="$" />,
+      renderFormItem: () => {
+        return <PointInput addonBefore="$" />
+      },
     },
     {
       title: <RequiredLabel label="数量" />,
-      dataIndex: 'price',
+      dataIndex: 'count',
       width: '8%',
       formItemProps: {
         rules: [
@@ -138,11 +140,13 @@ const Product = ({ type }: detailProps, ref: any) => {
           },
         ],
       },
-      renderFormItem: () => <IntergerInput />,
+      renderFormItem: () => {
+        return <IntergerInput />
+      },
     },
     {
       title: <RequiredLabel label="采购金额" />,
-      dataIndex: 'price',
+      dataIndex: 'totalPrice',
       width: '7%',
       editable: false,
       // formItemProps: {
@@ -157,7 +161,7 @@ const Product = ({ type }: detailProps, ref: any) => {
     },
     {
       title: <RequiredLabel label="保证金比例" />,
-      dataIndex: 'price',
+      dataIndex: 'cashRate',
       width: '7%',
       editable: false,
       // formItemProps: {
@@ -172,7 +176,7 @@ const Product = ({ type }: detailProps, ref: any) => {
     },
     {
       title: <RequiredLabel label="委托方应付保证金" />,
-      dataIndex: 'price',
+      dataIndex: 'clientCash',
       width: '8%',
       editable: false,
       // formItemProps: {
@@ -187,7 +191,7 @@ const Product = ({ type }: detailProps, ref: any) => {
     },
     {
       title: <RequiredLabel label="受托方垫付金额" />,
-      dataIndex: 'price',
+      dataIndex: 'owerCash',
       width: '7%',
       editable: false,
       // formItemProps: {
@@ -220,6 +224,7 @@ const Product = ({ type }: detailProps, ref: any) => {
           type: 'multiple',
           editableKeys,
           onValuesChange: (record: any, recordList: any) => {
+            console.log(33, recordList)
             setDataSource(recordList)
           },
           onChange: setEditableRowKeys,
@@ -230,12 +235,12 @@ const Product = ({ type }: detailProps, ref: any) => {
           let totalCash = 0
           let totalPayment = 0
 
-          pageData.forEach(({ completeCount, imperfectCount, warehouseTotal, total }: any) => {
-            if (completeCount) {
-              totalCount += Number(completeCount)
+          pageData.forEach(({ count, totalPrice, warehouseTotal, total }: any) => {
+            if (count) {
+              totalCount += Number(count)
             }
-            if (imperfectCount) {
-              totalPurchase += Number(imperfectCount)
+            if (totalPrice) {
+              totalPurchase += Number(totalPrice)
             }
             if (warehouseTotal) {
               totalCash += Number(warehouseTotal)

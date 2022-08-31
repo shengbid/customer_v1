@@ -6,7 +6,7 @@ interface inputProps {
   max?: number
   addonAfter?: any
   value?: any
-  onChange?: () => void
+  onChange?: (e: any) => void
 }
 
 // 整数输入框
